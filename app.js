@@ -122,7 +122,8 @@ let tasquesKanban = [
 ];
 
 // INICIALITZACIÓ
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
+  await carregarNucli(); // Carregar el nucli abans d'inicialitzar la calculadora
   initTabs();
   initMapPins();
   initBibliotecaNormativa();
@@ -503,7 +504,9 @@ function initBibliotecaNormativa() {
   }
 
   // ── Extracció i renderització d'articles ─────────────────────
-  const ART_CACHE_PREFIX = "norm_art_";
+  const ART_CACHE_PREFIX    = "norm_art_";
+  const ART_CA_CACHE_PREFIX = "norm_art_ca_";
+  let artLang = "orig"; // "orig" | "cat"
 
   function blobKeyFromUrl(url) {
     try {
@@ -547,19 +550,12 @@ function initBibliotecaNormativa() {
     const list = document.getElementById("norm-articles-list");
     if (!list) return;
 
-    // Check cache
+    // 1) Cache local (localStorage)
     const cacheKey = ART_CACHE_PREFIX + activeDocKey;
     const cached = localStorage.getItem(cacheKey);
     if (cached) {
       try { renderArticleCards(JSON.parse(cached), activeDocKey); return; } catch {}
     }
-
-    // Show loading
-    list.innerHTML = `<div class="norm-articles-loading">
-      <i data-lucide="loader-2" class="spin"></i>
-      <span>Extraient articles amb IA…</span>
-    </div>`;
-    lucide.createIcons();
 
     const blobKey = blobKeyFromUrl(doc.url);
     if (!blobKey) {
@@ -567,89 +563,318 @@ function initBibliotecaNormativa() {
       return;
     }
 
+    // 2) Comprova si ja hi ha extracció a Blobs (d'una sessió anterior)
+    list.innerHTML = `<div class="norm-articles-loading"><i data-lucide="loader-2" class="spin"></i><span>Comprovant…</span></div>`;
+    lucide.createIcons();
     try {
-      const r = await fetch("/api/gemini", {
+      const checkResp = await fetch("/api/gemini", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ extractMode: true, docKeys: [blobKey] })
+        body: JSON.stringify({ extractStatus: true, docKeys: [blobKey] })
       });
-      const data = await r.json();
-      if (!data.articles || data.articles.length === 0) {
-        list.innerHTML = `<div class="norm-articles-empty">No s'han pogut extreure articles. <a href="${doc.url}" target="_blank">Veure PDF</a></div>`;
+      const checkData = await checkResp.json();
+      if (checkData.status === "done" && checkData.articles?.length > 0) {
+        localStorage.setItem(cacheKey, JSON.stringify(checkData.articles));
+        renderArticleCards(checkData.articles, activeDocKey);
         return;
       }
-      localStorage.setItem(cacheKey, JSON.stringify(data.articles));
-      renderArticleCards(data.articles, activeDocKey);
+      if (checkData.status === "processing") {
+        _startExtractPolling(blobKey, cacheKey, doc.url);
+        return;
+      }
+    } catch { }
+
+    // 3) Inicia l'extracció en background (retorna 202 immediatament)
+    list.innerHTML = `<div class="norm-articles-loading"><i data-lucide="loader-2" class="spin"></i><span>Extraient articles… (pot trigar 1 minut)</span></div>`;
+    lucide.createIcons();
+    try {
+      await fetch("/.netlify/functions/extract-background", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ docKey: blobKey })
+      });
     } catch (err) {
       list.innerHTML = `<div class="norm-articles-empty" style="color:var(--accent-red,#ef4444)">Error: ${err.message}</div>`;
+      return;
     }
+    _startExtractPolling(blobKey, cacheKey, doc.url);
+  }
+
+  function _startExtractPolling(blobKey, cacheKey, docUrl) {
+    const list = document.getElementById("norm-articles-list");
+    let elapsed = 0;
+    const MAX_WAIT = 180; // 3 minuts
+    const INTERVAL = 5;
+    const timer = setInterval(async () => {
+      elapsed += INTERVAL;
+      try {
+        const resp = await fetch("/api/gemini", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ extractStatus: true, docKeys: [blobKey] })
+        });
+        const data = await resp.json();
+        if (data.status === "done" && data.articles?.length > 0) {
+          clearInterval(timer);
+          localStorage.setItem(cacheKey, JSON.stringify(data.articles));
+          renderArticleCards(data.articles, activeDocKey);
+        } else if (data.status === "error") {
+          clearInterval(timer);
+          const el = document.getElementById("norm-articles-list");
+          if (el) el.innerHTML = `<div class="norm-articles-empty">Error: ${data.message || "desconegut"}. <a href="${docUrl}" target="_blank">Veure PDF</a></div>`;
+        } else if (elapsed >= MAX_WAIT) {
+          clearInterval(timer);
+          const el = document.getElementById("norm-articles-list");
+          if (el) el.innerHTML = `<div class="norm-articles-empty">Temps esgotat. <a href="${docUrl}" target="_blank">Veure PDF</a></div>`;
+        } else {
+          // Actualitza comptador
+          const el = document.getElementById("norm-articles-list");
+          const span = el?.querySelector("span");
+          if (span) span.textContent = `Extraient articles… (${elapsed}s)`;
+        }
+      } catch { /* reintenta */ }
+    }, INTERVAL * 1000);
+  }
+
+  // ── Versió Catalana ───────────────────────────────────────────
+  async function loadArticlesCA(doc) {
+    const list = document.getElementById("norm-articles-list");
+    if (!list) return;
+
+    const blobKey = blobKeyFromUrl(doc.url);
+    if (!blobKey) return;
+
+    // 1) Cache local CA
+    const caCacheKey = ART_CA_CACHE_PREFIX + activeDocKey;
+    const caCached = localStorage.getItem(caCacheKey);
+    if (caCached) {
+      try { renderArticleCards(JSON.parse(caCached), activeDocKey); return; } catch {}
+    }
+
+    // 2) Comprova Blobs
+    list.innerHTML = `<div class="norm-articles-loading"><i data-lucide="loader-2" class="spin"></i><span>Comprovant versió catalana…</span></div>`;
+    lucide.createIcons();
+    try {
+      const checkResp = await fetch("/api/gemini", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ translateStatus: true, docKeys: [blobKey] })
+      });
+      const checkData = await checkResp.json();
+      if (checkData.status === "done" && checkData.articles?.length > 0) {
+        localStorage.setItem(caCacheKey, JSON.stringify(checkData.articles));
+        renderArticleCards(checkData.articles, activeDocKey);
+        return;
+      }
+      if (checkData.status === "processing") {
+        _startTranslatePolling(blobKey, caCacheKey, doc.url);
+        return;
+      }
+    } catch {}
+
+    // 3) Inicia traducció en background
+    list.innerHTML = `<div class="norm-articles-loading"><i data-lucide="loader-2" class="spin"></i><span>Traduint al català… (pot trigar 1-2 minuts)</span></div>`;
+    lucide.createIcons();
+    try {
+      await fetch("/.netlify/functions/translate-background", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ docKey: blobKey })
+      });
+    } catch (err) {
+      list.innerHTML = `<div class="norm-articles-empty" style="color:var(--accent-red,#ef4444)">Error: ${err.message}</div>`;
+      return;
+    }
+    _startTranslatePolling(blobKey, caCacheKey, doc.url);
+  }
+
+  function _startTranslatePolling(blobKey, caCacheKey, docUrl) {
+    const list = document.getElementById("norm-articles-list");
+    let elapsed = 0;
+    const MAX_WAIT = 600;
+    const INTERVAL = 5;
+    const timer = setInterval(async () => {
+      elapsed += INTERVAL;
+      try {
+        const resp = await fetch("/api/gemini", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ translateStatus: true, docKeys: [blobKey] })
+        });
+        const data = await resp.json();
+        if (data.status === "done" && data.articles?.length > 0) {
+          clearInterval(timer);
+          localStorage.setItem(caCacheKey, JSON.stringify(data.articles));
+          renderArticleCards(data.articles, activeDocKey);
+        } else if (data.status === "error") {
+          clearInterval(timer);
+          const el = document.getElementById("norm-articles-list");
+          if (el) el.innerHTML = `<div class="norm-articles-empty">Error traducció: ${data.message || "desconegut"}</div>`;
+        } else if (elapsed >= MAX_WAIT) {
+          clearInterval(timer);
+          const el = document.getElementById("norm-articles-list");
+          if (el) el.innerHTML = `<div class="norm-articles-empty">Temps de traducció esgotat.</div>`;
+        } else {
+          const el = document.getElementById("norm-articles-list");
+          const span = el?.querySelector("span");
+          if (span) span.textContent = `Traduint al català… (${elapsed}s)`;
+        }
+      } catch {}
+    }, INTERVAL * 1000);
   }
 
   function renderArticleCards(articles, docKey) {
     const list = document.getElementById("norm-articles-list");
     if (!list) return;
+
+    // ── Toolbar (cercador + accions) ──────────────────────────────
+    const view = document.getElementById("norm-view-articles");
+    let toolbar = document.getElementById("norm-art-toolbar");
+    if (toolbar) toolbar.remove();
+    toolbar = document.createElement("div");
+    toolbar.id = "norm-art-toolbar";
+    toolbar.className = "norm-art-toolbar";
+    toolbar.innerHTML = `
+      <span class="norm-art-count">
+        <i data-lucide="layers"></i>
+        <span id="norm-art-count-n">${articles.length}</span> articles
+      </span>
+      <div class="norm-art-toolbar-search">
+        <i data-lucide="search"></i>
+        <input type="text" id="norm-art-search" placeholder="Cerca en articles…" autocomplete="off">
+      </div>
+      <div class="norm-lang-toggle">
+        <button id="norm-lang-orig" class="norm-lang-btn${artLang === "orig" ? " active" : ""}" data-lang="orig" title="Versió original">ES</button>
+        <button id="norm-lang-cat"  class="norm-lang-btn${artLang === "cat"  ? " active" : ""}" data-lang="cat"  title="Versió en català">CA</button>
+      </div>
+      <div class="norm-art-toolbar-actions">
+        <button id="norm-art-expand-all" class="norm-art-tb-btn" title="Expandir tots">
+          <i data-lucide="chevrons-down"></i><span>Tots</span>
+        </button>
+        <button id="norm-art-collapse-all" class="norm-art-tb-btn" title="Col·lapsar tots">
+          <i data-lucide="chevrons-up"></i><span>Cap</span>
+        </button>
+      </div>`;
+    if (view) view.insertBefore(toolbar, list);
+
+    // ── Lang toggle listeners ─────────────────────────────────────
+    toolbar.querySelector("#norm-lang-orig")?.addEventListener("click", () => {
+      artLang = "orig";
+      toolbar.querySelector("#norm-lang-orig").classList.add("active");
+      toolbar.querySelector("#norm-lang-cat").classList.remove("active");
+      const cacheKey = ART_CACHE_PREFIX + activeDocKey;
+      const origCached = localStorage.getItem(cacheKey);
+      if (origCached) { try { renderArticleCards(JSON.parse(origCached), activeDocKey); return; } catch {} }
+      if (activeDoc) loadArticles(activeDoc);
+    });
+    toolbar.querySelector("#norm-lang-cat")?.addEventListener("click", () => {
+      artLang = "cat";
+      toolbar.querySelector("#norm-lang-cat").classList.add("active");
+      toolbar.querySelector("#norm-lang-orig").classList.remove("active");
+      if (activeDoc) loadArticlesCA(activeDoc);
+    });
+
+    // ── Cards ─────────────────────────────────────────────────────
     list.innerHTML = "";
 
     articles.forEach((art, idx) => {
       const artId = `${docKey}_${idx}`;
       const comments = getArtComments(artId);
+      const hasComments = comments.length > 0;
       const card = document.createElement("div");
       card.className = "norm-art-card";
+      card.dataset.idx = String(idx);
       card.innerHTML = `
-        <div class="norm-art-header" data-art-id="${artId}">
+        <div class="norm-art-header open" data-art-id="${artId}">
           <span class="norm-art-num">${art.num || `§${idx+1}`}</span>
           <span class="norm-art-title">${art.title || ""}</span>
-          <span class="norm-art-comment-badge" id="badge-${artId}">${comments.length > 0 ? `<i data-lucide="message-square"></i>${comments.length}` : ""}</span>
-          <button class="norm-art-copy-btn" data-art-idx="${idx}" title="Copiar article" onclick="event.stopPropagation()"><i data-lucide="copy"></i></button>
+          <span class="norm-art-comment-badge" id="badge-${artId}">${hasComments ? `<i data-lucide="message-square"></i>${comments.length}` : ""}</span>
+          <button class="norm-art-copy-btn" data-art-idx="${idx}" title="Copiar article al portapapers" onclick="event.stopPropagation()">
+            <i data-lucide="copy"></i>
+          </button>
           <i data-lucide="chevron-down" class="norm-art-chevron"></i>
         </div>
-        <div class="norm-art-body" id="body-${artId}" style="display:none">
-          <div class="norm-art-text">${(art.text || "").replace(/\n/g,"<br>")}</div>
+        <div class="norm-art-body" id="body-${artId}">
+          <div class="norm-art-text">${(art.text || "").replace(/\n/g, "<br>")}</div>
           <div class="norm-art-comments">
-            <div class="norm-art-com-label"><i data-lucide="message-square"></i> Comentaris</div>
-            <div class="norm-art-com-list" id="comlist-${artId}"></div>
-            <div class="norm-art-com-input-row">
-              <textarea class="norm-art-com-input" placeholder="Afegeix un comentari a aquest article…" rows="2" data-art-id="${artId}"></textarea>
-              <button class="norm-art-com-send btn-purple" data-art-id="${artId}"><i data-lucide="send"></i></button>
+            <button class="norm-art-com-toggle" data-art-id="${artId}">
+              <i data-lucide="message-square"></i>
+              <span>${hasComments ? `${comments.length} comentari${comments.length !== 1 ? "s" : ""}` : "Afegir comentari"}</span>
+              <i data-lucide="chevron-down" class="norm-art-com-chevron"></i>
+            </button>
+            <div class="norm-art-com-panel" id="companel-${artId}" style="display:${hasComments ? "" : "none"}">
+              <div class="norm-art-com-list" id="comlist-${artId}"></div>
+              <div class="norm-art-com-input-row">
+                <textarea class="norm-art-com-input" placeholder="Escriu un comentari sobre aquest article…" rows="2" data-art-id="${artId}"></textarea>
+                <button class="norm-art-com-send btn-purple" data-art-id="${artId}" title="Enviar comentari">
+                  <i data-lucide="send"></i>
+                </button>
+              </div>
             </div>
           </div>
         </div>`;
       list.appendChild(card);
+      if (hasComments) renderArtComments(artId);
     });
 
     lucide.createIcons();
 
-    // Events: toggle card
+    // ── Toggle card (cap de la galeta) ───────────────────────────
     list.querySelectorAll(".norm-art-header").forEach(h => {
       h.addEventListener("click", () => {
         const artId = h.dataset.artId;
         const body = document.getElementById(`body-${artId}`);
-        const chevron = h.querySelector(".norm-art-chevron");
         const isOpen = body.style.display !== "none";
         body.style.display = isOpen ? "none" : "";
         h.classList.toggle("open", !isOpen);
-        if (!isOpen) renderArtComments(artId);
         lucide.createIcons();
       });
     });
 
-    // Events: copy article text
+    // ── Toggle panell comentaris ──────────────────────────────────
+    list.querySelectorAll(".norm-art-com-toggle").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const artId = btn.dataset.artId;
+        const panel = document.getElementById(`companel-${artId}`);
+        if (!panel) return;
+        const isOpen = panel.style.display !== "none";
+        panel.style.display = isOpen ? "none" : "";
+        btn.querySelector(".norm-art-com-chevron").style.transform = isOpen ? "" : "rotate(180deg)";
+        if (!isOpen) renderArtComments(artId);
+      });
+    });
+
+    // ── Copiar article al portapapers ─────────────────────────────
     list.querySelectorAll(".norm-art-copy-btn").forEach(btn => {
       btn.addEventListener("click", (e) => {
         e.stopPropagation();
         const idx = parseInt(btn.dataset.artIdx);
         const art = articles[idx];
         if (!art) return;
-        const text = `${art.num || ""} ${art.title || ""}\n\n${art.text || ""}`.trim();
+        const text = `${art.num || ""} ${art.title ? art.title : ""}\n\n${art.text || ""}`.trim();
         navigator.clipboard.writeText(text).then(() => {
           btn.innerHTML = '<i data-lucide="check"></i>';
+          btn.classList.add("copied");
           lucide.createIcons();
-          setTimeout(() => { btn.innerHTML = '<i data-lucide="copy"></i>'; lucide.createIcons(); }, 2000);
+          setTimeout(() => {
+            btn.innerHTML = '<i data-lucide="copy"></i>';
+            btn.classList.remove("copied");
+            lucide.createIcons();
+          }, 2000);
+        }).catch(() => {
+          // Fallback per a navegadors sense clipboard API
+          const ta = document.createElement("textarea");
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand("copy");
+          ta.remove();
         });
       });
     });
 
-    // Events: send comment
+    // ── Enviar comentari ──────────────────────────────────────────
     list.querySelectorAll(".norm-art-com-send").forEach(btn => {
       btn.addEventListener("click", () => {
         const artId = btn.dataset.artId;
@@ -663,10 +888,61 @@ function initBibliotecaNormativa() {
         saveArtComments(artId, all);
         textarea.value = "";
         renderArtComments(artId);
-        // Update badge
         const badge = document.getElementById(`badge-${artId}`);
         if (badge) { badge.innerHTML = `<i data-lucide="message-square"></i>${all.length}`; lucide.createIcons(); }
+        const toggleBtn = list.querySelector(`.norm-art-com-toggle[data-art-id="${artId}"] span`);
+        if (toggleBtn) toggleBtn.textContent = `${all.length} comentari${all.length !== 1 ? "s" : ""}`;
       });
+    });
+
+    // Enter per enviar (Shift+Enter per nova línia)
+    list.querySelectorAll(".norm-art-com-input").forEach(ta => {
+      ta.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          list.querySelector(`.norm-art-com-send[data-art-id="${ta.dataset.artId}"]`)?.click();
+        }
+      });
+    });
+
+    // ── Toolbar: expandir/col·lapsar tots ────────────────────────
+    document.getElementById("norm-art-expand-all")?.addEventListener("click", () => {
+      list.querySelectorAll(".norm-art-body").forEach(b => b.style.display = "");
+      list.querySelectorAll(".norm-art-header").forEach(h => h.classList.add("open"));
+      lucide.createIcons();
+    });
+    document.getElementById("norm-art-collapse-all")?.addEventListener("click", () => {
+      list.querySelectorAll(".norm-art-body").forEach(b => b.style.display = "none");
+      list.querySelectorAll(".norm-art-header").forEach(h => h.classList.remove("open"));
+      lucide.createIcons();
+    });
+
+    // ── Toolbar: cerca ────────────────────────────────────────────
+    document.getElementById("norm-art-search")?.addEventListener("input", (e) => {
+      const q = e.target.value.trim().toLowerCase();
+      let visible = 0;
+      list.querySelectorAll(".norm-art-card").forEach(card => {
+        const idx = parseInt(card.dataset.idx);
+        const art = articles[idx];
+        if (!art) return;
+        const match = !q
+          || (art.num || "").toLowerCase().includes(q)
+          || (art.title || "").toLowerCase().includes(q)
+          || (art.text || "").toLowerCase().includes(q);
+        card.style.display = match ? "" : "none";
+        if (match) visible++;
+        // Auto-expandir les galetes coincidents
+        if (match && q) {
+          const artId = `${docKey}_${idx}`;
+          const body = document.getElementById(`body-${artId}`);
+          const header = card.querySelector(".norm-art-header");
+          if (body) body.style.display = "";
+          if (header) header.classList.add("open");
+        }
+      });
+      const countEl = document.getElementById("norm-art-count-n");
+      if (countEl) countEl.textContent = q ? `${visible}/${articles.length}` : String(articles.length);
+      lucide.createIcons();
     });
   }
 
@@ -825,6 +1101,90 @@ Observacions de camp:
       alert("Anotacions copiades! A punt per ser utilitzades com a font a NotebookLM.");
     });
   });
+}
+
+// ============================================================
+// NUCLI: Base de dades oficial de totes les adreces postals de Sabadell
+// Font: OpenData Ajuntament de Sabadell (WFS geoserver.ajsabadell.cat)
+// Enriquit amb: categoria fiscal (Ord. 4.5), barri, districte, secció censal INE,
+// entitat, nucli, sector.
+// Fitxer índex: /data/nucli_index.json (generat de adreces_sabadell_enriched.csv)
+// ============================================================
+let _nucli = null;        // {CODVIA: {nom, cat, numeros[]}}
+let _nucliPerNom = null;  // {nomNormalitzat: {codvia, nom, cat, numeros[]}}
+
+function _normalitzarNucli(nom) {
+  return (nom || "").toLowerCase()
+    .normalize("NFD").replace(/[̀-ͯ]/g, "")
+    .replace(/\s+/g, " ").trim();
+}
+
+async function carregarNucli() {
+  if (_nucli) return _nucli;
+  try {
+    const resp = await fetch("/data/nucli_index.json");
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    const data = await resp.json();
+    _nucli = data.carrers;
+    _nucliPerNom = {};
+    for (const [codvia, entry] of Object.entries(_nucli)) {
+      const nomNorm = _normalitzarNucli(entry.nom);
+      _nucliPerNom[nomNorm] = { codvia, ...entry };
+    }
+    console.log(`[nucli] Carregat: ${Object.keys(_nucli).length} carrers, ${data.total_adreces} adreces`);
+    return _nucli;
+  } catch (e) {
+    console.warn("[nucli] No s'ha pogut carregar:", e.message);
+    return null;
+  }
+}
+
+// Cerca un carrer al nucli per nom (normalitzat, amb variants de prefix)
+function buscarCarrerNucli(nomCarrer) {
+  if (!_nucliPerNom || !nomCarrer) return null;
+  const norm = _normalitzarNucli(nomCarrer);
+  if (!norm) return null;
+  // Cerca directa
+  if (_nucliPerNom[norm]) return _nucliPerNom[norm];
+  // Cerca eliminant prefixos de tipus de via
+  const PREFIXOS_VIA = [
+    "carrer de ", "carrer d'", "carrer del ", "carrer dels ", "carrer ",
+    "avinguda de ", "avinguda d'", "avinguda del ", "avinguda ",
+    "passeig de ", "passatge de ", "rambla de ", "rambla ",
+    "placa de ", "placa ", "baixada de ", "ronda de ", "carretera de ",
+    "c. de ", "c. d'", "av. de ", "av. d'", "pg. de ", "ptge. de ",
+    "pl. de ", "rbla. ", "ctra. de ", "cam. de ", "cami de "
+  ];
+  const normSensePrefixe = PREFIXOS_VIA.reduce((s, p) => s.startsWith(p) ? s.slice(p.length) : s, norm);
+  // Cerca per nom sense prefixe
+  for (const [k, v] of Object.entries(_nucliPerNom)) {
+    const kSense = PREFIXOS_VIA.reduce((s, p) => s.startsWith(p) ? s.slice(p.length) : s, k);
+    if (kSense === normSensePrefixe) return v;
+  }
+  // Cerca parcial (com a recurs)
+  for (const [k, v] of Object.entries(_nucliPerNom)) {
+    if (k.includes(norm) || norm.includes(k)) return v;
+  }
+  return null;
+}
+
+// Valida que una adreça (carrer + número) existeixi al nucli
+// Retorna { valid, carrer, reason }
+function validarAdrecaNucli(nomCarrer, numPortal) {
+  const nomTrim = (nomCarrer || "").trim();
+  const numTrim = String(numPortal || "").trim();
+  if (!_nucliPerNom) return { valid: true, carregant: true }; // nucli no carregat, passa
+  if (!nomTrim) return { valid: true };
+  const carrer = buscarCarrerNucli(nomTrim);
+  if (!carrer) return { valid: false, reason: `"${nomTrim}" no és un carrer de Sabadell` };
+  if (!numTrim) return { valid: true, carrer };
+  if (carrer.numeros.includes(numTrim)) return { valid: true, carrer };
+  // Acceptem números amb lletra (25A, 10B...) si el número base existeix
+  const numBase = numTrim.replace(/[A-Za-z]+$/, "");
+  if (numBase && carrer.numeros.some(n => n === numBase || n.startsWith(numBase))) {
+    return { valid: true, carrer };
+  }
+  return { valid: false, reason: `El núm. ${numTrim} no existeix a ${carrer.nom}` };
 }
 
 // BASE DE DADES DE CARRERS I CATEGORIES FISCALS MUNICIPALS
@@ -2098,11 +2458,18 @@ const baseCarrers = {
 // d'això (p. ex. per sota d'un mínim de tram) generaria falsos negatius en carrers reals
 // (detectat en proves: Plaça de Ramon Llull, Carrer d'Antoni Forrellad, Carrer de Prat de
 // la Riba), ja que aquests buits són reals dins l'annex i no errors de l'usuari.
-function validarNumeroPortal(numeroStr) {
+// Valida format i existència del número de portal al nucli
+// nomCarrer: necessari per a la cerca al nucli (pot ser buit)
+function validarNumeroPortal(numeroStr, nomCarrer) {
   const trimmed = (numeroStr || "").trim();
   if (!trimmed) return { valid: true }; // camp opcional: buit és vàlid
-  if (!/^\d+$/.test(trimmed) || parseInt(trimmed, 10) <= 0) {
-    return { valid: false, reason: "El número de portal ha de ser un enter positiu (sense decimals, signes ni lletres)." };
+  // Acceptem enters positius i variants amb lletra (25A, 10B, etc.)
+  if (!/^\d+[A-Za-z]?$/.test(trimmed) || parseInt(trimmed, 10) <= 0) {
+    return { valid: false, reason: "El número de portal ha de ser un enter positiu (ex: 12, 14B)." };
+  }
+  // Validació d'existència al nucli (si carregat i si s'ha especificat carrer)
+  if (nomCarrer && nomCarrer.trim()) {
+    return validarAdrecaNucli(nomCarrer.trim(), trimmed);
   }
   return { valid: true };
 }
@@ -2195,11 +2562,14 @@ function initCalculator() {
   let totalTaxCalculated = 0.00;
   let historialCalculs = [];
 
-  // Omplir datalist de carrers per a autocompletat
+  // Omplir datalist de carrers per a autocompletat — usa el nucli com a font oficial
   const datalist = document.getElementById("streets-datalist");
   if (datalist) {
-    datalist.innerHTML = Object.values(baseCarrers)
-      .map(c => `<option value="${c.nom}"></option>`)
+    const nomsCarrers = _nucli
+      ? Object.values(_nucli).map(e => e.nom).sort()
+      : Object.values(baseCarrers).map(c => c.nom).sort(); // fallback si nucli no disponible
+    datalist.innerHTML = nomsCarrers
+      .map(nom => `<option value="${nom}"></option>`)
       .join("");
   }
 
@@ -2207,7 +2577,8 @@ function initCalculator() {
   const portalNumberError = document.getElementById("portal-number-error");
 
   function actualitzarValidacioPortal() {
-    const resultat = validarNumeroPortal(portalInput.value);
+    // Validació contra el nucli: comprova que el número existeixi al carrer indicat
+    const resultat = validarNumeroPortal(portalInput.value, streetInput.value);
     if (resultat.valid) {
       portalNumberError.textContent = "";
       portalNumberError.classList.add("hidden");
@@ -2228,13 +2599,21 @@ function initCalculator() {
       feedbackCoef.textContent = "-";
       return;
     }
-    const trobat = buscarCarrer(val);
-    if (trobat) {
-      const resolt = resoldreCategoriaPerNumero(trobat, portalInput.value.trim());
+    // Primer cerca al nucli (font oficial), fallback a baseCarrers (per trams detallats)
+    const trobatNucli = buscarCarrerNucli(val);
+    const trobatBase  = buscarCarrer(val);
+    if (trobatBase) {
+      // baseCarrers té informació de trams → permet categoria exacta per número
+      const resolt = resoldreCategoriaPerNumero(trobatBase, portalInput.value.trim());
       feedbackCategory.textContent = resolt.exacte
         ? `Categoria ${resolt.cat} (per núm. ${portalInput.value.trim()})`
         : `Categoria ${resolt.cat}`;
       feedbackCoef.textContent = resolt.coef.toFixed(2);
+    } else if (trobatNucli) {
+      // Categoria del nucli (sense trams)
+      const coef = COEF_MAP[trobatNucli.cat] || 0.80;
+      feedbackCategory.textContent = `Categoria ${trobatNucli.cat}`;
+      feedbackCoef.textContent = coef.toFixed(2);
     } else {
       feedbackCategory.textContent = "Categoria 5 (Defecte)";
       feedbackCoef.textContent = "0.80";

@@ -1,717 +1,1382 @@
 <!DOCTYPE html>
 <html lang="ca">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Via Pública AI - Dashboard d'Arquitectura i Urbanisme</title>
-  <!-- Google Fonts: Outfit per a un disseny prèmium de dissenyador -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Lucide Icons per a iconografia vectoritzada excel·lent -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Chart.js per a gràfics interactius de gestió de projectes -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard Via Pública — Sabadell</title>
+<meta name="theme-color" content="#2f7548">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Serif:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="data/nucli_data.js"></script>
+<script src="data/terrasses_data.js"></script>
+<script src="data/activitats_geo.js"></script>
+<script src="data/bus_data.js"></script>
+<style>
+/* === Tokens Via Pública DS v2 === */
+:root {
+  --primary:       #2f7548;
+  --primary-hover: #245c39;
+  --primary-press: #1c462c;
+  --primary-bg:    #eef6ef;
+  --primary-light: #d6e8d9;
+
+  --paper:   #faf8f3;
+  --paper-2: #f3efe5;
+  --ink-50:  #f7f5ef;
+  --ink-100: #ebe7db;
+  --ink-200: #d6d0bf;
+  --ink-300: #b8b0a0;
+  --ink-400: #8c8676;
+  --ink-500: #5f5b50;
+  --ink-600: #44413a;
+  --ink-700: #2e2c27;
+  --ink-800: #1d1c19;
+  --ink-900: #111110;
+
+  --font-sans: 'IBM Plex Sans', -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono:  'IBM Plex Mono', Consolas, monospace;
+  --font-serif: 'IBM Plex Serif', Georgia, serif;
+
+  --r-1: 2px;
+  --r-2: 4px;
+  --r-3: 6px;
+  --r-card: 10px;
+  --shadow-1: 0 1px 3px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.06);
+  --shadow-2: 0 4px 12px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.06);
+  --t-fast: 120ms;
+  --t-med:  200ms;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; overflow: hidden; }
+body {
+  font-family: var(--font-sans);
+  background: var(--paper-2);
+  color: var(--ink-900);
+  display: flex;
+  flex-direction: column;
+}
+
+/* === HEADER === */
+header {
+  flex-shrink: 0;
+  background: var(--primary);
+  color: white;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 52px;
+  border-bottom: 1px solid var(--primary-hover);
+  box-shadow: var(--shadow-1);
+  z-index: 100;
+}
+.header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header-icon {
+  width: 28px; height: 28px;
+  background: rgba(255,255,255,0.18);
+  border-radius: var(--r-3);
+  display: flex; align-items: center; justify-content: center;
+}
+header h1 {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+header .sub {
+  font-size: 13px;
+  opacity: 0.72;
+  font-weight: 400;
+}
+.header-badge {
+  font-size: 12px;
+  font-weight: 500;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.28);
+  color: white;
+  padding: 3px 9px;
+  border-radius: 20px;
+  letter-spacing: 0.02em;
+}
+
+/* === GRID PRINCIPAL === */
+.dashboard-grid {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 12px;
+  overflow: hidden;
+  min-height: 0;
+}
+
+/* === PANELL BASE === */
+.panel {
+  background: var(--paper);
+  border: 1px solid var(--ink-100);
+  border-radius: var(--r-card);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  transition: box-shadow var(--t-med);
+}
+.panel:hover {
+  box-shadow: var(--shadow-2);
+}
+
+/* === PANEL VISOR + MAPA === */
+.card-visor-panel {
+  /* hereda .panel — no cal res extra */
+}
+.visor-hero-header {
+  background: var(--primary);
+  color: white;
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+}
+.visor-hero-label {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+.visor-open-btn {
+  font-size: 12px;
+  font-weight: 600;
+  background: rgba(255,255,255,0.18);
+  border: 1px solid rgba(255,255,255,0.28);
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  transition: background var(--t-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.visor-open-btn:hover {
+  background: rgba(255,255,255,0.32);
+}
+#map {
+  flex: 1;
+  min-height: 0;
+}
+
+/* === COLUMNA DRETA === */
+.right-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  overflow: hidden;
+  min-height: 0;
+}
+.right-sub-col {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+  min-height: 0;
+}
+
+/* === CAPÇALERA DE PANELL === */
+.panel-header {
+  flex-shrink: 0;
+  padding: 10px 14px 9px;
+  border-bottom: 1px solid var(--ink-100);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--paper);
+}
+.panel-header-icon {
+  width: 22px; height: 22px;
+  border-radius: var(--r-2);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.panel-header h2 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-700);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.panel-header .panel-tag {
+  margin-left: auto;
+  font-size: 11px;
+  font-weight: 500;
+  padding: 2px 7px;
+  border-radius: 20px;
+}
+
+/* === PANELL NOTEBOOK === */
+.panel-notebook {
+  cursor: pointer;
+  text-decoration: none;
+  color: inherit;
+  align-self: start;
+}
+.panel-notebook:hover .panel-body {
+  background: var(--primary-bg);
+}
+.panel-body {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transition: background var(--t-fast);
+}
+.notebook-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink-900);
+  line-height: 1.35;
+}
+.notebook-desc {
+  font-size: 13px;
+  color: var(--ink-400);
+  line-height: 1.5;
+}
+
+/* tag colors */
+.tag-notebook {
+  background: var(--primary-light);
+  color: var(--primary-hover);
+}
+.icon-notebook { background: var(--primary-bg); }
+
+/* === NAVEGACIÓ EINES === */
+.nav-cards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding: 6px;
+}
+.nav-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 13px 12px;
+  border-radius: var(--r-3);
+  text-decoration: none;
+  color: inherit;
+  transition: background var(--t-fast);
+  cursor: pointer;
+}
+.nav-card:hover { background: var(--ink-50); }
+.nav-card-icon {
+  width: 40px; height: 40px;
+  border-radius: var(--r-2);
+  border: 1px solid;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.nav-card-text { flex: 1; min-width: 0; }
+.nav-card-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--ink-800);
+  line-height: 1.3;
+}
+.nav-card-desc {
+  font-size: 13px;
+  color: var(--ink-400);
+  line-height: 1.4;
+  margin-top: 3px;
+}
+.nav-card-arrow { flex-shrink: 0; opacity: 0.4; }
+.nav-card:hover .nav-card-arrow { opacity: 1; }
+
+/* === BUSCADOR CARRERS === */
+.cerca-body {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+.cerca-field { display: flex; flex-direction: column; gap: 4px; }
+.cerca-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink-400);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.cerca-input-wrap { position: relative; }
+.cerca-input {
+  width: 100%;
+  padding: 7px 10px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--ink-900);
+  background: var(--paper-2);
+  border: 1.5px solid var(--ink-200);
+  border-radius: var(--r-3);
+  outline: none;
+  transition: border-color var(--t-fast);
+}
+.cerca-input:focus { border-color: var(--primary); background: white; }
+.cerca-input.valid   { border-color: var(--primary); }
+.cerca-input.invalid { border-color: #c0392b; }
+.cerca-dropdown {
+  position: absolute;
+  top: calc(100% + 3px);
+  left: 0; right: 0;
+  background: white;
+  border: 1.5px solid var(--ink-200);
+  border-radius: var(--r-3);
+  box-shadow: var(--shadow-2);
+  max-height: 160px;
+  overflow-y: auto;
+  z-index: 200;
+  display: none;
+}
+.cerca-dropdown.open { display: block; }
+.cerca-opt {
+  padding: 7px 10px;
+  font-size: 13px;
+  cursor: pointer;
+  color: var(--ink-800);
+  border-bottom: 1px solid var(--ink-100);
+}
+.cerca-opt:last-child { border-bottom: none; }
+.cerca-opt:hover, .cerca-opt.active { background: var(--primary-bg); color: var(--primary); }
+.cerca-status {
+  font-size: 12px;
+  padding: 3px 0;
+  min-height: 18px;
+}
+.cerca-status.ok   { color: var(--primary); }
+.cerca-status.err  { color: #c0392b; }
+.cerca-status.hint { color: var(--ink-400); }
+.cerca-btn-consultar {
+  display: flex; align-items: center; gap: 6px; justify-content: center;
+  background: var(--primary); color: white;
+  border: none; border-radius: var(--r-3);
+  padding: 8px 14px; font-family: var(--font-sans);
+  font-size: 13px; font-weight: 600; cursor: pointer;
+  transition: background var(--t-fast); width: 100%;
+}
+.cerca-btn-consultar:hover { background: var(--primary-hover); }
+
+/* === MODAL === */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 1000;
+  background: rgba(0,0,0,0.45);
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+}
+.modal-box {
+  background: var(--paper);
+  border-radius: var(--r-card);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+  width: 100%; max-width: 580px;
+  max-height: 80vh;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+.modal-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  padding: 18px 20px 14px; border-bottom: 1px solid var(--ink-100);
+  flex-shrink: 0;
+}
+.modal-titol { font-size: 17px; font-weight: 600; color: var(--ink-900); }
+.modal-subtitol { font-size: 12px; color: var(--ink-400); margin-top: 2px; }
+.modal-close {
+  background: none; border: none; cursor: pointer;
+  color: var(--ink-400); padding: 2px; border-radius: var(--r-2);
+  transition: color var(--t-fast);
+}
+.modal-close:hover { color: var(--ink-900); }
+.modal-tabs {
+  display: flex; gap: 0; border-bottom: 1px solid var(--ink-100);
+  flex-shrink: 0; padding: 0 20px; overflow-x: auto;
+}
+.modal-tab {
+  padding: 10px 16px; font-size: 13px; font-weight: 500;
+  color: var(--ink-400); cursor: pointer; border-bottom: 2px solid transparent;
+  white-space: nowrap; transition: color var(--t-fast);
+}
+.modal-tab:hover { color: var(--ink-700); }
+.modal-tab.activa { color: var(--primary); border-bottom-color: var(--primary); font-weight: 600; }
+.modal-body { overflow-y: auto; flex: 1; padding: 18px 20px; }
+.fitxa-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 10px 20px;
+}
+.fitxa-camp { display: flex; flex-direction: column; gap: 2px; }
+.fitxa-label { font-size: 11px; font-weight: 600; color: var(--ink-400); letter-spacing: 0.06em; text-transform: uppercase; }
+.fitxa-valor { font-size: 14px; color: var(--ink-800); font-weight: 500; }
+.fitxa-valor.buit { color: var(--ink-300); font-style: italic; font-weight: 400; }
+.fitxa-sectio {
+  font-size: 11px; font-weight: 700; color: var(--ink-400);
+  letter-spacing: 0.08em; text-transform: uppercase;
+  grid-column: 1/-1; margin-top: 8px; padding-top: 10px;
+  border-top: 1px solid var(--ink-100);
+}
+.fitxa-badge {
+  display: inline-block; padding: 2px 8px; border-radius: 20px;
+  font-size: 11px; font-weight: 600;
+}
+.badge-r { background: #fde8d8; color: #c05010; }
+.badge-d { background: #d8e8fd; color: #1050c0; }
+.sense-dades {
+  padding: 30px 0; text-align: center;
+  color: var(--ink-300); font-size: 14px;
+}
+.activ-list {
+  grid-column: 1/-1;
+  display: flex; flex-direction: column; gap: 6px;
+  margin-top: 2px;
+}
+.activ-item {
+  display: flex; flex-direction: column; gap: 1px;
+  padding: 6px 10px; border-radius: 6px;
+  background: var(--primary-bg);
+  border-left: 3px solid var(--primary);
+}
+.activ-nom { font-size: 13px; font-weight: 600; color: var(--ink-800); }
+.activ-meta { font-size: 11px; color: var(--ink-400); }
+.activ-badge {
+  display: inline-block; padding: 1px 6px; border-radius: 10px;
+  font-size: 10px; font-weight: 600; margin-right: 4px;
+}
+.badge-equip { background: #e8f0fd; color: #1a5bb0; }
+.badge-srv-shi { background: #fff0e0; color: #b04000; border: 1px solid #f0c080; }
+.badge-srv-con { background: #fff8e0; color: #806000; border: 1px solid #e8d080; }
+.badge-srv-apr { background: #f0e8ff; color: #600080; border: 1px solid #c080e0; }
+.badge-comerc { background: #e8fde8; color: #1a7a1a; }
+.badge-ofic { background: #fdf5e8; color: #a06010; }
+.badge-tur { background: #fde8f5; color: #a01070; }
+.badge-altre { background: var(--ink-100); color: var(--ink-400); }
+
+/* === PANELL CAPES === */
+.capes-list {
+  padding: 8px 12px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px 8px;
+  overflow-y: auto;
+}
+.capa-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 4px;
+  border-radius: var(--r-2);
+  cursor: pointer;
+  transition: background var(--t-fast);
+  user-select: none;
+}
+.capa-row:hover { background: var(--ink-50); }
+.capa-check {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px; height: 16px;
+  border: 1.5px solid var(--ink-300);
+  border-radius: 4px;
+  flex-shrink: 0;
+  cursor: pointer;
+  position: relative;
+  transition: background var(--t-fast), border-color var(--t-fast);
+}
+.capa-check:checked {
+  background: var(--primary);
+  border-color: var(--primary);
+}
+.capa-check:checked::after {
+  content: '';
+  position: absolute;
+  left: 3px; top: 1px;
+  width: 5px; height: 8px;
+  border: 1.5px solid white;
+  border-top: none; border-left: none;
+  transform: rotate(45deg);
+}
+.capa-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.capa-label {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-700);
+  flex: 1;
+}
+.capa-disabled { opacity: 0.45; cursor: not-allowed; }
+.capa-disabled * { cursor: not-allowed; }
+.capes-grup-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--ink-300);
+  padding: 4px 12px 2px;
+}
+.capa-tag {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 600;
+  background: var(--ink-100);
+  color: var(--ink-400);
+  border-radius: 8px;
+  padding: 1px 5px;
+  margin-left: 4px;
+  vertical-align: middle;
+}
+.capa-loading { font-size: 10px; color: var(--ink-300); margin-left: 4px; }
+/* Leaflet popup capes */
+.popup-activ { font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; min-width: 160px; }
+.popup-activ strong { font-size: 13px; display: block; margin-bottom: 2px; }
+.popup-activ .pa-cat { font-size: 10px; font-weight: 600; text-transform: uppercase; color: var(--ink-400); }
+.popup-activ .pa-adr { color: var(--ink-400); font-size: 11px; margin-top: 2px; }
+.popup-bus { font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; min-width: 150px; }
+.pb-header { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; margin-bottom: 5px; }
+.popup-bus strong { font-size: 13px; }
+.pb-num { font-size: 11px; font-weight: 600; color: var(--ink-400); white-space: nowrap; }
+.pb-linies { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+.pb-badge {
+  display: inline-block; padding: 2px 7px; border-radius: 10px;
+  font-size: 11px; font-weight: 700; color: #fff;
+  letter-spacing: .02em; white-space: nowrap;
+}
+.pb-nodata { font-size: 11px; color: var(--ink-400); }
+.pb-badge { display: inline-block; padding: 3px 9px; border-radius: 12px; font-size: 12px; font-weight: 700; color: #fff; letter-spacing: .02em; white-space: nowrap; }
+
+/* Marcadors de parada de bus amb número */
+.bs-mrk {
+  background: #1565c0;
+  border: 1.5px solid #0d47a1;
+  border-radius: 10px;
+  color: #fff;
+  font-family: 'IBM Plex Sans', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 2px 5px;
+  min-width: 14px;
+  text-align: center;
+  white-space: nowrap;
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,.4);
+  transform: translate(-50%, -50%);
+  display: inline-block;
+  line-height: 14px;
+  user-select: none;
+}
+.bs-mrk.bs-dot {
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  padding: 0; min-width: 9px;
+  background: #90caf9;
+  border-color: #1565c0;
+}
+</style>
 </head>
 <body>
-  <div class="app-container">
-    <!-- BARRA LATERAL (SIDEBAR) -->
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-logo">
-          <i data-lucide="compass" class="logo-icon"></i>
-        </div>
-        <div class="brand-text">
-          <h1>ViaPública<span>AI</span></h1>
-          <p>Tècnic Arquitecte</p>
-        </div>
-      </div>
 
-      <nav class="sidebar-nav">
-        <ul>
-          <li>
-            <a href="#" class="nav-link active" data-tab="tab-dashboard">
-              <i data-lucide="layout-dashboard"></i>
-              <span>Dashboard</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link" data-tab="tab-normativa">
-              <i data-lucide="book-open"></i>
-              <span>Normativa</span>
-              <span class="badge">POUM</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link" data-tab="tab-repositori">
-              <i data-lucide="folder-git-2"></i>
-              <span>Consulta Documentació</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link" data-tab="tab-calculadora">
-              <i data-lucide="calculator"></i>
-              <span>Calculadora de Taxes</span>
-            </a>
-          </li>
-          <li>
-            <a href="#" class="nav-link" data-tab="tab-kanban">
-              <i data-lucide="kanban-square"></i>
-              <span>Kanban de Projectes</span>
-            </a>
-          </li>
-        </ul>
-      </nav>
-
-      <!-- TEMPORITZADOR POMODORO INTEGRAT AL SIDEBAR -->
-      <div class="pomodoro-sidebar">
-        <div class="pomodoro-header">
-          <i data-lucide="timer"></i>
-          <span>Focus d'Obra</span>
-        </div>
-        <div class="pomodoro-timer" id="pomodoro-display">25:00</div>
-        <div class="pomodoro-controls">
-          <button id="btn-pomodoro-start" title="Comença"><i data-lucide="play"></i></button>
-          <button id="btn-pomodoro-pause" title="Pausa" class="hidden"><i data-lucide="pause"></i></button>
-          <button id="btn-pomodoro-reset" title="Reinicia"><i data-lucide="rotate-ccw"></i></button>
-        </div>
-        <p class="pomodoro-status" id="pomodoro-mode">Sessió de concentració</p>
-      </div>
-
-      <!-- PERFIL D'USUARI -->
-      <div class="user-profile">
-        <div class="avatar">
-          <i data-lucide="user"></i>
-        </div>
-        <div class="user-info">
-          <h4>Jordi M.</h4>
-          <p>Tècnic de Via Pública</p>
-        </div>
-        <button class="logout-btn" title="Configuració">
-          <i data-lucide="settings"></i>
-        </button>
-      </div>
-    </aside>
-
-    <!-- CONTINGUT PRINCIPAL -->
-    <main class="main-content">
-      <!-- BARRA SUPERIOR (HEADER) -->
-      <header class="topbar">
-        <div class="topbar-left">
-          <h2 id="current-section-title">Tauler de Control</h2>
-          <p id="current-section-subtitle">Gestió integrada d'obres, inspeccions i normatives de l'espai públic.</p>
-        </div>
-        <div class="topbar-right">
-          <!-- WIDGET DE CLIMA I ESTAT (Molt rellevant per inspeccions) -->
-          <div class="weather-widget">
-            <i data-lucide="cloud-sun" class="weather-icon"></i>
-            <div class="weather-details">
-              <span class="temp">22°C</span>
-              <span class="desc">Apt per a inspecció exterior</span>
-            </div>
-          </div>
-          
-          <div class="date-widget">
-            <i data-lucide="calendar"></i>
-            <span id="date-display">Dissabte, 27 Juny 2026</span>
-          </div>
-
-          <div class="header-action">
-            <button class="btn btn-primary btn-icon-text" id="btn-notebooklm-shortcut">
-              <i data-lucide="external-link"></i>
-              <span>Obrir NotebookLM</span>
-            </button>
-          </div>
-        </div>
-      </header>
-
-      <!-- PANELS DE SECCIÓ (TABS) -->
-      <div class="section-panels">
-        
-        <!-- PESTANYA 1: DASHBOARD -->
-        <section id="tab-dashboard" class="tab-panel active">
-          <!-- KPIs -->
-          <div class="kpi-grid">
-            <div class="kpi-card">
-              <div class="kpi-icon blue"><i data-lucide="hard-hat"></i></div>
-              <div class="kpi-data">
-                <h3>5</h3>
-                <p>Obres Actives</p>
-              </div>
-              <div class="kpi-trend positive"><i data-lucide="arrow-up-right"></i> +1 aquest mes</div>
-            </div>
-            
-            <div class="kpi-card">
-              <div class="kpi-icon orange"><i data-lucide="clipboard-check"></i></div>
-              <div class="kpi-data">
-                <h3>3</h3>
-                <p>Inspeccions Urgents</p>
-              </div>
-              <div class="kpi-trend neutral">Avui de 10h a 13h</div>
-            </div>
-            
-            <div class="kpi-card">
-              <div class="kpi-icon green"><i data-lucide="euro"></i></div>
-              <div class="kpi-data">
-                <h3 id="kpi-tax-calc">1.840 €</h3>
-                <p>Taxes Simulades Avui</p>
-              </div>
-              <div class="kpi-trend positive"><i data-lucide="check"></i> Ocupació validada</div>
-            </div>
-            
-            <div class="kpi-card">
-              <div class="kpi-icon purple"><i data-lucide="file-text"></i></div>
-              <div class="kpi-data">
-                <h3>12</h3>
-                <p>Normatives al Repositori</p>
-              </div>
-              <div class="kpi-trend positive"><i data-lucide="copy"></i> Pre-formatades</div>
-            </div>
-          </div>
-
-          <!-- FILA 1: MAPA MOCK I AGENDA -->
-          <div class="grid-row-two-thirds">
-            <!-- MAPA D'OBRES -->
-            <div class="card map-card">
-              <div class="card-header">
-                <div>
-                  <h3>Mapa d'Obres actives i Punts d'Inspecció</h3>
-                  <p>Fes clic en els indicadors per consultar dades de via pública</p>
-                </div>
-                <div class="card-actions">
-                  <span class="legend-item"><span class="dot active"></span> Obra Activa</span>
-                  <span class="legend-item"><span class="dot urgent"></span> Inspecció Pendents</span>
-                </div>
-              </div>
-              <div class="card-body map-container">
-                <!-- MAPA SIMULAT (SVG Vectorial que simula carrers de la ciutat) -->
-                <svg id="city-map" viewBox="0 0 800 350" width="100%" height="100%">
-                  <!-- FONS DE CIUTAT - ILLES DE CASES -->
-                  <rect class="map-bg" width="800" height="350" />
-                  
-                  <!-- Carrers -->
-                  <path class="map-street" d="M 0,100 L 800,100" />
-                  <path class="map-street" d="M 0,250 L 800,250" />
-                  <path class="map-street" d="M 150,0 L 150,350" />
-                  <path class="map-street" d="M 400,0 L 400,350" />
-                  <path class="map-street" d="M 650,0 L 650,350" />
-                  
-                  <!-- Illes (Blocks) -->
-                  <rect class="map-block" x="20" y="20" width="110" height="60" />
-                  <rect class="map-block" x="170" y="20" width="210" height="60" />
-                  <rect class="map-block" x="420" y="20" width="210" height="60" />
-                  <rect class="map-block" x="670" y="20" width="110" height="60" />
-                  
-                  <rect class="map-block" x="20" y="120" width="110" height="110" />
-                  <rect class="map-block" x="170" y="120" width="210" height="110" />
-                  <rect class="map-block" x="420" y="120" width="210" height="110" />
-                  <rect class="map-block" x="670" y="120" width="110" height="110" />
-
-                  <rect class="map-block" x="20" y="270" width="110" height="60" />
-                  <rect class="map-block" x="170" y="270" width="210" height="60" />
-                  <rect class="map-block" x="420" y="270" width="210" height="60" />
-                  <rect class="map-block" x="670" y="270" width="110" height="60" />
-                  
-                  <!-- Parc municipal -->
-                  <rect class="map-park" x="175" y="125" width="200" height="100" />
-                  <text class="map-text" x="275" y="175" text-anchor="middle">Parc Central</text>
-                  
-                  <!-- Marcador d'obres - Pins interactius -->
-                  <!-- Obra 1: Av Diagonal / Balmes -->
-                  <g class="map-pin active-pin" id="pin-obra-1" transform="translate(150, 100)" data-project="1">
-                    <circle r="14" class="pin-pulse" />
-                    <circle r="7" class="pin-core" />
-                    <title>Pacificació del Carrer de Balmes (Tram Central)</title>
-                  </g>
-                  
-                  <!-- Obra 2: Plaça Major -->
-                  <g class="map-pin urgent-pin" id="pin-obra-2" transform="translate(400, 200)" data-project="2">
-                    <circle r="14" class="pin-pulse" />
-                    <circle r="7" class="pin-core" />
-                    <title>Renovació de Lloses de la Plaça Major</title>
-                  </g>
-                  
-                  <!-- Obra 3: Carrer Sardenya (Cala/Rasa) -->
-                  <g class="map-pin active-pin" id="pin-obra-3" transform="translate(650, 100)" data-project="3">
-                    <circle r="14" class="pin-pulse" />
-                    <circle r="7" class="pin-core" />
-                    <title>Cala per Escomesa Elèctrica - Sardenya</title>
-                  </g>
-
-                  <!-- Obra 4: Av Corts Catalanes (Bastides) -->
-                  <g class="map-pin active-pin" id="pin-obra-4" transform="translate(400, 100)" data-project="4">
-                    <circle r="14" class="pin-pulse" />
-                    <circle r="7" class="pin-core" />
-                    <title>Bastida en Façana - Av Corts Catalanes</title>
-                  </g>
-                </svg>
-                
-                <!-- Panell lateral del mapa que s'actualitza al prémer un pin -->
-                <div class="map-sidebar-details" id="map-details-panel">
-                  <h4>Selecciona una obra al mapa</h4>
-                  <p class="muted">Prem qualsevol dels indicadors intermitents per veure la informació tècnica del projecte actiu.</p>
-                </div>
-              </div>
-            </div>
-
-            <!-- AGENDA I VISITES D'OBRA -->
-            <div class="card agenda-card">
-              <div class="card-header">
-                <h3>Agenda de Visites d'Obra</h3>
-                <p>Inspeccions de via pública programades per avui</p>
-              </div>
-              <div class="card-body">
-                <div class="timeline">
-                  <div class="timeline-item urgent">
-                    <div class="time">10:00 h</div>
-                    <div class="content">
-                      <h4>Inspecció d'accessibilitat</h4>
-                      <p>Carrer de Balmes (Tram Central)</p>
-                      <span class="label-status">Pendent</span>
-                    </div>
-                  </div>
-                  
-                  <div class="timeline-item">
-                    <div class="time">11:30 h</div>
-                    <div class="content">
-                      <h4>Verificació de m² de tanca per bastida</h4>
-                      <p>Av Corts Catalanes, 442</p>
-                      <span class="label-status">Pendent</span>
-                    </div>
-                  </div>
-
-                  <div class="timeline-item">
-                    <div class="time">13:00 h</div>
-                    <div class="content">
-                      <h4>Control de cala / reposició de paviment</h4>
-                      <p>Carrer Sardenya, 120 (Rasa Endesa)</p>
-                      <span class="label-status">Pendent</span>
-                    </div>
-                  </div>
-                  
-                  <div class="timeline-item done">
-                    <div class="time">Ahir</div>
-                    <div class="content">
-                      <h4>Tancament d'expedient per grua mòbil</h4>
-                      <p>Plaça dels Àngels - Obra acabada</p>
-                      <span class="label-status green">Aprovat</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- FILA 2: GRÀFICS I NOTES DE CAMP -->
-          <div class="grid-row-half">
-            <!-- GRÀFIC DE TEMPS I PRESSUPOST -->
-            <div class="card">
-              <div class="card-header">
-                <h3>Dedicació Semanal del Tècnic</h3>
-                <p>Distribució del temps de treball (Visites d'obra vs. Oficina)</p>
-              </div>
-              <div class="card-body chart-wrapper">
-                <canvas id="timeChart"></canvas>
-              </div>
-            </div>
-
-            <!-- BLOC DE NOTES DE CAMP (PERSISTENT EN LOCALSTORAGE) -->
-            <div class="card notes-card">
-              <div class="card-header">
-                <h3>Bloc de Notes de Camp</h3>
-                <p>Anotacions ràpides durant les visites o trucades (es guarden soles)</p>
-              </div>
-              <div class="card-body">
-                <textarea id="field-notes" placeholder="Escriu aquí les teves observacions directament en el terreny... ex: 'El constructor de Balmes ha corregit el pendent del 12% al 8% requerit per l'ordenança d'accessibilitat.'"></textarea>
-                <div class="notes-footer">
-                  <span id="save-status"><i data-lucide="cloud-lightning"></i> Guardat localment</span>
-                  <button class="btn btn-outline btn-sm" id="btn-copy-notes-notebooklm">
-                    <i data-lucide="copy"></i> Copia per a NotebookLM
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- PESTANYA 2: REPOSITORI DE NORMATIVA -->
-        <section id="tab-normativa" class="tab-panel">
-          <div class="norm-biblioteca-layout">
-
-            <!-- ESQUERRA: Arbre de temes -->
-            <div class="norm-left">
-              <div class="norm-left-header">
-                <span class="norm-left-title"><i data-lucide="library"></i> Biblioteca</span>
-                <button id="norm-btn-add-topic" title="Nou tema"><i data-lucide="folder-plus"></i></button>
-              </div>
-              <div class="norm-search-bar">
-                <i data-lucide="search"></i>
-                <input type="text" id="norm-search" placeholder="Cerca documents...">
-              </div>
-              <div class="norm-topics-scroll" id="norm-topics-list"></div>
-            </div>
-
-            <!-- DRETA: Visor de document -->
-            <div class="norm-right">
-              <div class="norm-viewer-empty" id="norm-viewer-empty">
-                <i data-lucide="book-open"></i>
-                <p>Selecciona un document per visualitzar-lo</p>
-              </div>
-              <div id="norm-doc-viewer" style="display:none">
-                <div class="norm-doc-topbar">
-                  <div class="norm-doc-info">
-                    <span id="norm-doc-name" class="norm-doc-title"></span>
-                  </div>
-                  <div class="norm-doc-actions">
-                    <div class="norm-view-toggle">
-                      <button class="norm-view-btn active" id="norm-btn-view-articles">
-                        <i data-lucide="layout-grid"></i> Articles
-                      </button>
-                      <button class="norm-view-btn" id="norm-btn-view-pdf">
-                        <i data-lucide="file-text"></i> PDF
-                      </button>
-                    </div>
-                    <a id="norm-doc-open" target="_blank" rel="noopener" class="btn-icon-label">
-                      <i data-lucide="external-link"></i> Obrir
-                    </a>
-                  </div>
-                </div>
-
-                <!-- Vista Articles -->
-                <div id="norm-view-articles" class="norm-articles-view">
-                  <div id="norm-articles-list"></div>
-                </div>
-
-                <!-- Vista PDF -->
-                <div id="norm-view-pdf" class="norm-doc-embed" style="display:none">
-                  <div id="norm-doc-embed"></div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        <!-- PESTANYA 3: CONSULTA DOCUMENTACIÓ -->
-        <section id="tab-repositori" class="tab-panel">
-          <div class="repositori-layout">
-
-            <!-- Columna Esquerra: Repositori + Consulta IA -->
-            <div class="repositori-files">
-              <div class="card">
-                <div class="card-header">
-                  <h3>Consulta Documentació</h3>
-                  <p>Consulta i gestiona els teus resultats</p>
-                </div>
-                <div class="card-body">
-                  <!-- Targeta de consulta IA gran -->
-                  <div class="query-card" id="query-card">
-                    <div class="query-card-header">
-                      <i data-lucide="sparkles"></i>
-                      <span>Consulta a la normativa</span>
-                    </div>
-                    <div class="query-card-body">
-                      <!-- Selector de font documental -->
-                      <div class="query-source-row">
-                        <div class="query-source-field">
-                          <label class="query-source-label">Tema</label>
-                          <select id="query-topic-select" class="query-source-select form-control">
-                            <option value="">— Tots els temes —</option>
-                          </select>
-                        </div>
-                        <div class="query-source-field">
-                          <label class="query-source-label">Document</label>
-                          <select id="query-doc-select" class="query-source-select form-control">
-                            <option value="">— Tots els documents —</option>
-                          </select>
-                        </div>
-                      </div>
-                      <textarea id="search-repo-files" class="query-textarea" placeholder="Escriu la teva consulta sobre normativa, ordenances, plecs o qualsevol regulació tècnica…" rows="4"></textarea>
-                      <div class="query-card-actions">
-                        <button class="btn btn-primary btn-search-ia" id="btn-search-ia">
-                          <i data-lucide="sparkles"></i> Consultar amb IA
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Panel de resultats de cerca IA -->
-                  <div class="search-ia-panel" id="search-ia-panel" style="display:none">
-                    <div class="search-ia-header">
-                      <i data-lucide="sparkles"></i>
-                      <span>Resposta de la IA</span>
-                      <button class="btn-close-search" id="btn-close-search" title="Tancar">
-                        <i data-lucide="x"></i>
-                      </button>
-                    </div>
-                    <div class="search-ia-body" id="search-ia-body">
-                      <span class="search-ia-loading"><i data-lucide="loader-2" class="spin"></i> Consultant la normativa...</span>
-                    </div>
-                    <div class="search-ia-footer">
-                      <button class="btn btn-save-consulta" id="btn-save-consulta" style="display:none">
-                        <i data-lucide="bookmark-plus"></i> Desa consulta
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Columna Dreta: Consultes Desades -->
-            <div class="repositori-notebooklm">
-              <div class="card consultes-card">
-                <div class="card-header">
-                  <div class="card-title-icon">
-                    <i data-lucide="bookmark"></i>
-                    <h3>Consultes Desades</h3>
-                  </div>
-                  <button class="btn-clear-consultes" id="btn-clear-consultes" title="Esborra totes les consultes">
-                    <i data-lucide="trash-2"></i>
-                  </button>
-                </div>
-                <div class="card-body consultes-body">
-                  <div id="consultes-list"></div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-        <!-- PESTANYA 4: CALCULADORA DE TAXES -->
-        <section id="tab-calculadora" class="tab-panel">
-          <div class="calculadora-layout">
-            
-            <!-- Formulari de càlcul -->
-            <div class="calc-form-card card">
-              <div class="card-header">
-                <h3>Estimat de Taxes per Ocupació de Via Pública</h3>
-                <p>Calculadora regulada segons Ordenança Fiscal Municipal</p>
-              </div>
-              <div class="card-body">
-                <form id="tax-form">
-                  <div class="form-group">
-                    <label for="calc-type">Concepte d'Ocupació</label>
-                    <select id="calc-type" class="form-control">
-                      <option value="tanca">Tanca, bastida o tancament d'obra (per m²)</option>
-                      <option value="grua">Grua mòbil o reserva d'espai (per metre lineal)</option>
-                      <option value="rasa">Cales, rases i calicantes en paviment (per m²)</option>
-                      <option value="terrassa">Terrassa / Vetlladors (per m²)</option>
-                    </select>
-                  </div>
-
-                  <div class="form-row" style="grid-template-columns: 2fr 1fr;">
-                    <div class="form-group">
-                      <label for="calc-street-name">Carrer / Emplaçament</label>
-                      <input type="text" id="calc-street-name" class="form-control" placeholder="Escriu el carrer (ex: Balmes, Diagonal, Provença...)" list="streets-datalist" autocomplete="off" required>
-                      <datalist id="streets-datalist">
-                        <!-- S'omplirà dinàmicament des de JS -->
-                      </datalist>
-                    </div>
-                    <div class="form-group">
-                      <label for="calc-portal-number">Núm. portal</label>
-                      <input type="number" id="calc-portal-number" class="form-control" placeholder="Opcional" min="1">
-                      <span class="field-error hidden" id="portal-number-error"></span>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="street-feedback" id="street-feedback-box" style="margin-top: -8px; margin-bottom: 16px; display: flex; gap: 15px; font-size: 0.8rem; padding: 4px 8px; background-color: var(--bg-tertiary); border-radius: var(--radius-sm); border: 1px solid var(--border-color);">
-                      <span style="color: var(--text-muted); font-weight: 500;">Categoria: <strong id="detected-category" style="color: var(--accent-blue); font-weight: 600;">-</strong></span>
-                      <span style="color: var(--text-muted); font-weight: 500;">Coeficient: <strong id="detected-coef" style="color: var(--accent-orange); font-weight: 600;">-</strong></span>
-                    </div>
-                  </div>
-
-                  <!-- Camps variables dinàmics -->
-                  <div class="form-row">
-                    <div class="form-group" id="group-param-1">
-                      <label id="label-param-1" for="calc-param-1">Superfície (m²)</label>
-                      <input type="number" id="calc-param-1" class="form-control" value="25" min="1">
-                    </div>
-                    
-                    <div class="form-group" id="group-param-2">
-                      <label id="label-param-2" for="calc-param-2">Durada (Dies)</label>
-                      <input type="number" id="calc-param-2" class="form-control" value="30" min="1">
-                    </div>
-                  </div>
-
-                  <div class="form-group hidden" id="group-terrassa-modalitat">
-                    <label>Línies d'autorització de terrassa <span style="color: var(--text-muted); font-weight: 400;">(una superfície independent per cada modalitat; es poden combinar, p. ex. una part anual i una extensió només d'estiu. Per a la modalitat "Eventual", els dies es marquen amb un calendari que assenyala els festius estatals, autonòmics i locals)</span></label>
-                    <div id="terrassa-lines-container" style="margin-top: 8px;"></div>
-                    <button type="button" class="btn btn-secondary" id="btn-add-terrassa-line" style="margin-top: 4px;">
-                      <i data-lucide="plus"></i> Afegir modalitat
-                    </button>
-                  </div>
-
-                  <button type="button" class="btn btn-primary btn-full-width" id="btn-calculate">
-                    <i data-lucide="calculator"></i> Calcular Taxa Estimada
-                  </button>
-                </form>
-              </div>
-            </div>
-
-            <!-- Resum de desglossament tècnic -->
-            <div class="calc-results-card card">
-              <div class="card-header">
-                <h3>Detall del Càlcul de Taxa</h3>
-                <p>Desglossament analític regulat per a l'expedient d'obres</p>
-              </div>
-              <div class="card-body">
-                <div class="technical-breakdown-box" style="background-color: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: var(--radius-md); padding: 20px; font-family: inherit;">
-                  <div class="breakdown-header" style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 16px;">
-                    <h4 style="font-size: 0.95rem; font-weight: 600; color: var(--text-main); margin: 0;">Informe Analític de Taxes</h4>
-                    <span class="badge badge-green" style="font-size: 0.7rem; margin: 0;">Pre-càlcul regulat</span>
-                  </div>
-                  
-                  <div class="breakdown-details" style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem;">
-                    <div style="display: flex; justify-content: space-between;">
-                      <span style="color: var(--text-muted);">Concepte:</span>
-                      <strong id="inv-concepte" style="color: var(--text-main);">Tanca o bastida d'obra</strong>
-                    </div>
-                    <div style="display: flex; justify-content: space-between;">
-                      <span style="color: var(--text-muted);">Carrer / Emplaçament:</span>
-                      <strong id="inv-street" style="color: var(--text-main);">-</strong>
-                    </div>
-                    <div style="display: flex; justify-content: space-between;">
-                      <span style="color: var(--text-muted);">Categoria Urbanística:</span>
-                      <strong id="inv-categoria" style="color: var(--text-main);">-</strong>
-                    </div>
-                    <div style="display: flex; justify-content: space-between;">
-                      <span style="color: var(--text-muted);">Mesures d'Ocupació:</span>
-                      <strong id="inv-parametres" style="color: var(--text-main);">25 m² x 30 dies</strong>
-                    </div>
-                    <div style="display: flex; justify-content: space-between;">
-                      <span style="color: var(--text-muted);">Tarifa base unitària:</span>
-                      <span id="inv-tarifa-base" style="color: var(--text-main);">1,20 € / m² / dia</span>
-                    </div>
-                    <div class="formula-box" style="margin-top: 12px; background-color: var(--bg-secondary); border: 1px solid var(--border-color); padding: 12px; border-radius: var(--radius-sm);">
-                      <h5 style="font-size: 0.72rem; font-weight: 600; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; letter-spacing: 0.5px;">Equació de Liquidació Fiscal</h5>
-                      <p id="inv-formula" style="font-family: monospace; font-size: 0.8rem; color: var(--accent-orange); margin: 0; line-height: 1.4; white-space: pre-wrap; word-break: break-all;">Escull un carrer i prem 'Calcular Taxa Estimada' per obtenir el desglossament de l'ordenança.</p>
-                    </div>
-
-                    <div style="display: flex; justify-content: space-between; font-size: 1.1rem; font-weight: 700; border-top: 1px dashed var(--border-color); padding-top: 12px; margin-top: 8px;">
-                      <span style="color: var(--text-main);">Total Taxes Liquidables:</span>
-                      <span id="inv-total" style="color: #fff; font-family: monospace;">0,00 €</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="invoice-actions" style="margin-top: 20px; display: flex; gap: 10px;">
-                  <button class="btn btn-outline" id="btn-copy-invoice-notebooklm" style="flex: 1; justify-content: center;">
-                    <i data-lucide="copy"></i> Copia Resum per a NotebookLM
-                  </button>
-                  <button class="btn btn-secondary" id="btn-add-notes-invoice" style="flex: 1; justify-content: center;">
-                    <i data-lucide="clipboard-copy"></i> Afegeix a Notes
-                  </button>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <!-- Historial de càlculs (Amplada completa a sota) -->
-          <div class="card calc-history-card" style="margin-top: 24px;">
-            <div class="card-header">
-              <h3>Historial de Càlculs realitzats en la sessió</h3>
-              <p>Registre tècnic d'ocupacions comparades per a informes de viabilitat</p>
-            </div>
-            <div class="card-body" style="padding: 0; overflow-x: auto;">
-              <table class="history-table" style="width: 100%; border-collapse: collapse; text-align: left; font-size: 0.85rem;">
-                <thead>
-                  <tr style="border-bottom: 1px solid var(--border-color); color: var(--text-muted); font-weight: 600;">
-                    <th style="padding: 12px 16px;">Data/Hora</th>
-                    <th style="padding: 12px 16px;">Carrer</th>
-                    <th style="padding: 12px 16px;">Concepte d'Ocupació</th>
-                    <th style="padding: 12px 16px;">Mesures i Categoria</th>
-                    <th style="padding: 12px 16px; text-align: right;">Total Taxa</th>
-                    <th style="padding: 12px 16px; text-align: center;">Accions</th>
-                  </tr>
-                </thead>
-                <tbody id="calc-history-rows" style="color: var(--text-main);">
-                  <!-- Dinàmic des de JS -->
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-
-        <!-- PESTANYA 5: KANBAN DE TASQUES -->
-        <section id="tab-kanban" class="tab-panel">
-          <div class="kanban-wrapper">
-            
-            <div class="kanban-add-bar card">
-              <div class="card-body">
-                <form id="kanban-form">
-                  <div class="kanban-input-row">
-                    <input type="text" id="kanban-new-title" class="form-control" placeholder="Títol de la tasca d'obra (ex: 'Revisió vorera Provença')..." required>
-                    <select id="kanban-new-priority" class="form-control priority-select">
-                      <option value="baixa">Baixa</option>
-                      <option value="mitja" selected>Mitjana</option>
-                      <option value="alta">Alta</option>
-                    </select>
-                    <button type="submit" class="btn btn-primary"><i data-lucide="plus"></i> Afegir Tasca</button>
-                  </div>
-                </form>
-              </div>
-            </div>
-
-            <div class="kanban-board">
-              <!-- Columna 1: Pendent -->
-              <div class="kanban-column" id="col-todo" data-status="todo">
-                <div class="column-header">
-                  <div class="column-title-left">
-                    <span class="column-dot todo"></span>
-                    <h3>Pendent</h3>
-                  </div>
-                  <span class="task-count" id="count-todo">0</span>
-                </div>
-                <div class="task-list-container" id="list-todo">
-                  <!-- Tasques dinàmiques -->
-                </div>
-              </div>
-
-              <!-- Columna 2: En Curs -->
-              <div class="kanban-column" id="col-progress" data-status="progress">
-                <div class="column-header">
-                  <div class="column-title-left">
-                    <span class="column-dot progress"></span>
-                    <h3>En Curs</h3>
-                  </div>
-                  <span class="task-count" id="count-progress">0</span>
-                </div>
-                <div class="task-list-container" id="list-progress">
-                  <!-- Tasques dinàmiques -->
-                </div>
-              </div>
-
-              <!-- Columna 3: Finalitzat -->
-              <div class="kanban-column" id="col-done" data-status="done">
-                <div class="column-header">
-                  <div class="column-title-left">
-                    <span class="column-dot done"></span>
-                    <h3>Finalitzat</h3>
-                  </div>
-                  <span class="task-count" id="count-done">0</span>
-                </div>
-                <div class="task-list-container" id="list-done">
-                  <!-- Tasques dinàmiques -->
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </section>
-
-      </div>
-    </main>
+<!-- HEADER -->
+<header>
+  <div class="header-left">
+    <div class="header-icon">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <rect x="2" y="6" width="12" height="8" rx="1.5" stroke="white" stroke-width="1.5"/>
+        <path d="M5 6V4.5C5 3.12 6.34 2 8 2s3 1.12 3 2.5V6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="8" cy="10" r="1.2" fill="white"/>
+      </svg>
+    </div>
+    <div>
+      <h1>Dashboard Via Pública</h1>
+      <div class="sub">Via Pública · by RoutePal</div>
+    </div>
   </div>
-  
-  <script src="app.js"></script>
-  <script>
-    // Inicialització de les icones de Lucide al carregar la pàgina
-    document.addEventListener("DOMContentLoaded", () => {
-      lucide.createIcons();
+  <span class="header-badge">2025–2026</span>
+</header>
+
+<!-- GRID -->
+<div class="dashboard-grid">
+
+  <!-- ESQUERRA: Mapa OSM Sabadell (sense dades) -->
+  <div class="panel card-visor-panel">
+    <div class="visor-hero-header">
+      <span class="visor-hero-label">Via Pública · Sabadell</span>
+      <a class="visor-open-btn" href="visor_terrasses_ds.html" target="_blank">
+        Obrir el Visor
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+          <path d="M2.5 6h7M7 3.5l2.5 2.5L7 8.5" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+    <div id="map"></div>
+  </div>
+
+  <!-- DRETA: dues sub-columnes -->
+  <div class="right-col">
+
+    <!-- Sub-columna esquerra: dos panells verticals -->
+    <div class="right-sub-col">
+      <!-- Panell buscador de carrers -->
+      <div class="panel" style="flex:1;min-height:0;">
+        <div class="panel-header">
+          <div class="panel-header-icon" style="background:#d8e4f0">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <circle cx="6" cy="6" r="4" stroke="#2c5d8a" stroke-width="1.4"/>
+              <path d="M9.5 9.5L12 12" stroke="#2c5d8a" stroke-width="1.4" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <h2>Cerca d'Adreces</h2>
+        </div>
+        <div class="cerca-body">
+          <div class="cerca-field">
+            <span class="cerca-label">Carrer</span>
+            <div class="cerca-input-wrap">
+              <datalist id="db-cerca-carrers"></datalist>
+              <input id="cerca-carrer" class="cerca-input" type="text"
+                     list="db-cerca-carrers"
+                     placeholder="Escriu el nom del carrer…"
+                     autocomplete="off">
+            </div>
+          </div>
+          <div class="cerca-field">
+            <span class="cerca-label">Número</span>
+            <datalist id="db-cerca-numeros"></datalist>
+            <input id="cerca-numero" class="cerca-input" type="text"
+                   list="db-cerca-numeros"
+                   placeholder="—" autocomplete="off" disabled>
+          </div>
+          <div id="cerca-status" class="cerca-status hint">Introdueix un carrer del nucli de Sabadell.</div>
+          <button id="btn-consultar" class="cerca-btn-consultar" style="display:none" onclick="obrirFitxa()">
+            Consultar adreça
+            <svg width="13" height="13" viewBox="0 0 13 13" fill="none"><path d="M2.5 6.5h8M8 3.5l3 3-3 3" stroke="white" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+      <!-- Dues columnes a la part inferior -->
+      <div style="flex:1;min-height:0;display:flex;flex-direction:row;gap:10px;">
+        <div class="panel" style="flex:1;min-height:0;"></div>
+        <div class="panel" style="flex:1;min-height:0;"></div>
+      </div>
+
+      <!-- Panell capes de dades -->
+      <div class="panel" style="flex:1;min-height:0;">
+        <div class="panel-header">
+          <div class="panel-header-icon" style="background:var(--primary-bg)">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M7 1.5L12.5 4.5L7 7.5L1.5 4.5L7 1.5Z" stroke="#2f7548" stroke-width="1.3" stroke-linejoin="round"/>
+              <path d="M1.5 7L7 10L12.5 7" stroke="#2f7548" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M1.5 9.5L7 12.5L12.5 9.5" stroke="#2f7548" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <h2>Capes de Dades</h2>
+        </div>
+        <div class="capes-list">
+          <div class="capes-grup-label">Via Pública</div>
+          <label class="capa-row capa-disabled">
+            <input type="checkbox" class="capa-check" disabled>
+            <span class="capa-dot" style="background:#e05c2e"></span>
+            <span class="capa-label">Terrasses</span>
+          </label>
+          <label class="capa-row capa-disabled">
+            <input type="checkbox" class="capa-check" disabled>
+            <span class="capa-dot" style="background:#e0a82e"></span>
+            <span class="capa-label">Auxiliars d'obra</span>
+          </label>
+          <label class="capa-row capa-disabled">
+            <input type="checkbox" class="capa-check" disabled>
+            <span class="capa-dot" style="background:#c0392b"></span>
+            <span class="capa-label">Talls de carrer</span>
+          </label>
+          <div class="capes-grup-label" style="margin-top:8px">Transport</div>
+          <label class="capa-row" id="capa-row-bus">
+            <input type="checkbox" class="capa-check" id="capa-bus">
+            <span class="capa-dot" style="background:#1a6bbf"></span>
+            <span class="capa-label">Línies de bus <span class="capa-tag" id="capa-bus-tag"></span></span>
+          </label>
+          <!-- Llegenda línies TUS (es genera dinàmicament) -->
+          <div id="bus-llegenda" style="display:none;margin:3px 0 5px 20px;flex-wrap:wrap;gap:3px"></div>
+          <label class="capa-row" id="capa-row-parades">
+            <input type="checkbox" class="capa-check" id="capa-parades">
+            <span class="capa-dot" style="background:#0e4a8a"></span>
+            <span class="capa-label">Parades de bus <span class="capa-tag" id="capa-parades-tag"></span></span>
+          </label>
+          <div class="capes-grup-label" style="margin-top:8px">Urbanisme</div>
+          <label class="capa-row" id="capa-row-srv">
+            <input type="checkbox" class="capa-check" id="capa-srv">
+            <span class="capa-dot" style="background:#b04000"></span>
+            <span class="capa-label">Servituds aeronàutiques</span>
+          </label>
+          <label class="capa-row" id="capa-row-activ">
+            <input type="checkbox" class="capa-check" id="capa-activ">
+            <span class="capa-dot" style="background:#7c3d8a"></span>
+            <span class="capa-label">Activitats (OSM) <span class="capa-tag">237</span></span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sub-columna dreta: Eines + Notebooks -->
+    <div class="right-sub-col">
+
+    <!-- EINES VIA PÚBLICA -->
+    <div class="panel panel-nav-grid">
+      <div class="panel-header">
+        <div class="panel-header-icon" style="background:#d8e4f0">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <rect x="1" y="1" width="5" height="5" rx="1" stroke="#2c5d8a" stroke-width="1.3"/>
+            <rect x="8" y="1" width="5" height="5" rx="1" stroke="#2c5d8a" stroke-width="1.3"/>
+            <rect x="1" y="8" width="5" height="5" rx="1" stroke="#2c5d8a" stroke-width="1.3"/>
+            <rect x="8" y="8" width="5" height="5" rx="1" stroke="#2c5d8a" stroke-width="1.3"/>
+          </svg>
+        </div>
+        <h2>Eines Via Pública</h2>
+      </div>
+      <div class="nav-cards-grid">
+        <a class="nav-card" href="app.html#tab-calculadora" target="_blank">
+          <div class="nav-card-icon" style="background:#fff8ec;border-color:#f5d88a">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <rect x="3" y="2" width="14" height="16" rx="2" stroke="#b87c0a" stroke-width="1.5"/>
+              <path d="M6 6h8M6 9.5h8M6 13h5" stroke="#b87c0a" stroke-width="1.3" stroke-linecap="round"/>
+              <rect x="6" y="5" width="8" height="2" rx="0.8" fill="#f5d88a" opacity=".5"/>
+            </svg>
+          </div>
+          <div class="nav-card-text">
+            <div class="nav-card-title">Calculadora de Taxes</div>
+            <div class="nav-card-desc">Ocup. via pública, terrasses, bastides i eventuals</div>
+          </div>
+          <svg class="nav-card-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="#8c8676" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="nav-card" href="app.html#tab-normativa" target="_blank">
+          <div class="nav-card-icon" style="background:#eef6ef;border-color:#a8d4b5">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <rect x="4" y="2" width="12" height="16" rx="1.5" stroke="#2f7548" stroke-width="1.5"/>
+              <path d="M7 6h6M7 9h6M7 12h4" stroke="#2f7548" stroke-width="1.3" stroke-linecap="round"/>
+              <rect x="2.5" y="4" width="2" height="12" rx="1" fill="#2f7548" opacity=".35"/>
+            </svg>
+          </div>
+          <div class="nav-card-text">
+            <div class="nav-card-title">Normativa</div>
+            <div class="nav-card-desc">POUM, ordenances i codi tècnic de via pública</div>
+          </div>
+          <svg class="nav-card-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="#8c8676" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="nav-card" href="app.html#tab-repositori" target="_blank">
+          <div class="nav-card-icon" style="background:#d8e4f0;border-color:#a0bdd4">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="10" r="7" stroke="#2c5d8a" stroke-width="1.5"/>
+              <path d="M10 6v4l3 2" stroke="#2c5d8a" stroke-width="1.4" stroke-linecap="round"/>
+              <circle cx="10" cy="10" r="1.2" fill="#2c5d8a"/>
+            </svg>
+          </div>
+          <div class="nav-card-text">
+            <div class="nav-card-title">Consulta IA</div>
+            <div class="nav-card-desc">Repositori de documents i cercador intel·ligent</div>
+          </div>
+          <svg class="nav-card-arrow" width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 3l4 4-4 4" stroke="#8c8676" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- QUADERN: Manual de Tramitació -->
+    <a class="panel panel-notebook"
+       href="https://notebooklm.google.com/notebook/60a1bce9-7998-4bf3-a60c-71b3dd412385"
+       target="_blank">
+      <div class="panel-header">
+        <div class="panel-header-icon icon-notebook">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <rect x="2" y="1" width="9" height="12" rx="1.5" stroke="#2f7548" stroke-width="1.4"/>
+            <path d="M4 4.5h5M4 7h5M4 9.5h3" stroke="#2f7548" stroke-width="1.2" stroke-linecap="round"/>
+            <rect x="1" y="2.5" width="1.5" height="9" rx="0.75" fill="#2f7548" opacity=".4"/>
+          </svg>
+        </div>
+        <h2>Manual d'Open</h2>
+        <span class="panel-tag tag-notebook">NotebookLM</span>
+      </div>
+      <div class="panel-body">
+        <div class="notebook-title">Manual de Tramitació</div>
+        <div class="notebook-desc">Procediments, taxes, informes previs i documentació per a la tramitació d'ocupació de via pública.</div>
+      </div>
+    </a>
+
+    <!-- QUADERN: Marc Normatiu -->
+    <a class="panel panel-notebook"
+       href="https://notebooklm.google.com/notebook/e5a2035c-fde8-42ac-a1cd-efea8e1af9a4"
+       target="_blank">
+      <div class="panel-header">
+        <div class="panel-header-icon icon-notebook">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <rect x="2" y="1" width="9" height="12" rx="1.5" stroke="#2f7548" stroke-width="1.4"/>
+            <path d="M4 4.5h5M4 7h5M4 9.5h3" stroke="#2f7548" stroke-width="1.2" stroke-linecap="round"/>
+            <rect x="1" y="2.5" width="1.5" height="9" rx="0.75" fill="#2f7548" opacity=".4"/>
+          </svg>
+        </div>
+        <h2>Marc Normatiu</h2>
+        <span class="panel-tag tag-notebook">NotebookLM</span>
+      </div>
+      <div class="panel-body">
+        <div class="notebook-title">Ordenança Espais Públics</div>
+        <div class="notebook-desc">Ordenança municipal de Sabadell 2012 i normativa vigent de regulació de terrasses i espais públics.</div>
+      </div>
+    </a>
+
+    </div><!-- /.right-sub-col -->
+
+  </div><!-- /.right-col -->
+
+</div><!-- /.dashboard-grid -->
+
+<!-- MODAL FITXA ADREÇA -->
+<div id="modal-fitxa" class="modal-overlay" style="display:none" onclick="if(event.target===this)tancarFitxa()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <div>
+        <div id="modal-titol" class="modal-titol"></div>
+        <div id="modal-subtitol" class="modal-subtitol"></div>
+      </div>
+      <button class="modal-close" onclick="tancarFitxa()">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 3l10 10M13 3L3 13" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+    <div class="modal-tabs" id="modal-tabs"></div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<script>
+  /* === MAPA OSM === */
+  var map = L.map('map', { zoomControl: true, attributionControl: true })
+             .setView([41.5431, 2.1097], 13);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+    maxZoom: 19
+  }).addTo(map);
+
+  /* === BUSCADOR CARRERS (mateixa lògica que el Visor) === */
+  var _bNucli = null, _bNucliPerNom = null;
+
+  var _BPFXS = ['carrer de ',"carrer d'",'carrer del ','carrer ','avinguda de ',"avinguda d'",
+    'avinguda ','passeig de ','passatge de ','rambla de ','rambla ','placa de ','placa ',
+    'baixada de ','ronda de ','carretera de ','c. de ',"c. d'",'c. del ','av. de ',"av. d'",
+    'pg. de ','ptge. de ','pl. de ','rbla. ','ctra. de ','cam. de ','cami de '];
+
+  function _bNorm(s) {
+    return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,' ').trim();
+  }
+  function _bStrip(n) {
+    return _BPFXS.reduce(function(s,p){ return s.startsWith(p) ? s.slice(p.length) : s; }, n);
+  }
+  function _bBuscar(nom) {
+    if (!_bNucliPerNom || !nom) return null;
+    var n = _bNorm(nom);
+    if (_bNucliPerNom[n]) return _bNucliPerNom[n];
+    var nS = _bStrip(n);
+    var keys = Object.keys(_bNucliPerNom);
+    for (var i = 0; i < keys.length; i++) {
+      if (_bStrip(keys[i]) === nS) return _bNucliPerNom[keys[i]];
+    }
+    for (var i = 0; i < keys.length; i++) {
+      if (keys[i].includes(n) || n.includes(keys[i])) return _bNucliPerNom[keys[i]];
+    }
+    return null;
+  }
+  function _bValidNum(carrer, num) {
+    if (!num) return true;
+    if (!carrer) return true;
+    var s = String(num).trim();
+    if (carrer.numeros.indexOf(s) !== -1) return true;
+    var base = s.replace(/[A-Za-z]+$/, '');
+    return base && carrer.numeros.some(function(n){ return n === base || n.startsWith(base); });
+  }
+
+  // DOM refs i setStatus primer — cal que siguin disponibles abans de _bInicialitzar
+  var inputCarrer = document.getElementById('cerca-carrer');
+  var inputNumero = document.getElementById('cerca-numero');
+  var statusEl    = document.getElementById('cerca-status');
+
+  function setStatus(msg, cls) {
+    statusEl.textContent = msg;
+    statusEl.className = 'cerca-status ' + cls;
+  }
+
+  function _bInicialitzar(carrers) {
+    _bNucli = carrers;
+    _bNucliPerNom = {};
+    Object.keys(_bNucli).forEach(function(cod) {
+      var e = _bNucli[cod];
+      if (e.nom) _bNucliPerNom[_bNorm(e.nom)] = Object.assign({}, e, { codvia: cod });
     });
-  </script>
+    var dl = document.getElementById('db-cerca-carrers');
+    var noms = Object.values(_bNucli).map(function(e){ return e.nom; }).filter(Boolean).sort();
+    dl.innerHTML = noms.map(function(n){
+      return '<option value="' + n.replace(/"/g,'&quot;') + '"></option>';
+    }).join('');
+    setStatus('Introdueix un carrer del nucli de Sabadell.', 'hint');
+  }
+
+  // Carregar dades: inline (funciona en file://), o fetch com a fallback
+  if (typeof _NUCLI_DATA !== 'undefined') {
+    _bInicialitzar(_NUCLI_DATA);
+  } else {
+    fetch('data/nucli_index.json')
+      .then(function(r){ return r.json(); })
+      .then(function(data){ _bInicialitzar(data.carrers); })
+      .catch(function(){ setStatus('Error carregant el nucli de carrers.', 'err'); });
+  }
+
+  function _aplicarCarrer(nom) {
+    inputCarrer.classList.remove('valid','invalid');
+    inputNumero.disabled = true;
+    inputNumero.value = '';
+    inputNumero.classList.remove('valid','invalid');
+    document.getElementById('btn-consultar').style.display = 'none';
+    if (!nom) { setStatus('Introdueix un carrer del nucli de Sabadell.', 'hint'); return; }
+    var c = _bBuscar(nom);
+    if (c) {
+      inputCarrer.classList.add('valid');
+      var dlNum = document.getElementById('db-cerca-numeros');
+      dlNum.innerHTML = c.numeros.map(function(n){
+        return '<option value="' + n + '"></option>';
+      }).join('');
+      inputNumero.disabled = false;
+      setStatus('Carrer trobat · ' + c.numeros.length + ' números. Introdueix el número.', 'hint');
+    } else {
+      setStatus('', 'hint');
+    }
+  }
+
+  // Comprovar a cada canvi (cobreix datalist selection i escriptura manual)
+  inputCarrer.addEventListener('input',  function(){ _aplicarCarrer(this.value.trim()); });
+  inputCarrer.addEventListener('change', function(){ _aplicarCarrer(this.value.trim()); });
+
+  inputNumero.addEventListener('input', function() {
+    var nom = inputCarrer.value.trim();
+    var c = _bBuscar(nom);
+    var val = this.value.trim();
+    if (!val) {
+      this.classList.remove('valid','invalid');
+      setStatus('Introdueix el número.', 'hint');
+      return;
+    }
+    var ok = _bValidNum(c, val);
+    this.classList.toggle('valid', ok);
+    this.classList.toggle('invalid', !ok);
+    if (ok) {
+      setStatus('✓ ' + (c ? c.nom : nom) + ', ' + val, 'ok');
+      document.getElementById('btn-consultar').style.display = 'flex';
+      _mostrarAlMapa(c ? c.nom : nom, val);
+    } else {
+      document.getElementById('btn-consultar').style.display = 'none';
+      var ex = c ? c.numeros.slice(0,6).join(', ') : '';
+      setStatus('Número no trobat.' + (ex ? ' Ex: ' + ex : ''), 'err');
+    }
+  });
+
+  // Expansió d'abreviatures per a Nominatim
+  var _ABREV = [
+    [/^av\. de /i,'avinguda de '],[/^av\. d'/i,"avinguda d'"],
+    [/^c\. de /i,'carrer de '],[/^c\. d'/i,"carrer d'"],[/^c\. del /i,'carrer del '],
+    [/^pg\. de /i,'passeig de '],[/^ptge\. de /i,'passatge de '],
+    [/^pl\. de /i,'placa de '],[/^rbla\. /i,'rambla '],
+    [/^ctra\. de /i,'carretera de '],[/^cam\. de /i,'cami de ']
+  ];
+  function _expandirCarrer(nom) {
+    for (var i=0;i<_ABREV.length;i++) {
+      if (_ABREV[i][0].test(nom)) return nom.replace(_ABREV[i][0], _ABREV[i][1]);
+    }
+    return nom;
+  }
+
+  /* === FITXA ADREÇA === */
+  var _fitxaCarrer = null, _fitxaNumero = null;
+
+  function _normAddr(s) {
+    return (s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/\s+/g,' ').trim();
+  }
+  function _buscarTerrasses(carrer, numero) {
+    if (typeof _TERRASSES_DATA === 'undefined') return [];
+    var cn = _normAddr(carrer), nn = _normAddr(numero);
+    return _TERRASSES_DATA.filter(function(d) {
+      var addr = _normAddr(d['ADREÇA_ESTABLIMENT_NORM'] || '');
+      // format: "carrer N numero"  →  extreure parts
+      var parts = addr.split(' n ');
+      if (parts.length < 2) return false;
+      var c = parts[0].trim(), n = parts.slice(1).join(' n ').trim();
+      return _normAddr(c) === cn && _normAddr(n) === nn;
+    });
+  }
+
+  function obrirFitxa() {
+    var carrer = inputCarrer.value.trim();
+    var numero = inputNumero.value.trim();
+    _fitxaCarrer = carrer; _fitxaNumero = numero;
+
+    document.getElementById('modal-titol').textContent = carrer + ', ' + numero;
+    document.getElementById('modal-subtitol').textContent = 'Sabadell · Via Pública';
+
+    var terrasses = _buscarTerrasses(carrer, numero);
+    var tabs = [{ id: 'adreca', label: 'Adreça' }];
+    terrasses.forEach(function(t, i) {
+      tabs.push({ id: 'terrassa-' + i, label: 'Terrassa · ' + (t['NOM_ESTABLIMENT'] || 'Exp. ' + (i+1)) });
+    });
+
+    var tabsEl = document.getElementById('modal-tabs');
+    tabsEl.innerHTML = tabs.map(function(t, i) {
+      return '<div class="modal-tab' + (i===0?' activa':'') + '" onclick="activarTab(\''+t.id+'\')" id="tab-btn-'+t.id+'">'+t.label+'</div>';
+    }).join('');
+
+    // Renderitzar tab activa per defecte
+    renderTab('adreca', carrer, numero, terrasses);
+    document.getElementById('modal-fitxa').style.display = 'flex';
+  }
+
+  function activarTab(id) {
+    document.querySelectorAll('.modal-tab').forEach(function(el){ el.classList.remove('activa'); });
+    document.getElementById('tab-btn-' + id).classList.add('activa');
+    var carrer = _fitxaCarrer, numero = _fitxaNumero;
+    var terrasses = _buscarTerrasses(carrer, numero);
+    renderTab(id, carrer, numero, terrasses);
+  }
+
+  function renderTab(id, carrer, numero, terrasses) {
+    var body = document.getElementById('modal-body');
+    if (id === 'adreca') {
+      var nucliC = _bBuscar(carrer);
+      // Portal row des del nucli: [barriIdx, dist, secine, coef, nd, activitats]
+      var pRow = (nucliC && nucliC.p) ? (nucliC.p[numero] || null) : null;
+      var barriIdx = pRow ? pRow[0] : null;
+      var dist     = pRow ? pRow[1] : null;
+      var secine   = pRow ? pRow[2] : null;
+      var coef     = pRow ? pRow[3] : null;
+      var nd       = (pRow && pRow.length > 4) ? pRow[4] : null;
+      var activs   = (pRow && pRow.length > 5) ? pRow[5] : null;
+
+      var html = '<div class="fitxa-grid">';
+      html += camp('Carrer', nucliC ? nucliC.nom : carrer);
+      html += camp('Número', numero);
+      if (pRow) {
+        var distNom = {1:'Centre',2:'Gràcia',3:'Nord',4:'Sud',5:'Castellarnau-Can Llong',6:'La Creu de Barberà',7:'Sant Oleguer',8:'Togores'};
+        var barriNom = (typeof _BARRIS !== 'undefined' && barriIdx !== null) ? _BARRIS[barriIdx] : null;
+        html += camp('Barri', barriNom ? barriNom.charAt(0)+barriNom.slice(1).toLowerCase() : '—');
+        html += camp('Districte', dist ? dist + ' · ' + (distNom[dist]||'') : '—');
+        html += camp('Secció censal', secine || '—');
+        html += camp('Categoria fiscal', nucliC ? _catLabel(nucliC.cat||'') : '—');
+        html += camp('Coeficient', coef ? coef.toFixed(2) : '—');
+      } else {
+        html += camp('Categoria fiscal', nucliC ? _catLabel(nucliC.cat||'') : '—');
+      }
+      // Habitants estimats
+      var habitatgesStr = '—';
+      if (nd) {
+        var ratio = (typeof _RATIO_SECCIONS !== 'undefined' && secine && _RATIO_SECCIONS[secine])
+                    ? _RATIO_SECCIONS[secine]
+                    : (typeof _GLOBAL_RATIO !== 'undefined' ? _GLOBAL_RATIO : 2.40);
+        habitatgesStr = nd + ' habitatges · ~' + Math.round(nd * ratio) + ' habitants';
+      }
+      html += camp('Habitants estimats', habitatgesStr);
+      // Servituds aeronàutiques LELL (RD 715/2023) — només si pRow confirma posició
+      if (pRow && nucliC && nucliC.srv) {
+        var srvEntry = nucliC.srv;
+        var srvH = srvEntry[0];
+        if (srvEntry.length > 1 && srvEntry[1][numero] !== undefined) srvH = srvEntry[1][numero];
+        if (srvH) {
+          var isshi  = (srvH === 188);
+          var sBadge = isshi ? '<span class="fitxa-badge badge-srv-shi">✈ SHI</span>' : '<span class="fitxa-badge badge-srv-con">✈ Cònica</span>';
+          var sDesc  = isshi ? 'Sup. Horitzontal Interna (r≤4 km)' : 'Sup. Cònica (r 4–6 km)';
+          html += camp('Servituds aeronàutiques', sBadge+' · '+sDesc+' · Límit <strong>'+srvH+' m AMSL</strong> · <a href="https://www.boe.es/diario_boe/txt.php?id=BOE-A-2023-19017" target="_blank" style="font-size:11px;color:var(--primary)">RD 715/2023</a>', true);
+        }
+      }
+      html += camp('Terrasses registrades', terrasses.length > 0 ? terrasses.length + ' (vegeu pestanyes)' : 'Cap');
+      // Activitats OSM
+      if (activs && activs.length > 0) {
+        html += '<div class="fitxa-sectio">Activitats al portal (OSM)</div>';
+        html += '<div class="activ-list">';
+        var catBadge = {'equipament':'badge-equip','comerç':'badge-comerc','oficina':'badge-ofic','turisme':'badge-tur'};
+        activs.forEach(function(a) {
+          var bc = catBadge[a.cat] || 'badge-altre';
+          var abadge = a.cat ? '<span class="activ-badge '+bc+'">'+a.cat+'</span>' : '';
+          var meta = [];
+          if (a.tipus) meta.push(a.tipus);
+          if (a.tel)   meta.push(a.tel);
+          if (a.horari) meta.push(a.horari);
+          html += '<div class="activ-item">';
+          html += '<div class="activ-nom">'+abadge+(a.nom||'Sense nom')+'</div>';
+          if (meta.length) html += '<div class="activ-meta">'+meta.join(' · ')+'</div>';
+          if (a.web) html += '<div class="activ-meta"><a href="'+a.web+'" target="_blank" style="color:var(--primary)">'+a.web+'</a></div>';
+          html += '</div>';
+        });
+        html += '</div>';
+      }
+      html += '</div>';
+      body.innerHTML = html;
+    } else {
+      var idx = parseInt(id.replace('terrassa-',''));
+      var t = terrasses[idx];
+      if (!t) { body.innerHTML = '<div class="sense-dades">Sense dades</div>'; return; }
+      var tipus = t['TIPUS ACTIVITAT  (Rest/Deg)'] === 'R' ? '<span class="fitxa-badge badge-r">Restaurant</span>' : '<span class="fitxa-badge badge-d">Degustació</span>';
+      var html = '<div class="fitxa-grid">';
+      html += camp('Establiment', t['NOM_ESTABLIMENT']);
+      html += camp('Titular', t['TITULAR']);
+      html += camp('NIF/DNI', t['NIF-DNI']);
+      html += camp('Tipus activitat', tipus, true);
+      html += camp('Expedient OpenCertiAc', t['EXPEDIENT OPENCERTIAC']);
+      html += camp('Expedient SIE', t['EXPEDIENT SIE']);
+      html += camp('Assentament', t['ASSENTAMENT']);
+      html += camp('Nº llicència', t['Nº LLICÈNCIA ACTIVITATS']);
+      html += camp('Última transmissió', t['ÚLTIMA TRANSMISSIÓ']);
+      html += '<div class="fitxa-sectio">Modalitats de terrassa</div>';
+      html += camp('Anual', t['Anual'] ? t['Anual'] + ' m²' : null);
+      html += camp('Estiu', t['Estiu'] ? t['Estiu'] + ' m²' : null);
+      html += camp('Hivern', t['Hivern'] ? t['Hivern'] + ' m²' : null);
+      html += camp('Eventual', t['Eventual'] ? t['Eventual'] + ' m²' : null);
+      html += camp('Interior', t['Interior'] ? t['Interior'] + ' m²' : null);
+      html += camp('C. Estiu', t['C_Estiu'] ? t['C_Estiu'] + ' m²' : null);
+      html += camp('C. Hivern', t['C_Hivern'] ? t['C_Hivern'] + ' m²' : null);
+      html += '<div class="fitxa-sectio">Aforament</div>';
+      html += camp('Aforament anual', t['Aforament anual']);
+      html += camp('Aforament temporada', t['Aforament Temporada']);
+      html += camp('Adreça terrassa', t['ADREÇA_TERRASSA_NORM']);
+      html += '</div>';
+      body.innerHTML = html;
+    }
+  }
+
+  function camp(label, valor, raw) {
+    var buit = !valor || valor === '0' || valor === '';
+    var valHtml = buit ? '<span class="fitxa-valor buit">—</span>'
+      : raw ? '<span class="fitxa-valor">' + valor + '</span>'
+      : '<span class="fitxa-valor">' + (valor+'').replace(/</g,'&lt;') + '</span>';
+    return '<div class="fitxa-camp"><span class="fitxa-label">' + label + '</span>' + valHtml + '</div>';
+  }
+
+  function _catLabel(cat) {
+    var cats = {'1A':'1a categoria (A)','1B':'1a categoria (B)','2':'2a categoria','3':'3a categoria','4':'4a categoria','5':'5a categoria'};
+    return cats[cat] || (cat ? cat + 'a categoria' : '—');
+  }
+
+  function tancarFitxa() {
+    document.getElementById('modal-fitxa').style.display = 'none';
+  }
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') tancarFitxa(); });
+
+  /* ===== CAPES DE DADES ===== */
+
+  /* --- Servituds aeronàutiques LELL (RD 715/2023) --- */
+  // PR LELL: 41°31'18"N 002°06'18"E
+  var LELL_PR = [41.52167, 2.10500];
+  var _layerSrv = null;
+  document.getElementById('capa-srv').addEventListener('change', function() {
+    if (this.checked) {
+      _layerSrv = L.layerGroup([
+        L.circle(LELL_PR, { radius: 4000, color: '#b04000', weight: 1.5, fillColor: '#e06020', fillOpacity: 0.07, dashArray: '4 3' })
+          .bindPopup('<div class="popup-activ"><strong>Sup. Horitzontal Interna (SHI)</strong><span class="pa-cat">r ≤ 4 km · Límit 188 m AMSL</span></div>'),
+        L.circle(LELL_PR, { radius: 6000, color: '#806000', weight: 1.5, fillColor: '#c09000', fillOpacity: 0.04, dashArray: '6 4' })
+          .bindPopup('<div class="popup-activ"><strong>Superfície Cònica</strong><span class="pa-cat">r 4–6 km · Límit fins 288 m AMSL</span></div>'),
+        L.circleMarker(LELL_PR, { radius: 5, color: '#b04000', fillColor: '#e05000', fillOpacity: 1, weight: 2 })
+          .bindPopup('<div class="popup-activ"><strong>Aeroport de Sabadell (LELL)</strong><span class="pa-cat">Punt de Referència · RD 715/2023</span></div>')
+      ]).addTo(map);
+    } else {
+      if (_layerSrv) { _layerSrv.remove(); _layerSrv = null; }
+    }
+  });
+
+  /* --- Activitats OSM --- */
+  var _layerActiv = null;
+  var _catActivColor = { 'equipament':'#1a5bb0', 'comerç':'#1a7a1a', 'oficina':'#a06010', 'turisme':'#a01070', 'taller':'#555', 'salut':'#c01010' };
+  document.getElementById('capa-activ').addEventListener('change', function() {
+    if (this.checked) {
+      if (typeof _ACTIVITATS_GEO === 'undefined') return;
+      _layerActiv = L.layerGroup();
+      _ACTIVITATS_GEO.forEach(function(r) {
+        // r = [lat, lng, nom, cat, tipus, adr, tel?, web?]
+        var col = _catActivColor[r[3]] || '#555';
+        var m = L.circleMarker([r[0], r[1]], {
+          radius: 5, color: col, fillColor: col, fillOpacity: 0.85, weight: 1.5
+        });
+        var html = '<div class="popup-activ">'
+          + '<strong>' + (r[2] || 'Sense nom') + '</strong>'
+          + '<span class="pa-cat">' + (r[3] || '') + (r[4] ? ' · ' + r[4] : '') + '</span>'
+          + '<span class="pa-adr">' + r[5] + '</span>'
+          + (r[6] ? '<span class="pa-adr">' + r[6] + '</span>' : '')
+          + '</div>';
+        m.bindPopup(html);
+        _layerActiv.addLayer(m);
+      });
+      _layerActiv.addTo(map);
+    } else {
+      if (_layerActiv) { _layerActiv.remove(); _layerActiv = null; }
+    }
+  });
+
+  /* --- Línies de bus i parades (Overpass OSM) --- */
+  var _layerBusLines = null, _layerBusParades = null;
+  var _busDataLoaded = false, _busLoading = false, _busQueue = [];
+  var _busRoutes = [], _busStops = [];
+
+  function _carregarBus(callback) {
+    if (_busDataLoaded) { callback(); return; }
+    _busQueue.push(callback);
+    if (_busLoading) return;
+    _busLoading = true;
+
+    var tag  = document.getElementById('capa-bus-tag');
+    var tagP = document.getElementById('capa-parades-tag');
+
+    if (typeof _BUS_ROUTES !== 'undefined' && typeof _BUS_STOPS !== 'undefined') {
+      _busDataLoaded = true;
+      _busLoading = false;
+      var _numLinies = new Set(_BUS_ROUTES.map(function(r){return r.r;})).size;
+      if (tag)  tag.textContent  = _numLinies || '0';
+      if (tagP) tagP.textContent = _BUS_STOPS.length  || '0';
+      var q = _busQueue.slice(); _busQueue = [];
+      q.forEach(function(cb){ cb(); });
+    } else {
+      if (tag)  tag.textContent  = '!';
+      if (tagP) tagP.textContent = '!';
+      console.error('bus_data.js no carregat');
+      _busLoading = false; _busQueue = [];
+    }
+  }
+
+  document.getElementById('capa-bus').addEventListener('change', function() {
+    if (this.checked) {
+      _carregarBus(function() {
+        _layerBusLines = L.layerGroup();
+        _BUS_ROUTES.forEach(function(rt) {
+          if (rt.p.length < 10) return; // descarta stubs OSM incomplerts
+          var latlngs = rt.p.map(function(p){ return [41 + p[0]/10000, 2 + p[1]/10000]; });
+          var pl = L.polyline(latlngs, { color: rt.c, weight: 4, opacity: 0.8 });
+          pl.on('mouseover', function(){ this.setStyle({weight:6, opacity:1}); });
+          pl.on('mouseout',  function(){ this.setStyle({weight:4, opacity:0.8}); });
+          pl.bindPopup(
+            '<div class="popup-bus">'
+            + '<span class="pb-badge" style="background:' + rt.c + '">' + rt.r + '</span>'
+            + (rt.n ? '<div style="margin-top:6px;font-size:12px;color:#555">' + rt.n + '</div>' : '')
+            + '</div>'
+          ).addTo(_layerBusLines);
+        });
+        _layerBusLines.addTo(map);
+        // Llegenda: una badge per línia única
+        var leg = document.getElementById('bus-llegenda');
+        if (leg) {
+          var seen = {};
+          _BUS_ROUTES.forEach(function(rt){ if (!seen[rt.r]) seen[rt.r] = rt.c; });
+          var sorted = Object.keys(seen).sort(function(a,b){ return a.localeCompare(b, undefined, {numeric:true}); });
+          leg.innerHTML = sorted.map(function(r){
+            return '<span class="pb-badge" style="background:' + seen[r] + ';font-size:10px;padding:2px 6px;cursor:default" title="' + r + '">' + r + '</span>';
+          }).join('');
+          leg.style.display = 'flex';
+        }
+      });
+    } else {
+      if (_layerBusLines) { _layerBusLines.remove(); _layerBusLines = null; }
+      var leg = document.getElementById('bus-llegenda');
+      if (leg) { leg.style.display = 'none'; leg.innerHTML = ''; }
+    }
+  });
+
+  document.getElementById('capa-parades').addEventListener('change', function() {
+    if (this.checked) {
+      _carregarBus(function() {
+        _layerBusParades = L.layerGroup();
+        _BUS_STOPS.forEach(function(s) {
+          var lat = 41 + s[1]/10000, lon = 2 + s[2]/10000;
+          var nomParada = s[3] || 'Parada';
+          // Filtra números invàlids (IDs nacionals >9999 o amb text)
+          var rawNum = s[4] || '';
+          // Números TUS vàlids: 1-3 dígits (1-999). Més grans = ID nacional, no es mostra.
+          var numParada = (rawNum && /^\d{1,3}$/.test(rawNum.trim())) ? rawNum.trim() : '';
+          var linies    = s[5] || [];
+
+          // Popup amb nom, número i línies
+          var html = '<div class="popup-bus">'
+            + '<div class="pb-header">'
+            + '<strong>' + nomParada + '</strong>'
+            + (numParada ? '<span class="pb-num">Parada ' + numParada + '</span>' : '')
+            + '</div>';
+          if (linies.length) {
+            linies.sort(function(a,b){ return (a.r||'').localeCompare(b.r||'', undefined, {numeric:true}); });
+            html += '<div class="pb-linies">';
+            linies.forEach(function(l) {
+              html += '<span class="pb-badge" style="background:' + l.c + '">' + (l.r || '?') + '</span>';
+            });
+            html += '</div>';
+          } else {
+            html += '<div class="pb-linies pb-nodata">Sense línies TUS associades</div>';
+          }
+          html += '</div>';
+
+          // Icona: número si en té, punt petit si no
+          var iconHtml = numParada
+            ? '<div class="bs-mrk">' + numParada + '</div>'
+            : '<div class="bs-mrk bs-dot"></div>';
+          var icon = L.divIcon({ html: iconHtml, className: '', iconAnchor: [0, 0] });
+
+          L.marker([lat, lon], { icon: icon })
+            .bindPopup(html, { maxWidth: 280 })
+            .addTo(_layerBusParades);
+        });
+        _layerBusParades.addTo(map);
+      });
+    } else {
+      if (_layerBusParades) { _layerBusParades.remove(); _layerBusParades = null; }
+    }
+  });
+
+  /* ===== FI CAPES ===== */
+
+  // Auto-activa les capes de bus quan les dades estàtiques estan disponibles
+  setTimeout(function() {
+    var cbBus    = document.getElementById('capa-bus');
+    var cbParade = document.getElementById('capa-parades');
+    if (cbBus && typeof _BUS_ROUTES !== 'undefined') {
+      cbBus.checked = true;    cbBus.dispatchEvent(new Event('change'));
+      cbParade.checked = true; cbParade.dispatchEvent(new Event('change'));
+    }
+  }, 400);
+
+  var _marcadorCerca = null;
+  function _mostrarAlMapa(carrer, numero) {
+    setStatus('Cercant al mapa…', 'hint');
+    var nomExp = _expandirCarrer(carrer);
+    // API estructurada Nominatim: housenumber + street + city (sense q=)
+    var base = 'https://nominatim.openstreetmap.org/search?format=json&limit=3&countrycodes=es&city=Sabadell';
+    var url = base + '&street=' + encodeURIComponent(numero + ' ' + nomExp);
+
+    fetch(url)
+      .then(function(r){ return r.json(); })
+      .then(function(res) {
+        if (res && res.length) return res[0];
+        // Fallback: sense número
+        return fetch(base + '&street=' + encodeURIComponent(nomExp))
+          .then(function(r2){ return r2.json(); })
+          .then(function(res2){ return res2 && res2[0] ? res2[0] : null; });
+      })
+      .then(function(hit) {
+        if (!hit) { setStatus('⚠ Adreça no localitzada.', 'hint'); return; }
+        var lat = parseFloat(hit.lat), lng = parseFloat(hit.lon);
+        if (_marcadorCerca) _marcadorCerca.remove();
+        _marcadorCerca = L.marker([lat, lng])
+          .addTo(map)
+          .bindPopup('<strong>' + carrer + ', ' + numero + '</strong>');
+        map.flyTo([lat, lng], 17, { duration: 1.4, easeLinearity: 0.25 });
+        setTimeout(function(){ _marcadorCerca.openPopup(); }, 1500);
+        setStatus('✓ ' + carrer + ', ' + numero, 'ok');
+      })
+      .catch(function(){ setStatus('⚠ Error geocodificant.', 'hint'); });
+  }
+</script>
 </body>
 </html>

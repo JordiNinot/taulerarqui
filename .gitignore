@@ -3,3 +3,9 @@
 set-netlify-key.html
 ziPDjCGI
 ziv8cWNv
+node_modules
+# Fitxers catastro grans (>50MB, no aptes per GitHub)
+data/catastro_sabadell/*.gml
+data/catastro_sabadell/*.gml.gz
+adreces_sabadell*.csv
+adreces_sabadell_cat.csv

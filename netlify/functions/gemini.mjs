@@ -776,13 +776,14 @@ var getStore = (input, options) => {
 };
 
 // gemini.mjs
-var GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
+var GEMINI_URL      = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
+var GEMINI_FAST_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent";
 var CORS = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Methods": "POST, OPTIONS",
   "Access-Control-Allow-Headers": "Content-Type"
 };
-var SYSTEM_PROMPT = `Ets el Copilot Via P\xFAblica de l'Ajuntament de Sabadell, un assistent t\xE8cnic especialitzat.
+var SYSTEM_PROMPT = `Ets el Copilot Via P\xFAblica by RoutePal, un assistent t\xE8cnic especialitzat.
 El teu interlocutor \xE9s en Jordi, T\xE8cnic de Via P\xFAblica.
 
 ROL: Ajudar-lo a consultar normatives, ordenances municipals i documentaci\xF3 t\xE8cnica d'obres i ocupaci\xF3 de la via p\xFAblica.
@@ -801,7 +802,7 @@ CONTEXT T\xC8CNIC:
   Ordenan\xE7a de Mobilitat, Ordenan\xE7a d'Accessibilitat, POUM de Sabadell
 - La calculadora de taxes del dashboard utilitza les tarifes oficials de l'OF 4.5 (Secci\xF3 2a).
 `;
-var SEARCH_SYSTEM_PROMPT = `Ets un assistent de cerca documental t\xE8cnic de l'Ajuntament de Sabadell.
+var SEARCH_SYSTEM_PROMPT = `Ets un assistent de cerca documental t\xE8cnic by RoutePal.
 El teu rol \xE9s buscar informaci\xF3 espec\xEDfica dins dels documents del Repositori de Normativa adjunts.
 
 NORMES:
@@ -883,57 +884,53 @@ async function handler(req) {
   }
   try {
     const body = await req.json();
-    const { messages, searchMode, docKeys, extractMode } = body;
+    const { messages, searchMode, docKeys, extractMode, extractStatus, translateStatus } = body;
     const store = getStore("normativa-docs");
 
-    // ── Extract mode: extreu articles d'un únic PDF ──────────────
+    // ── Extract mode: comprova cache de Blobs (l'extracció real fa extract-background) ──
     if (extractMode) {
       const docKey = docKeys?.[0];
       if (!docKey) return Response.json({ error: "Falta docKey" }, { headers: CORS });
-      const buffer = await store.get(docKey, { type: "arrayBuffer", consistency: "eventual" });
-      if (!buffer) return Response.json({ error: "Document no trobat" }, { headers: CORS });
-      // Limit PDF size to avoid timeout (max 8 MB)
-      if (buffer.byteLength > 8 * 1024 * 1024) {
-        return Response.json({ error: "Document massa gran per extreure articles automàticament. Usa la vista PDF." }, { headers: CORS });
-      }
-      const pdfData = Buffer.from(buffer).toString("base64");
-      const extractPrompt = `Extreu TOTS els articles o seccions d'aquest document PDF com a array JSON.
-Format exacte per cada element: {"num":"Art. X","title":"Títol","text":"Contingut de l'article"}
-Si no hi ha articles numerats, usa títols de secció.
-Retorna ÚNICAMENT l'array JSON, sense cap text addicional ni markdown.`;
-      const extractContents = [{
-        role: "user",
-        parts: [
-          { text: extractPrompt },
-          { inline_data: { mime_type: "application/pdf", data: pdfData } }
-        ]
-      }];
-      const extractResp = await fetch(GEMINI_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
-        body: JSON.stringify({
-          contents: extractContents,
-          generationConfig: {
-            temperature: 0.1,
-            maxOutputTokens: 32768,
-            topP: 0.9,
-            thinkingConfig: { thinkingBudget: 0 }
-          }
-        })
-      });
-      if (!extractResp.ok) {
-        const errBody = await extractResp.text();
-        throw new Error(`Gemini ${extractResp.status}: ${errBody.substring(0, 300)}`);
-      }
-      const extractData = await extractResp.json();
-      const rawText = extractData.candidates?.[0]?.content?.parts?.[0]?.text ?? "[]";
-      // Parse JSON array from response
-      let articles = [];
+      const cacheKey = `_art_${docKey}`;
       try {
-        const match = rawText.match(/\[[\s\S]*\]/);
-        if (match) articles = JSON.parse(match[0]);
-      } catch { articles = []; }
-      return Response.json({ articles }, { headers: CORS });
+        const cached = await store.get(cacheKey, { type: "text" });
+        if (cached) return Response.json({ articles: JSON.parse(cached), fromCache: true }, { headers: CORS });
+      } catch { }
+      return Response.json({ articles: [], status: "not_cached" }, { headers: CORS });
+    }
+
+    // ── Extract status: comprova progrés de l'extracció en background ──
+    if (extractStatus) {
+      const docKey = docKeys?.[0];
+      if (!docKey) return Response.json({ status: "not_started" }, { headers: CORS });
+      // Comprova PRIMER si hi ha un procés actiu (té prioritat sobre la caché)
+      try {
+        const statusRaw = await store.get(`_art_status_${docKey}`, { type: "text" });
+        if (statusRaw) return Response.json(JSON.parse(statusRaw), { headers: CORS });
+      } catch { }
+      // Articles ja extrets (i no hi ha procés actiu)?
+      try {
+        const cached = await store.get(`_art_${docKey}`, { type: "text" });
+        if (cached) return Response.json({ articles: JSON.parse(cached), status: "done" }, { headers: CORS });
+      } catch { }
+      return Response.json({ status: "not_started" }, { headers: CORS });
+    }
+
+    // ── Translate status: comprova progrés de la traducció en background ──
+    if (translateStatus) {
+      const docKey = docKeys?.[0];
+      if (!docKey) return Response.json({ status: "not_started" }, { headers: CORS });
+      // Comprova PRIMER si hi ha un procés actiu
+      try {
+        const statusRaw = await store.get(`_art_ca_status_${docKey}`, { type: "text" });
+        if (statusRaw) return Response.json(JSON.parse(statusRaw), { headers: CORS });
+      } catch { }
+      // Traducció ja feta (i no hi ha procés actiu)?
+      try {
+        const cached = await store.get(`_art_ca_${docKey}`, { type: "text" });
+        if (cached) return Response.json({ articles: JSON.parse(cached), status: "done" }, { headers: CORS });
+      } catch { }
+      return Response.json({ status: "not_started" }, { headers: CORS });
     }
 
     if (!Array.isArray(messages) || messages.length === 0) {

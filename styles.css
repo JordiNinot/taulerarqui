@@ -1281,42 +1281,144 @@ body {
 @keyframes spin { to { transform: rotate(360deg); } }
 .spin { animation: spin 1s linear infinite; display: inline-block; }
 
-/* Article card */
-.norm-art-card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden; transition: border-color 0.18s, box-shadow 0.18s; }
-.norm-art-card:hover { border-color: rgba(124,58,237,0.35); box-shadow: 0 2px 12px rgba(124,58,237,0.08); }
+/* ── Toolbar del visor d'articles ─────────────────────────────── */
+.norm-art-toolbar {
+  display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  background: var(--bg-tertiary); border: 1px solid var(--border-color);
+  border-radius: 10px; padding: 8px 14px; flex-shrink: 0;
+}
+.norm-art-count {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 0.75rem; font-weight: 700; color: var(--text-muted);
+  white-space: nowrap;
+}
+.norm-art-count svg, .norm-art-count i { width: 13px; height: 13px; }
+.norm-art-count span { color: rgb(167,139,250); }
+.norm-art-toolbar-search {
+  flex: 1; min-width: 160px; display: flex; align-items: center;
+  gap: 7px; background: var(--bg-secondary); border: 1px solid var(--border-color);
+  border-radius: 7px; padding: 5px 10px; transition: border-color 0.18s;
+}
+.norm-art-toolbar-search:focus-within { border-color: rgba(124,58,237,0.5); }
+.norm-art-toolbar-search svg, .norm-art-toolbar-search i { width: 13px; height: 13px; color: var(--text-muted); flex-shrink: 0; }
+.norm-art-toolbar-search input {
+  flex: 1; background: transparent; border: none; outline: none;
+  font-size: 0.82rem; color: var(--text-main); font-family: inherit;
+}
+.norm-art-toolbar-search input::placeholder { color: var(--text-muted); }
+.norm-art-toolbar-actions { display: flex; gap: 6px; }
 
-/* Article header (clickable) */
-.norm-art-header { display: flex; align-items: center; gap: 10px; padding: 12px 16px; cursor: pointer; user-select: none; background: var(--bg-tertiary); transition: background 0.15s; }
+/* ── Toggle de llengua ES/CA ───────────────────────────────── */
+.norm-lang-toggle {
+  display: flex; gap: 0; border: 1px solid var(--border-color);
+  border-radius: 6px; overflow: hidden; flex-shrink: 0;
+}
+.norm-lang-btn {
+  padding: 4px 10px; background: transparent; border: none;
+  color: var(--text-muted); cursor: pointer; font-size: 0.75rem;
+  font-weight: 600; letter-spacing: 0.04em; transition: all 0.15s;
+}
+.norm-lang-btn:first-child { border-right: 1px solid var(--border-color); }
+.norm-lang-btn:hover { background: rgba(124,58,237,0.1); color: rgb(167,139,250); }
+.norm-lang-btn.active { background: rgba(124,58,237,0.25); color: rgb(196,181,253); }
+
+.norm-art-tb-btn {
+  display: flex; align-items: center; gap: 5px;
+  padding: 4px 10px; background: transparent;
+  border: 1px solid var(--border-color); border-radius: 6px;
+  color: var(--text-muted); cursor: pointer; font-size: 0.75rem;
+  transition: all 0.15s;
+}
+.norm-art-tb-btn:hover { background: rgba(124,58,237,0.1); border-color: rgba(124,58,237,0.4); color: rgb(167,139,250); }
+.norm-art-tb-btn svg, .norm-art-tb-btn i { width: 13px; height: 13px; }
+
+/* ── Galeta d'article ─────────────────────────────────────────── */
+.norm-art-card {
+  background: var(--bg-secondary); border: 1px solid var(--border-color);
+  border-radius: 12px; overflow: hidden;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+.norm-art-card:hover { border-color: rgba(124,58,237,0.4); box-shadow: 0 3px 16px rgba(124,58,237,0.1); }
+
+/* Cap de la galeta */
+.norm-art-header {
+  display: flex; align-items: center; gap: 10px;
+  padding: 13px 16px; cursor: pointer; user-select: none;
+  background: var(--bg-tertiary); transition: background 0.15s;
+}
 .norm-art-header:hover { background: rgba(124,58,237,0.07); }
-.norm-art-header.open { background: rgba(124,58,237,0.1); border-bottom: 1px solid rgba(124,58,237,0.2); }
-.norm-art-num { font-size: 0.72rem; font-weight: 700; color: rgb(167,139,250); background: rgba(124,58,237,0.15); padding: 2px 8px; border-radius: 12px; white-space: nowrap; flex-shrink: 0; }
-.norm-art-title { flex: 1; font-size: 0.88rem; font-weight: 600; color: var(--text-main); line-height: 1.3; }
-.norm-art-comment-badge { display: flex; align-items: center; gap: 3px; font-size: 0.72rem; color: rgb(167,139,250); background: rgba(124,58,237,0.12); border-radius: 10px; padding: 2px 7px; flex-shrink: 0; }
+.norm-art-header.open {
+  background: rgba(124,58,237,0.1);
+  border-bottom: 1px solid rgba(124,58,237,0.2);
+}
+.norm-art-num {
+  font-size: 0.72rem; font-weight: 700; color: rgb(167,139,250);
+  background: rgba(124,58,237,0.15); padding: 3px 9px;
+  border-radius: 14px; white-space: nowrap; flex-shrink: 0;
+}
+.norm-art-title {
+  flex: 1; font-size: 0.88rem; font-weight: 600;
+  color: var(--text-main); line-height: 1.3;
+}
+.norm-art-comment-badge {
+  display: flex; align-items: center; gap: 3px;
+  font-size: 0.72rem; color: rgb(167,139,250);
+  background: rgba(124,58,237,0.12); border-radius: 10px;
+  padding: 2px 7px; flex-shrink: 0;
+}
 .norm-art-comment-badge:empty { display: none; }
 .norm-art-comment-badge svg, .norm-art-comment-badge i { width: 11px; height: 11px; }
-.norm-art-copy-btn { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; background: transparent; border: 1px solid var(--border-color); border-radius: 5px; color: var(--text-muted); cursor: pointer; transition: all 0.15s; flex-shrink: 0; padding: 0; }
+.norm-art-copy-btn {
+  display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; background: transparent;
+  border: 1px solid var(--border-color); border-radius: 6px;
+  color: var(--text-muted); cursor: pointer; transition: all 0.15s; flex-shrink: 0; padding: 0;
+}
 .norm-art-copy-btn:hover { background: rgba(124,58,237,0.12); border-color: rgba(124,58,237,0.4); color: rgb(167,139,250); }
-.norm-art-copy-btn svg, .norm-art-copy-btn i { width: 12px; height: 12px; pointer-events: none; }
-.norm-art-chevron { width: 16px; height: 16px; color: var(--text-muted); transition: transform 0.2s; flex-shrink: 0; }
+.norm-art-copy-btn.copied { background: rgba(34,197,94,0.12); border-color: rgba(34,197,94,0.5); color: rgb(34,197,94); }
+.norm-art-copy-btn svg, .norm-art-copy-btn i { width: 13px; height: 13px; pointer-events: none; }
+.norm-art-chevron { width: 16px; height: 16px; color: var(--text-muted); transition: transform 0.22s; flex-shrink: 0; }
 .norm-art-header.open .norm-art-chevron { transform: rotate(180deg); }
 
-/* Article body */
-.norm-art-body { padding: 16px; display: flex; flex-direction: column; gap: 14px; }
-.norm-art-text { font-size: 0.85rem; line-height: 1.7; color: var(--text-secondary); white-space: pre-wrap; word-break: break-word; max-height: 300px; overflow-y: auto; }
+/* Cos de la galeta */
+.norm-art-body { padding: 16px 18px; display: flex; flex-direction: column; gap: 14px; }
+/* Text complet i literal — sense max-height */
+.norm-art-text {
+  font-size: 0.855rem; line-height: 1.75; color: var(--text-secondary);
+  white-space: pre-wrap; word-break: break-word;
+}
 
-/* Article comments */
-.norm-art-comments { border-top: 1px solid var(--border-color); padding-top: 12px; display: flex; flex-direction: column; gap: 8px; }
-.norm-art-com-label { display: flex; align-items: center; gap: 5px; font-size: 0.75rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-.norm-art-com-label svg, .norm-art-com-label i { width: 12px; height: 12px; }
+/* ── Comentaris ───────────────────────────────────────────────── */
+.norm-art-comments { border-top: 1px solid var(--border-color); padding-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+.norm-art-com-toggle {
+  display: flex; align-items: center; gap: 6px;
+  background: transparent; border: none; cursor: pointer;
+  font-size: 0.75rem; font-weight: 600; color: var(--text-muted);
+  padding: 0; text-align: left; transition: color 0.15s;
+}
+.norm-art-com-toggle:hover { color: rgb(167,139,250); }
+.norm-art-com-toggle svg, .norm-art-com-toggle i { width: 13px; height: 13px; flex-shrink: 0; }
+.norm-art-com-chevron { transition: transform 0.2s; }
+.norm-art-com-panel { display: flex; flex-direction: column; gap: 8px; }
 .norm-art-com-list { display: flex; flex-direction: column; gap: 6px; }
 .norm-art-com-empty { font-size: 0.78rem; color: var(--text-muted); font-style: italic; }
-.norm-art-com-item { background: var(--bg-tertiary); border-radius: 7px; padding: 8px 12px; }
+.norm-art-com-item { background: var(--bg-tertiary); border-radius: 8px; padding: 8px 12px; }
 .norm-art-com-date { font-size: 0.68rem; color: var(--text-muted); margin-bottom: 3px; }
-.norm-art-com-text { font-size: 0.82rem; color: var(--text-main); line-height: 1.5; }
+.norm-art-com-text { font-size: 0.82rem; color: var(--text-main); line-height: 1.5; white-space: pre-wrap; }
 .norm-art-com-input-row { display: flex; gap: 8px; align-items: flex-end; }
-.norm-art-com-input { flex: 1; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 7px; padding: 8px 10px; font-size: 0.82rem; color: var(--text-main); font-family: inherit; resize: vertical; transition: border-color 0.18s; }
+.norm-art-com-input {
+  flex: 1; background: var(--bg-tertiary); border: 1px solid var(--border-color);
+  border-radius: 8px; padding: 8px 10px; font-size: 0.82rem;
+  color: var(--text-main); font-family: inherit; resize: vertical;
+  transition: border-color 0.18s; min-height: 52px;
+}
 .norm-art-com-input:focus { outline: none; border-color: rgba(124,58,237,0.5); }
-.norm-art-com-send { display: flex; align-items: center; justify-content: center; padding: 8px 12px; background: rgba(124,58,237,0.8); border: none; border-radius: 7px; color: #fff; cursor: pointer; transition: background 0.18s; flex-shrink: 0; }
+.norm-art-com-send {
+  display: flex; align-items: center; justify-content: center;
+  padding: 8px 12px; background: rgba(124,58,237,0.8);
+  border: none; border-radius: 8px; color: #fff;
+  cursor: pointer; transition: background 0.18s; flex-shrink: 0;
+}
 .norm-art-com-send:hover { background: rgba(124,58,237,1); }
 .norm-art-com-send svg, .norm-art-com-send i { width: 14px; height: 14px; }
 

@@ -3,7 +3,7 @@
 // Suporta modificació de fitxers HTML/CSS/JS via GitHub API
 
 const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
-const GITHUB_API = 'https://api.github.com/repos/jordininotpie/taulerarqui/contents';
+const GITHUB_API = 'https://api.github.com/repos/JordiNinot/taulerarqui/contents';
 
 const SYSTEM_PROMPT = `Ets el Trasto Petit, l'assistent personal del Jordi Ninot de Sabadell (Catalunya).
 Ajudes amb qualsevol tasca: cerques, fitxers, dades, CSVs, codi, redaccions, preguntes diverses.

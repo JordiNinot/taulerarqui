@@ -1,0 +1,482 @@
+CODVIA,NOMVIA,NUMERO,NOM_ACTIVITAT,GRUP,TIPUS,CATEGORIA,LAT,LNG,WEBSITE,TELEFON,HORARI,FONT,BARRI,DISTRICTE,ADRECA,CCAE
+,c. de l' Estrella,128,ABORA,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.5427,2.10732,,,,sabadellempresa.cat,EL CENTRE,1,"c. de l' Estrella, 128 B 1r 2a",Activitats de medicina especialitzada
+,c. de Montserrat,5,ALONSO CENTRE MEDIC DENTAL,Salut - Dental,activitat_econòmica,Activitats odontològiques,41.5474,2.11198,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Montserrat, 5 B Bxs",Activitats odontològiques
+,Rambla,107,AMPLIFON,Salut - Medicina,activitat_econòmica,Comerç al detall d'articles mèdics i ortopèdics en establiments especialitzats,41.5432,2.11006,,,,sabadellempresa.cat,EL CENTRE,1,"Rambla, 107 Bxs",Comerç al detall d'articles mèdics i ortopèdics en establiments especialitzats
+,c. de l' Estrella,110,AVAN,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.5442,2.11035,,,,sabadellempresa.cat,EL CENTRE,1,"c. de l' Estrella, 110 Bxs",Activitats de medicina especialitzada
+,c. de Colom,48,BELLVER CONSULTA DE PODOLOGIA,Salut - Medicina,activitat_econòmica,Altres activitats sanitàries,41.547,2.11007,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Colom, 48 Bxs 5a",Altres activitats sanitàries
+,c. de Sant Cugat,114,CENTRE D'OFTALMOLOGIA,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.5422,2.11125,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Sant Cugat, 114 1r",Activitats de medicina especialitzada
+,c. de Sant Cugat,116,CENTRE D'OFTALMOLOGIA INSTITUT DE LA RETINA,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.5434,2.10651,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Sant Cugat, 116 Bxs",Activitats de medicina especialitzada
+,c. de Sant Antoni Maria Claret,18,CENTRE DE CARDIOLOGIA LOUBAD & IRIARTE,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.5473,2.1055,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Sant Antoni Maria Claret, 18 4t 1a",Activitats de medicina especialitzada
+,c. de les Valls,28,CENTRE HABILIS,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.5473,2.1055,,,,sabadellempresa.cat,EL CENTRE,1,"c. de les Valls, 28 1r 1a",Activitats de medicina especialitzada
+,c. de Sant Pau,159,CENTRE PODOLOLOGIC,Salut - Medicina,activitat_econòmica,Altres activitats sanitàries,41.5468,2.10132,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Sant Pau, 159 Bxs",Altres activitats sanitàries
+,c. de Sant Pau,2,CLINICA DENTAL BORRELL,Salut - Dental,activitat_econòmica,Activitats odontològiques,41.5475,2.11274,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Sant Pau, 2 1r 2a",Activitats odontològiques
+,rda. de Zamenhof,149,CLINICA DENTAL DR. J. ESPINOZA,Salut - Dental,activitat_econòmica,Activitats odontològiques,41.5422,2.11884,,,,sabadellempresa.cat,EL CENTRE,1,"rda. de Zamenhof, 149 1r 1a",Activitats odontològiques
+,c. del Sol,35,CLINICA DENTAL SALES,Salut - Dental,activitat_econòmica,Activitats odontològiques,41.5463,2.10622,,,,sabadellempresa.cat,EL CENTRE,1,"c. del Sol, 35 Bxs 2a",Activitats odontològiques
+,pg. de la Plaça Major,21,CLINICA ODONTOLOGICA SERRA RISTOL,Salut - Dental,activitat_econòmica,Activitats odontològiques,41.5459,2.10884,,,,sabadellempresa.cat,EL CENTRE,1,"pg. de la Plaça Major, 21 3r 1a",Activitats odontològiques
+,c. de Sant Pau,7,CLINICA PODOLOGICA,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.547,2.10568,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Sant Pau, 7 2n 1a",Activitats de medicina especialitzada
+,c. de l' Església,7,CLINICA SANT FELIX,Salut - Dental,activitat_econòmica,Activitats odontològiques,41.5416,2.10522,,,,sabadellempresa.cat,EL CENTRE,1,"c. de l' Església, 7 1r A",Activitats odontològiques
+,pl. de Sant Roc,23,COTTET,Salut - Medicina,activitat_econòmica,Comerç al detall d'articles mèdics i ortopèdics en establiments especialitzats,41.5482,2.10718,,,,sabadellempresa.cat,EL CENTRE,1,"pl. de Sant Roc, 23 Bxs",Comerç al detall d'articles mèdics i ortopèdics en establiments especialitzats
+,pl. de Sant Roc,23,COTTET CENTRE AUDITIU,Salut - Medicina,activitat_econòmica,Comerç al detall d'articles mèdics i ortopèdics en establiments especialitzats,41.5461,2.10566,,,,sabadellempresa.cat,EL CENTRE,1,"pl. de Sant Roc, 23 Bxs",Comerç al detall d'articles mèdics i ortopèdics en establiments especialitzats
+,pg. de Manresa,3,DARIL,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.547,2.11193,,,,sabadellempresa.cat,EL CENTRE,1,"pg. de Manresa, 3 1r 1a",Activitats de medicina especialitzada
+,c. de Bosch i Cardellach,84,DIGITAL FACTORY,Salut - Dental,activitat_econòmica,Fabricació d'instruments i subministraments mèdics i odontològics,41.5474,2.09478,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Bosch i Cardellach, 84 Bxs",Fabricació d'instruments i subministraments mèdics i odontològics
+,pg. de Manresa,20,DOCTORA MARTA LARROSA PADRO REUMATOLOGA,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.5486,2.10819,,,,sabadellempresa.cat,EL CENTRE,1,"pg. de Manresa, 20 1r 2a",Activitats de medicina especialitzada
+,pl. de Catalunya,17,DR ULLOT FONT TRAUMATOLOGIA,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.5456,2.09625,,,,sabadellempresa.cat,HOSTAFRANCS,1,"pl. de Catalunya, 17 1r 2a",Activitats de medicina especialitzada
+,c. del Sol,4,DR. HERRERO VILA,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.5409,2.10575,,,,sabadellempresa.cat,EL CENTRE,1,"c. del Sol, 4 1r",Activitats de medicina especialitzada
+,pl. de l' Àngel,10,DR. SERRA AMENGUAL CIRUGIA MÁXILOFACIAL,Salut - Dental,activitat_econòmica,Activitats odontològiques,41.5464,2.09957,,,,sabadellempresa.cat,EL CENTRE,1,"pl. de l' Àngel, 10 2n 2a",Activitats odontològiques
+,c. de Sant Antoni Maria Claret,21,FARMACIA ARGELAGUET,Farmàcies,activitat_econòmica,Comerç al detall de productes farmacèutics en establiments especialitzats,41.5479,2.0991,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Sant Antoni Maria Claret, 21 Bxs 2a",Comerç al detall de productes farmacèutics en establiments especialitzats
+,c. del Carme,10,FARMACIA BAGAN,Farmàcies,activitat_econòmica,Comerç al detall de productes farmacèutics en establiments especialitzats,41.5409,2.11134,,,,sabadellempresa.cat,EL CENTRE,1,"c. del Carme, 10 Bxs",Comerç al detall de productes farmacèutics en establiments especialitzats
+,via de Massagué,40,FARMACIA BLANCHART,Farmàcies,activitat_econòmica,Comerç al detall de productes farmacèutics en establiments especialitzats,41.5482,2.11137,,,,sabadellempresa.cat,EL CENTRE,1,"via de Massagué, 40 Bxs",Comerç al detall de productes farmacèutics en establiments especialitzats
+,rda. de Ponent,17,FARMACIA COROMINAS,Farmàcies,activitat_econòmica,Comerç al detall de productes farmacèutics en establiments especialitzats,41.5458,2.11191,,,,sabadellempresa.cat,HOSTAFRANCS,1,"rda. de Ponent, 17 Bxs 6a",Comerç al detall de productes farmacèutics en establiments especialitzats
+,c. de Colom,5,FARMACIA DEL MERCAT,Farmàcies,activitat_econòmica,Comerç al detall de productes farmacèutics en establiments especialitzats,41.545,2.11995,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Colom, 5 Bxs",Comerç al detall de productes farmacèutics en establiments especialitzats
+,pg. de la Plaça Major,29,FARMACIA GARRIGA,Farmàcies,activitat_econòmica,Comerç al detall de productes farmacèutics en establiments especialitzats,41.5478,2.1065,,,,sabadellempresa.cat,EL CENTRE,1,"pg. de la Plaça Major, 29 Bxs",Comerç al detall de productes farmacèutics en establiments especialitzats
+,c. de Sallarès i Pla,140,FARMACIA M. GARRIGA,Farmàcies,activitat_econòmica,Comerç al detall de productes farmacèutics en establiments especialitzats,41.5409,2.11164,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Sallarès i Pla, 140 Bxs",Comerç al detall de productes farmacèutics en establiments especialitzats
+,pl. de l' Àngel,12,FARMACIA MARTA GILI,Farmàcies,activitat_econòmica,Comerç al detall de productes farmacèutics en establiments especialitzats,41.5423,2.10516,,,,sabadellempresa.cat,EL CENTRE,1,"pl. de l' Àngel, 12 Bxs",Comerç al detall de productes farmacèutics en establiments especialitzats
+,Rambla,167,FARMACIA MORALES,Farmàcies,activitat_econòmica,Comerç al detall de productes farmacèutics en establiments especialitzats,41.5468,2.09645,,,,sabadellempresa.cat,EL CENTRE,1,"Rambla, 167 Bxs 1a",Comerç al detall de productes farmacèutics en establiments especialitzats
+,rda. de Ponent,173,FARMACIA ORTOPEDIA LLOP,Farmàcies,activitat_econòmica,Comerç al detall de productes farmacèutics en establiments especialitzats,41.5467,2.09647,,,,sabadellempresa.cat,HOSTAFRANCS,1,"rda. de Ponent, 173 Bxs A",Comerç al detall de productes farmacèutics en establiments especialitzats
+,rda. de Zamenhof,145,FARMACIA PAREJA,Farmàcies,activitat_econòmica,Comerç al detall de productes farmacèutics en establiments especialitzats,41.5466,2.09655,,,,sabadellempresa.cat,EL CENTRE,1,"rda. de Zamenhof, 145 Bxs 1a",Comerç al detall de productes farmacèutics en establiments especialitzats
+,Rambla,26,FARMACIA SEGALAS,Farmàcies,activitat_econòmica,Comerç al detall de productes farmacèutics en establiments especialitzats,41.5495,2.1023,,,,sabadellempresa.cat,EL CENTRE,1,"Rambla, 26 Bxs",Comerç al detall de productes farmacèutics en establiments especialitzats
+,c. de Covadonga,310,FARMACIA TRES CREUS,Farmàcies,activitat_econòmica,Comerç al detall de productes farmacèutics en establiments especialitzats,41.5446,2.1132,,,,sabadellempresa.cat,COVADONGA,1,"c. de Covadonga, 310 Bxs 2a",Comerç al detall de productes farmacèutics en establiments especialitzats
+,Rambla,229,FARMACIA VINYES COSTA,Farmàcies,activitat_econòmica,Comerç al detall de productes farmacèutics en establiments especialitzats,41.5402,2.11318,,,,sabadellempresa.cat,EL CENTRE,1,"Rambla, 229 1 Bxs 1a",Comerç al detall de productes farmacèutics en establiments especialitzats
+,c. de Jovellanos,6,GAFAS.ES,Salut - Medicina,activitat_econòmica,Comerç al detall d'articles mèdics i ortopèdics en establiments especialitzats,41.5453,2.11617,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Jovellanos, 6 Bxs B",Comerç al detall d'articles mèdics i ortopèdics en establiments especialitzats
+,Rambla,5,GENERAL OPTICA,Salut - Medicina,activitat_econòmica,Comerç al detall d'articles mèdics i ortopèdics en establiments especialitzats,41.5466,2.10703,,,,sabadellempresa.cat,EL CENTRE,1,"Rambla, 5 Bxs Esq",Comerç al detall d'articles mèdics i ortopèdics en establiments especialitzats
+,c. de les Tres Creus,154,GIRALT CLINIC,Salut - Dental,activitat_econòmica,Activitats odontològiques,41.5424,2.10421,,,,sabadellempresa.cat,EL CENTRE,1,"c. de les Tres Creus, 154 Bxs",Activitats odontològiques
+,c. de Sant Antoni Maria Claret,18,GIRVENT TRAUMATOLOGIA I ORTOPEDIA,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.5487,2.10551,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Sant Antoni Maria Claret, 18 3r 2a",Activitats de medicina especialitzada
+,Rambla,109,GRIMALT DERMATOLOGIA,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.5438,2.11321,,,,sabadellempresa.cat,EL CENTRE,1,"Rambla, 109B 2n 2a",Activitats de medicina especialitzada
+,rda. de Zamenhof,153,INPS INSTITUT DE NEUROPSICOLOGIA I PSICOLOGIA,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.5466,2.10661,,,,sabadellempresa.cat,EL CENTRE,1,"rda. de Zamenhof, 153 4t 2a",Activitats de medicina especialitzada
+,c. de Calderón,194,INSTITUT IMPLANTOLOGIC DENTAL SWISSDENTIS,Salut - Dental,activitat_econòmica,Activitats odontològiques,41.5464,2.10664,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Calderón, 194 Bxs",Activitats odontològiques
+,Rambla,62,INSTITUTO OFTALMOLOGICO HOYOS,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.5448,2.09914,,,,sabadellempresa.cat,EL CENTRE,1,"Rambla, 62 4t 1a",Activitats de medicina especialitzada
+,c. de Calderón,63,LABORATORI DE PROTESI DENTAL ENRIQUE CASTILLA,Salut - Dental,activitat_econòmica,Fabricació d'instruments i subministraments mèdics i odontològics,41.5457,2.10549,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Calderón, 63 Bxs 2a",Fabricació d'instruments i subministraments mèdics i odontològics
+,c. del Vallès,36,LABORATORI DE PROTESIS DENTALS,Salut - Dental,activitat_econòmica,Fabricació d'instruments i subministraments mèdics i odontològics,41.5457,2.10529,,,,sabadellempresa.cat,EL CENTRE,1,"c. del Vallès, 36 Bxs",Fabricació d'instruments i subministraments mèdics i odontològics
+,c. de Gràcia,103,MARRERO ORTODONCIA,Salut - Dental,activitat_econòmica,Activitats odontològiques,41.5496,2.10875,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Gràcia, 103 Bxs",Activitats odontològiques
+,c. de Calderón,160,MIGUEL AGUILAR NEUROCIRURGIA,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.5474,2.11226,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Calderón, 160 B 1r 2a",Activitats de medicina especialitzada
+,c. de Sant Joan,47,MIPTU ESPAI MEDIC DENTAL,Salut - Dental,activitat_econòmica,Activitats odontològiques,41.5481,2.1076,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Sant Joan, 47 Bxs",Activitats odontològiques
+,c. de Casanovas i Bosch,52,NEUROLOGIA,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.544,2.11897,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Casanovas i Bosch, 52 Bxs 1a",Activitats de medicina especialitzada
+,c. de la Indústria,19,NOVAMEDICUM,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.5454,2.10772,,,,sabadellempresa.cat,EL CENTRE,1,"c. de la Indústria, 19 Bxs 1a",Activitats de medicina especialitzada
+,pg. de la Plaça Major,1,OPTICA ANDORRANA,Salut - Medicina,activitat_econòmica,Comerç al detall d'articles mèdics i ortopèdics en establiments especialitzats,41.5478,2.11188,,,,sabadellempresa.cat,EL CENTRE,1,"pg. de la Plaça Major, 1 Bxs",Comerç al detall d'articles mèdics i ortopèdics en establiments especialitzats
+,pl. de Sant Roc,7,OPTICA UNIVERSITARIA,Salut - Medicina,activitat_econòmica,Comerç al detall d'articles mèdics i ortopèdics en establiments especialitzats,41.5473,2.1055,,,,sabadellempresa.cat,EL CENTRE,1,"pl. de Sant Roc, 7 Bxs",Comerç al detall d'articles mèdics i ortopèdics en establiments especialitzats
+,c. de l' Escola Industrial,13,OPTICALIA MARTIN,Salut - Medicina,activitat_econòmica,Comerç al detall d'articles mèdics i ortopèdics en establiments especialitzats,41.5446,2.11532,,,,sabadellempresa.cat,EL CENTRE,1,"c. de l' Escola Industrial, 13 Bxs 1a",Comerç al detall d'articles mèdics i ortopèdics en establiments especialitzats
+,c. de Sant Pau,13,ORTOPEDIA ARRAHONA,Salut - Medicina,activitat_econòmica,Comerç al detall d'articles mèdics i ortopèdics en establiments especialitzats,41.5455,2.10827,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Sant Pau, 13 Bxs",Comerç al detall d'articles mèdics i ortopèdics en establiments especialitzats
+,c. de l' Horta Novella,69,PODOLOGIA,Salut - Medicina,activitat_econòmica,Altres activitats sanitàries,41.548,2.10561,,,,sabadellempresa.cat,EL CENTRE,1,"c. de l' Horta Novella, 69 Bxs 1a",Altres activitats sanitàries
+,c. de Sant Quirze,34,RESPLENDENT,Salut - Dental,activitat_econòmica,Activitats odontològiques,41.5473,2.10807,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Sant Quirze, 34 Bxs EX",Activitats odontològiques
+,c. de Turull,67,SENSE NOM COMERCIAL,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.5431,2.10949,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Turull, 67 Bxs",Activitats de medicina especialitzada
+,c. del Pare Sallarès,2,SENSE NOM COMERCIAL,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.546,2.11308,,,,sabadellempresa.cat,EL CENTRE,1,"c. del Pare Sallarès, 2C Bxs 4a",Activitats de medicina especialitzada
+,c. de la República,8,SENSE NOM COMERCIAL,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.5483,2.10687,,,,sabadellempresa.cat,EL CENTRE,1,"c. de la República, 8 3r 1a",Activitats de medicina especialitzada
+,c. de Corominas,114,SENSE NOM COMERCIAL,Salut - Dental,activitat_econòmica,Activitats odontològiques,41.5448,2.1173,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Corominas, 114 2n 1a",Activitats odontològiques
+,pg. de Manresa,20,SENSE NOM COMERCIAL,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.5428,2.1182,,,,sabadellempresa.cat,EL CENTRE,1,"pg. de Manresa, 20 Ent 1a",Activitats de medicina especialitzada
+,c. del Pare Sallarès,69,SENSE NOM COMERCIAL,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.5462,2.1133,,,,sabadellempresa.cat,EL CENTRE,1,"c. del Pare Sallarès, 69 Bxs",Activitats de medicina especialitzada
+,Rambla,162,SONIA GIUSSANI - PODOLEG,Salut - Medicina,activitat_econòmica,Altres activitats sanitàries,41.5414,2.11142,,,,sabadellempresa.cat,EL CENTRE,1,"Rambla, 162 1r 1a",Altres activitats sanitàries
+,c. de Sant Antoni Maria Claret,1,STETIC MEDIC,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.5459,2.10884,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Sant Antoni Maria Claret, 1 3r 1a",Activitats de medicina especialitzada
+,pl. de Joan Oliu,7,TRAUMA SALUT,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.54460141,2.10735538,,,,sabadellempresa.cat,EL CENTRE,1,"pl. de Joan Oliu, 7 Bxs",Activitats de medicina especialitzada
+,c. de Casanovas i Bosch,52,TRAUMATOLOGIA,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.54690092,2.11420365,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Casanovas i Bosch, 52 Bxs 1a",Activitats de medicina especialitzada
+,c. de Josep Renom,74,UROLOGIA ANDROLOGIA,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.54998474,2.10095092,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Josep Renom, 74 Bxs 2a",Activitats de medicina especialitzada
+,c. de Montserrat,1,VASCULAR VALLES,Salut - Medicina,activitat_econòmica,Activitats de medicina especialitzada,41.54322479,2.11037592,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Montserrat, 1 Bxs",Activitats de medicina especialitzada
+,Rambla,60,WIDEX AUDÍFONS,Salut - Medicina,activitat_econòmica,Comerç al detall d'articles mèdics i ortopèdics en establiments especialitzats,41.54462668,2.10984521,,,,sabadellempresa.cat,EL CENTRE,1,"Rambla, 60 Bxs",Comerç al detall d'articles mèdics i ortopèdics en establiments especialitzats
+,c. de Corominas,35,ZIVING,Salut - Dental,activitat_econòmica,Activitats odontològiques,41.54742822,2.1042699,,,,sabadellempresa.cat,EL CENTRE,1,"c. de Corominas, 35 Bxs",Activitats odontològiques
+765,c. del Portal de la Floresta,25,Farmacia Planas-Codinach,Farmàcies,pharmacy,equipament,41.5760979,2.0862118,,+34937167574,"Mo-Sa 09:00-13:30,16:30-20:30",OSM,,DISTRICTE 1,"c. del Portal de la Floresta, 25",
+1085,c. de Juvenal,12,"Farmàcia Herrero Torres, Ignacio",Farmàcies,pharmacy,equipament,41.5552276,2.0850427,,+34937160827,,OSM,,DISTRICTE 1,"c. de Juvenal, 12",
+1410,av. de la Concòrdia,48,"Farmàcia Cruset Garrell, Núria",Farmàcies,pharmacy,equipament,41.5601246,2.0951319,,+34937230794,,OSM,,DISTRICTE 1,"av. de la Concòrdia, 48",
+1025,c. de la Lusitània,2,"Farmàcia Colomina Brusau, M. Rosa",Farmàcies,pharmacy,equipament,41.5581798,2.095087,,+34937162335,,OSM,,DISTRICTE 1,"c. de la Lusitània, 2",
+1388,c. de Covadonga,310,Farmàcia Tres Creus,Farmàcies,pharmacy,equipament,41.5463688,2.1171732,,+34937258185,"Mo,Sa 09:00-14:30,16:30-20:30",OSM,,DISTRICTE 1,"c. de Covadonga, 310",
+774,c. de Plini el Vell,1-5,,Farmàcies,pharmacy,equipament,41.5581711,2.0858445,,+34937165497,"Mo-Fr 09:00-13:30,16:30-20:30",OSM,,DISTRICTE 1,"c. de Plini el Vell, 1-5",
+1500,c. de Candanchú,31,"Farmàcia de Cáceres Botello, José Ignacio",Farmàcies,pharmacy,equipament,41.572842,2.0892669,,+34937163171,,OSM,,DISTRICTE 1,"c. de Candanchú, 31",
+1505,c. de Campoamor,40,"Farmàcia Bernardo Bech, Roser",Salut - Medicina,medical_supply,comerç,41.52821,2.1092673,,+34937104342,,OSM,,DISTRICTE 1,"c. de Campoamor, 40",
+1458,c. de Castellar del Vallès,222,C.A.P. Creu Alta,Salut - Medicina,clinic,equipament,41.5605371,2.1003567,,,,OSM,,DISTRICTE 1,"c. de Castellar del Vallès, 222",
+841,c. del Papa Pius XI,116,"Clínica accidentes de tráfico, Sabadell",Salut - Medicina,clinic,equipament,41.5535059,2.1027843,,,,OSM,,DISTRICTE 1,"c. del Papa Pius XI, 116",
+1184,c. de Gràcia,78 bis,Clínica Radiografía,Salut - Medicina,clinic,equipament,41.5490955,2.105812,,,,OSM,,DISTRICTE 1,"c. de Gràcia, 78 bis",
+450,c. de Zurbano,3 baix-B,Centre Radiològic SBD,Salut - Medicina,doctors,equipament,41.540815,2.1111115,http://www.crsbd.info,+34 937450324,"Mo, We 08:30-13:00,15:30-19:00; Tu, Th 08:30-13:00,15:30-20:00; Fr 08:30-13:00,15:30-17:00",OSM,,DISTRICTE 1,"c. de Zurbano, 3 baix-B",
+965,av. de Matadepera,7,"Farmàcia Relat Vidal, Jordi",Farmàcies,pharmacy,equipament,41.5635881,2.0905697,,+34937161065,,OSM,,DISTRICTE 1,"av. de Matadepera, 7",
+452,rda. de Zamenhof,145,"Farmàcia Pareja Cozcolluela, Josep Manel",Farmàcies,pharmacy,equipament,41.5504459,2.1002161,http://www.farmaciapareja.com,+34 937265628,"Sa,Su 09:00-22:00; Mo-Fr 08:00-22:00",OSM,,DISTRICTE 1,"rda. de Zamenhof, 145",
+569,c. de Sol i Padrís,116,"Farmàcia Capdevila Bassols, Anna M.",Farmàcies,pharmacy,equipament,41.5353796,2.1194049,,+34937122574,,OSM,,DISTRICTE 1,"c. de Sol i Padrís, 116",
+767,rda. de Ponent,1,"Farmàcia Corominas Riqué, Cristina",Farmàcies,pharmacy,equipament,41.5448666,2.0996551,,+34937269704,,OSM,,DISTRICTE 1,"rda. de Ponent, 1",
+659,c. de Sallarès i Pla,140,"Farmàcia Garriga Majo, Marta",Farmàcies,pharmacy,equipament,41.5424785,2.1139767,,+34937259757,,OSM,,DISTRICTE 1,"c. de Sallarès i Pla, 140",
+1370,raval de Dins,17,Consulta Dra. Imma Viñolas,Salut - Medicina,doctors,equipament,41.5497711,2.1081885,https://www.draimmavinolas.com/,,Mo-Su 09:00-18:00,OSM,,DISTRICTE 1,"raval de Dins, 17",
+1538,c. de Borràs,8,"Farmàcia Garrell Capdevila, Joan",Farmàcies,pharmacy,equipament,41.5516125,2.1036518,,,"PH,Mo-Su 09:00-22:00",OSM,,DISTRICTE 1,"c. de Borràs, 8",
+756,ctra. de Prats de Lluçanès,84-89,"Farmàcia Torres Costa, L. / Matarranz Torres, L.",Farmàcies,pharmacy,equipament,41.5569889,2.1020879,,+34937161383,"Mo-Fr 09:00-13:30,16:45-20:15+; PH,Su off; Sa 09:00-13:30,16:45-20:15; Sa off",OSM,,DISTRICTE 1,"ctra. de Prats de Lluçanès, 84-89",
+1466,c. del Carme,10,"Farmàcia Bagan Tapioles, Montserrat",Farmàcies,pharmacy,equipament,41.5487159,2.1113324,,+34937250303,,OSM,,DISTRICTE 1,"c. del Carme, 10",
+469,c. de Viladomat,20-24,"Farmàcia Mujal Viñals, Assumpció",Farmàcies,pharmacy,equipament,41.5400118,2.1049833,,+34937100543,,OSM,,DISTRICTE 1,"c. de Viladomat, 20-24",
+1588,av. de Barberà,226,"Farmàcia Bofi Martinez, Patricia",Farmàcies,pharmacy,equipament,41.5350045,2.114534,,+34938545286,,OSM,,DISTRICTE 1,"av. de Barberà, 226",
+978,pl. de Marquilles,4,"Farmàcia Pons Samaranch, Isabel",Farmàcies,pharmacy,equipament,41.5460525,2.1056977,,+34937256745,"PH,Mo-Su 09:00-22:00",OSM,,DISTRICTE 1,"pl. de Marquilles, 4",
+1674,via Alexandra,37,"Farmàcia Puig Camarero, Lluis",Farmàcies,pharmacy,equipament,41.5550041,2.0875782,,,,OSM,,DISTRICTE 1,"via Alexandra, 37",
+507,c. de València,19,"Farmàcia Martín Poveda, Ma. Dolores",Farmàcies,pharmacy,equipament,41.5657766,2.0957131,,+34937166238,,OSM,,DISTRICTE 1,"c. de València, 19",
+1009,c. de Malta,70,"Farmàcia Busquet Mitjà, M. Àngels",Farmàcies,pharmacy,equipament,41.5470038,2.0836812,,+34937204911,,OSM,,DISTRICTE 1,"c. de Malta, 70",
+1587,ctra. de Barcelona,219,"Farmàcia Montané Bombardó, Glòria",Farmàcies,pharmacy,equipament,41.5386801,2.1077842,,+34937260539,,OSM,,DISTRICTE 1,"ctra. de Barcelona, 219",
+1609,pl. de Còrdova,14-15,"Farmàcia Franco García, M. Pilar",Farmàcies,pharmacy,equipament,41.5609502,2.0826251,,+34937465026,,OSM,,DISTRICTE 1,"pl. de Còrdova, 14-15",
+560,c. de Tàcit,1,"Farmàcia Borrás Urtubia, Teresa",Farmàcies,pharmacy,equipament,41.5513339,2.0853661,,+34937161120,,OSM,,DISTRICTE 1,"c. de Tàcit, 1",
+470,c. de Vila Cinca,89,"Farmàcia Escarra Caldes, Pere",Farmàcies,pharmacy,equipament,41.5562216,2.1051443,,+34937162311,,OSM,,DISTRICTE 1,"c. de Vila Cinca, 89",
+1587,ctra. de Barcelona,74,"Farmàcia Marcet Vicens, Jordi",Farmàcies,pharmacy,equipament,41.541889,2.1043095,,+34937478020,,OSM,,DISTRICTE 1,"ctra. de Barcelona, 74",
+1524,c. de Brutau,187,"Farmàcia Montserrat Marco, M. Antònia",Farmàcies,pharmacy,equipament,41.5379091,2.1164587,,+34937103645,,OSM,,DISTRICTE 1,"c. de Brutau, 187",
+770,av. de Polinyà,65,"Farmàcia Borja Fernandez, Laia",Farmàcies,pharmacy,equipament,41.5611258,2.12868,,+34937252920,,OSM,,DISTRICTE 1,"av. de Polinyà, 65",
+780,pg. de la Plaça Major,29,Farmàcia Anna Garriga Majó,Farmàcies,pharmacy,equipament,41.5475242,2.1084229,,+34937255353,,OSM,,DISTRICTE 1,"pg. de la Plaça Major, 29",
+1444,c. de Cèsar Torras,132,"Farmàcia Blanchart Tintó, Meritxell",Farmàcies,pharmacy,equipament,41.5408286,2.0959904,,+34937267104,,OSM,,DISTRICTE 1,"c. de Cèsar Torras, 132",
+1260,c. Florit,28,"Farmàcia Tous Geulen, Josep M.",Farmàcies,pharmacy,equipament,41.56262,2.1034496,,+34937168458,,OSM,,DISTRICTE 1,"c. Florit, 28",
+621,c. de Sant Isidor,80,"Farmàcia Mora Palà, Mireia",Farmàcies,pharmacy,equipament,41.5525699,2.0828473,,+34937163052,,OSM,,DISTRICTE 1,"c. de Sant Isidor, 80",
+641,rda. de Santa Maria,28 A,"Farmàcia Esteban, M. Teresa - Lopera, M. Teresa",Farmàcies,pharmacy,equipament,41.5318087,2.1212239,,+34937102295,,OSM,,DISTRICTE 1,"rda. de Santa Maria, 28 A",
+1590,c. de Balmes,83-85,"Farmàcia Sala Alegre, E. - Roca Huergo, S.I.",Farmàcies,pharmacy,equipament,41.5406821,2.1188733,,+34937270594,,OSM,,DISTRICTE 1,"c. de Balmes, 83-85",
+1588,av. de Barberà,299,"Farmàcia Fàbregas Martínez, Marta",Farmàcies,pharmacy,equipament,41.5321623,2.1161845,,+34937101337,,OSM,,DISTRICTE 1,"av. de Barberà, 299",
+1588,av. de Barberà,48,"Farmàcia Rosell Gras, Maria",Farmàcies,pharmacy,equipament,41.5382021,2.1129724,,+34937101343,,OSM,,DISTRICTE 1,"av. de Barberà, 48",
+542,ctra. de Terrassa,316,"Farmàcia Gadea Melo, Olga",Farmàcies,pharmacy,equipament,41.5471264,2.0902055,,+34937262371,,OSM,,DISTRICTE 1,"ctra. de Terrassa, 316",
+839,av. dels Paraires,26,"Farmàcia Grimalt Sancho, J - Vives Grimalt, MP",Farmàcies,pharmacy,equipament,41.5550314,2.0938334,,+34937165113,,OSM,,DISTRICTE 1,"av. dels Paraires, 26",
+549,c. de Tenerife,52,"Farmàcia Manent Margarit, Meritxell",Farmàcies,pharmacy,equipament,41.5449011,2.0874707,,+34937264420,,OSM,,DISTRICTE 1,"c. de Tenerife, 52",
+631,c. de Sant Cugat,95,"Farmàcia Merce Sora, Anabel",Farmàcies,pharmacy,equipament,41.5441024,2.1036801,,+34937254325,,OSM,,DISTRICTE 1,"c. de Sant Cugat, 95",
+1427,c. de Colom,13,"Farmàcia Crusafont Sabaté, Anna M.",Farmàcies,pharmacy,equipament,41.5469636,2.1054543,,+34937250777,,OSM,,DISTRICTE 1,"c. de Colom, 13",
+542,ctra. de Terrassa,377,"Farmàcia Carrera Graño, Rosa Maria",Farmàcies,pharmacy,equipament,41.5481955,2.0853367,,+34937264449,,OSM,,DISTRICTE 1,"ctra. de Terrassa, 377",
+1065,c. de la Llanera,93,"Farmàcia Bonet Ortiz, M. Teresa",Farmàcies,pharmacy,equipament,41.5694743,2.0916567,,+34937167133,,OSM,,DISTRICTE 1,"c. de la Llanera, 93",
+714,c. dels Reis Catòlics,39,"Farmàcia Ferrer San José, Carles",Farmàcies,pharmacy,equipament,41.5262992,2.113672,,+34937104336,,OSM,,DISTRICTE 1,"c. dels Reis Catòlics, 39",
+1185,c. de Goya,62,"Farmàcia González Carnicer, Eulàlia",Farmàcies,pharmacy,equipament,41.5263769,2.1087704,,+34937105097,,OSM,,DISTRICTE 1,"c. de Goya, 62",
+1587,ctra. de Barcelona,558,"Farmàcia Brustenga Fortuny, Marta",Farmàcies,pharmacy,equipament,41.5278502,2.1179897,,+34937104435,,OSM,,DISTRICTE 1,"ctra. de Barcelona, 558",
+797,c. de Permanyer,65,Centre d'Atenció Primària de Gràcia,Salut - Medicina,clinic,equipament,41.5400635,2.0999081,,+34 937466087,,OSM,,DISTRICTE 1,"c. de Permanyer, 65",
+522,c. de les Tres Creus,102,Institut Nexus,Salut - Medicina,psychotherapist,salut,41.5460057,2.113111,https://institutnexus.com/,+34 931616039,,OSM,,DISTRICTE 1,"c. de les Tres Creus, 102",
+780,pg. de la Plaça Major,1,Óptica Andorrana,Salut - Òptica,optician,comerç,41.546913,2.1085349,https://www.optica-andorrana.com/,+34937250485,Mo-Fr 09:45-13:30; Sa 10:00-14:00; Mo-Sa 17:00-20:30,OSM,,DISTRICTE 1,"pg. de la Plaça Major, 1",
+452,rda. de Zamenhof,153,CLINICFISIO Fisioteràpia i Osteopatia,Salut - Medicina,hospital,equipament,41.5502449,2.0994157,https://fisioterapia-sabadell.com/,+34622499373,Mo-Su 07:30-21:00,OSM,,DISTRICTE 1,"rda. de Zamenhof, 153",
+1400,c. de Copenhaguen,235,Movident,Salut - Dental,dentist,equipament,41.558819,2.0794696,,,,OSM,,DISTRICTE 1,"c. de Copenhaguen, 235",
+966,via de Massagué,,Farmàcia Blanchart,Farmàcies,pharmacy,equipament,41.5509538,2.1073542,,,,OSM,,DISTRICTE 1,"via de Massagué, nan",
+831,c. del Pare Sallarès,2,Centre Mèdic Sabadell,Salut - Medicina,clinic,equipament,41.5492422,2.1064472,,+34 93 726 55 00,Mo-Fr 08:00-21:00; Sa 09:00-21:00,OSM,,DISTRICTE 1,"c. del Pare Sallarès, 2",
+,Plaça de l'Àngel,12,"Farmàcia Gili Segura, Marta",Farmàcies,,Comerç al detall de productes farmacèutics en establiments especialitzats,41.5493204,2.1084196,,,,OSM_2026,,1,"Plaça de l'Àngel, 12",
+,Ronda de Santa Maria,28,Farmàcia Esteban-Lopera,Farmàcies,,Comerç al detall de productes farmacèutics en establiments especialitzats,41.5318087,2.1212239,,,,OSM_2026,,1,"Ronda de Santa Maria, 28",
+,Avinguda de l'Onze de Setembre,61,"Farmàcia Baqués Roviralta, Josep",Farmàcies,,Comerç al detall de productes farmacèutics en establiments especialitzats,41.553001,2.1048936,,,,OSM_2026,,1,"Avinguda de l'Onze de Setembre, 61",
+,c. de Gràcia,154,Labco General Lab Sabadell,Salut - Medicina,,Activitats de medicina especialitzada,41.5498,2.1035,,,,WebSearch_2026,,1,"c. de Gràcia, 154",
+,c. de la Concepció,1,Àptima Centre Clínic,Salut - Medicina,,Activitats de medicina especialitzada,41.5468,2.1105,,,,WebSearch_2026,,1,"c. de la Concepció, 1",
+,c. del Sol,4,Dr. Herrero Vila Josep,Salut - Medicina,,Activitats de medicina especialitzada,41.5488,2.1086,,,,MGC_Mutua,,1,"c. del Sol, 4",
+,c. de Sant Antoni M. Claret,18,Centre Cardiologia Loubad Iriarte,Salut - Medicina,,Activitats de medicina especialitzada,41.5464,2.1097,,,,MGC_Mutua,,1,"c. de Sant Antoni M. Claret, 18",
+,pl. de l'Àngel,4,Dra. González Cañas Elena,Salut - Medicina,,Activitats de medicina especialitzada,41.5493,2.1084,,,,MGC_Mutua,,1,"pl. de l'Àngel, 4",
+,Passeig Manresa,19,"Agut Busquet, Eugenia",Salut - Medicina,Clínica/Consulta,Salut,41.5485,2.1082,,,,MGC Mútua,,1,Passeig Manresa 19,8622
+,Ronda Sant Pere,3,Policlínic Sabadell Rambla,Salut - Medicina,Clínica/Consulta,Salut,41.5453,2.1097,,,,MGC Mútua,,1,Ronda Sant Pere 3,8622
+,Passeig Manresa,,"Garcia Cruz, M. Aranzazu",Salut - Medicina,Clínica/Consulta,Salut,41.5485,2.1082,,,,MGC Mútua,,1,Passeig Manresa,8622
+,Concepció,,Trauma Advance - Sabadell,Salut - Medicina,Clínica/Consulta,Salut,41.5455,2.1112,,,,MGC Mútua,,1,Concepció,8622
+,Montserrat,5,"Dr. Alonso Segura, José Luis",Salut - Medicina,Clínica/Consulta,Salut,41.5467,2.1068,,,,MGC Mútua,,1,Montserrat 5,8622
+,Raval De Dins,,Institut de la dona Sabadell - Raval de dins,Salut - Medicina,Clínica/Consulta,Salut,41.5421,2.12092,,,,MGC Mútua,,1,Raval De Dins,8622
+,Zurbano,3,"Dra. Campos Caballero, Raquel",Salut - Medicina,Clínica/Consulta,Salut,41.5408,2.1111,,,,MGC Mútua,,1,Zurbano 3,8622
+,Zurbano,3,Clínica Raquel Campos,Salut - Medicina,Clínica/Consulta,Salut,41.5408,2.1111,,,,MGC Mútua,,1,Zurbano 3,8622
+,República,54,Centre Ginecològic Arrahona,Salut - Medicina,Clínica/Consulta,Salut,41.5410,2.1050,,,,MGC Mútua,,1,República 54,8622
+,De L'Església,7,Centre Sant Fèlix,Salut - Medicina,Clínica/Consulta,Salut,41.5472,2.1083,,,,MGC Mútua,,1,De L'Església 7,8622
+,Rambla Sabadell,,"Dr. Parra Parra, Tomàs",Salut - Medicina,Clínica/Consulta,Salut,41.5457,2.1095,,,,MGC Mútua,,1,Rambla Sabadell,8622
+,Passatge Vallès,16,Centre de Fisioteràpia Martí Gisbert,Salut - Medicina,Clínica/Consulta,Salut,41.5430,2.1110,,,,MGC Mútua,,1,Passatge Vallès 16,8622
+,Lacy,51,"Sra. Pla Huberti, Anna",Salut - Medicina,Clínica/Consulta,Salut,41.5452,2.1118,,,,MGC Mútua,,1,Lacy 51,8622
+,Gràcia,85,"Dr. Abella Grau, Josep M.",Salut - Medicina,Clínica/Consulta,Salut,41.5474,2.1070,,,,MGC Mútua,,1,Gràcia 85,8622
+,Passeig Manresa,19,"Lic. Jiménez Navarro, Isaac",Salut - Medicina,Clínica/Consulta,Salut,41.5485,2.1082,,,,MGC Mútua,,1,Passeig Manresa 19,8622
+,Hortanovella,69,"Dr. Antón Gorostidi, Pedro Ignacio",Salut - Medicina,Clínica/Consulta,Salut,41.5408,2.1020,,,,MGC Mútua,,1,Hortanovella 69,8622
+,Passeig Plaça Major,72,"Dra. Casas Sabe, Carme",Salut - Medicina,Clínica/Consulta,Salut,41.5475,2.1085,,,,MGC Mútua,,1,Passeig Plaça Major 72,8622
+,Concepció,,"Dra. Font Pol, Núria",Salut - Medicina,Clínica/Consulta,Salut,41.5455,2.1112,,,,MGC Mútua,,1,Concepció,8622
+,Indústria,19,Novamedicum Clínic Sabadell,Salut - Medicina,Clínica/Consulta,Salut,41.5431,2.1055,,,,MGC Mútua,,1,Indústria 19,8622
+,Casanovas I Bosch,,CMC Sabadell,Salut - Medicina,Clínica/Consulta,Salut,41.5410,2.1048,,,,MGC Mútua,,1,Casanovas I Bosch,8622
+,Passeig Manresa,,"Dr. Muñoz Huete, Pere",Salut - Medicina,Clínica/Consulta,Salut,41.5485,2.1082,,,,MGC Mútua,,1,Passeig Manresa,8622
+,Calderon,194,Institut Implantològic & Dental - Sabadell,Salut - Medicina,Clínica/Consulta,Salut,41.5462,2.0999,,,,MGC Mútua,,1,Calderon 194,8622
+,Latorre,36,Clínica Pejoan,Salut - Medicina,Clínica/Consulta,Salut,41.5452,2.1135,,,,MGC Mútua,,1,Latorre 36,8622
+,Narcís Giralt,15,Mèdic Dental Sabadell,Salut - Medicina,Clínica/Consulta,Salut,41.5466,2.1127,,,,MGC Mútua,,1,Narcís Giralt 15,8622
+,Pare Sallares,8,Clínica Visionlaser,Salut - Medicina,Clínica/Consulta,Salut,41.5449,2.1078,,,,MGC Mútua,,1,Pare Sallares 8,8622
+,Sant Cugat,114,"Quiroz Quiroga, María Jesús",Salut - Medicina,Clínica/Consulta,Salut,41.5440,2.1037,,,,MGC Mútua,,1,Sant Cugat 114,8622
+,Sant Cugat,114,"Dr. Vilaplana Blanch, Àlvar",Salut - Medicina,Clínica/Consulta,Salut,41.5440,2.1037,,,,MGC Mútua,,1,Sant Cugat 114,8622
+,Passeig Manresa,13,"Dr. Badia Barnusell, Joan",Salut - Medicina,Clínica/Consulta,Salut,41.5485,2.1082,,,,MGC Mútua,,1,Passeig Manresa 13,8622
+,Bosch I Cardellach,3,"Dra. Comas Sans, M. Antònia",Salut - Medicina,Clínica/Consulta,Salut,41.5417,2.1082,,,,MGC Mútua,,1,Bosch I Cardellach 3,8622
+,Comèdies,11,"Dr. Pamies Isern, Luís",Salut - Medicina,Clínica/Consulta,Salut,41.5456,2.1108,,,,MGC Mútua,,1,Comèdies 11,8622
+,Sallares I Pla,98,"Dr. Pineda Solas, Valentí",Salut - Medicina,Clínica/Consulta,Salut,41.5424,2.1140,,,,MGC Mútua,,1,Sallares I Pla 98,8622
+,Borrell,33,Queralt Rota Cano Podologia,Salut - Medicina,Clínica/Consulta,Salut,41.5410,2.1085,,,,MGC Mútua,,1,Borrell 33,8622
+,Indústria,2,Centre Psicològic Mercè Torguet,Salut - Medicina,Clínica/Consulta,Salut,41.5431,2.1055,,,,MGC Mútua,,1,Indústria 2,8622
+,Rambla,198,"Lda. Checa Martínez, M. Carmen",Salut - Medicina,Clínica/Consulta,Salut,41.546,2.10605,,,,MGC Mútua,,1,Rambla 198,8622
+,Passeig Manresa,20,"Jachewics Donsion, Andrea",Salut - Medicina,Clínica/Consulta,Salut,41.5485,2.1082,,,,MGC Mútua,,1,Passeig Manresa 20,8622
+,Rambla 62,2,"Lda. González Ollé, Alba",Salut - Medicina,Clínica/Consulta,Salut,41.5457,2.1095,,,,MGC Mútua,,1,Rambla 62 2,8622
+,Turull,70,"Lda. Ricart Ollé, Meritxell",Salut - Medicina,Clínica/Consulta,Salut,41.5430,2.1100,,,,MGC Mútua,,1,Turull 70,8622
+,Estrella,128,"Lda. Sánchez Echeverria, Montserrat",Salut - Medicina,Clínica/Consulta,Salut,41.5386,2.1050,,,,MGC Mútua,,1,Estrella 128,8622
+,Carretera Terrassa,2,"Dra. No García, Clara",Salut - Medicina,Clínica/Consulta,Salut,41.5342,2.1155,,,,MGC Mútua,,1,Carretera Terrassa 2,8622
+,Sallarès I Plà,67,Centro de Rehabilitación del Vallés - Sabadell,Salut - Medicina,Clínica/Consulta,Salut,41.5424,2.1140,,,,MGC Mútua,,1,Sallarès I Plà 67,8622
+,Raval De Dins,,Moviment Nat,Salut - Medicina,Clínica/Consulta,Salut,41.5421,2.12092,,,,MGC Mútua,,1,Raval De Dins,8622
+,Del Sol,165,Centre Mèdic Naeko,Salut - Medicina,Clínica/Consulta,Salut,41.5354,2.1074,,,,MGC Mútua,,1,Del Sol 165,8622
+,Casanovas I Bosch,52,Consulta Dr. Martí Garin,Salut - Medicina,Clínica/Consulta,Salut,41.5410,2.1048,,,,MGC Mútua,,1,Casanovas I Bosch 52,8622
+,Zurbano,7,Naeko rehabilitació,Salut - Medicina,Clínica/Consulta,Salut,41.5408,2.1111,,,,MGC Mútua,,1,Zurbano 7,8622
+,Arimon,2,"Dr. Pi Folguera, Joan",Salut - Medicina,Clínica/Consulta,Salut,41.5405,2.1068,,,,MGC Mútua,,1,Arimon 2,8622
+,Casanovas I Bosch,44,"Dr. Abad Gairín, Carlos",Salut - Medicina,Clínica/Consulta,Salut,41.5410,2.1048,,,,MGC Mútua,,1,Casanovas I Bosch 44,8622
+,Concepció,1,Aptima Centre Clinic Mutua Terrassa – Sabadell,Salut - Medicina,Clínica/Consulta,Salut,41.5455,2.1112,,,,Asisa,,1,Concepció 1,8622
+,Carrer De Gràcia,154,Labco – General Lab Sabadell,Salut - Medicina,Laboratori,Salut,41.5474,2.1070,,,,Asisa,,1,Carrer De Gràcia 154,8622
+,Carrer Indústria,19,Consultori Dr. Cabestany,Salut - Medicina,Clínica/Consulta,Salut,41.5474,2.1070,,,,Asisa,,1,Carrer Indústria 19,8622
+,Illa,52,Imagen Médica Digital Servicios Diagnósticos Sa,Salut - Medicina,Clínica/Consulta,Salut,41.5421,2.1060,,,,Asisa,,1,Illa 52,8622
+,Carrer Gràcia,78,Centre De Radiologia Dr. Duran,Salut - Medicina,Clínica/Consulta,Salut,41.5474,2.1070,,,,Asisa,,1,Carrer Gràcia 78,8622
+,Avinguda De Francesc Macià,20,Centro Médico Sanitas Sabadell,Salut - Medicina,Clínica/Consulta,Salut,41.5534,2.0983,,,,Sanitas,,1,Avinguda De Francesc Macià 20,8622
+,Carrer Pare Sallarès,8,Sanident Associats,Salut - Dental,Clínica dental,Activitats odontològiques,41.5449,2.1078,,,,AXA Salud,,1,Carrer Pare Sallarès 8,
+,Carrer d'en Font,28,Clínica Dental Sabadell,Salut - Dental,Clínica dental,Activitats odontològiques,41.5469,2.1058,,,,AXA Salud,,1,Carrer d'en Font 28,
+,Passeig de la Plaça Major,1,Óptica Andorrana,Salut - Òptica,optician,Òptica,41.546913,2.1085349,,,,OSM,,1,Passeig de la Plaça Major 1,
+,Carrer del Pare Sellares,2,Centre Mèdic de Sabadell,Salut - Medicina,clinic,Sanitat,41.5451,2.1079,,937265500,,Sanitas,,1,Carrer del Pare Sellares 2,
+,Avinguda de Francesc Macià,40,Diagnostics Sabadell,Salut - Medicina,doctors,Sanitat,41.5528,2.0984,,937162627,,Sanitas,,1,Avinguda de Francesc Macià 40,
+,Passatge Ferrán Llàcer,16,Metges de Capçalera S.L.,Salut - Medicina,clinic,Sanitat,41.5460,2.1060,,937220909,,Sanitas,,1,Passatge Ferrán Llàcer 16,
+,Carrer de Prat de la Riba,49,E I X Centre Sanitari S.L.,Salut - Medicina,clinic,Sanitat,41.5497,2.1003,,937231273,,Sanitas,,1,Carrer de Prat de la Riba 49,
+,Carrer de Casanovas i Bosch,46,Centro de Medicina Correctiva S.L.,Salut - Medicina,clinic,Sanitat,41.5440,2.1092,,937256944,,Sanitas,,1,Carrer de Casanovas i Bosch 46,
+,Carrer de la República,28,Clínica Dental Sanitas Milenium Sabadell Centre,Salut - Medicina,dentist,Sanitat,41.5472,2.1040,,932550379,,Sanitas,,1,Carrer de la República 28,
+,Carrer de la República,2,Ita Catalunya,Salut - Medicina,clinic,Sanitat,41.5443,2.1075,,937220855,,Sanitas,,1,Carrer de la República 2,
+,Carrer de Batllevell,60,Aridane Centre Psicologia,Salut - Medicina,doctors,Sanitat,41.5481,2.1070,,937231596,,Sanitas,,1,Carrer de Batllevell 60,
+,Plaça de Catalunya,13,Consulta Metge General Lloansí Estrada,Salut - Medicina,doctors,Sanitat,41.5493,2.0990,,937258518,,Sanitas,,1,Plaça de Catalunya 13,
+,Carrer de Calderón,10,Consulta Oftalmologia Valentines Pont,Salut - Medicina,doctors,Sanitat,41.5483,2.1069,,937269144,,Sanitas,,1,Carrer de Calderón 10,
+,Carrer de Batllevell,62,Consulta Pediatria Castillo Chapoñan,Salut - Medicina,doctors,Sanitat,41.5481,2.1071,,937230491,,Sanitas,,1,Carrer de Batllevell 62,
+,Carrer de Montserrat,1,Laboratori Durán Bellido i Durán Company,Salut - Medicina,doctors,Sanitat,41.5475,2.1122,,937279591,,Sanitas,,1,Carrer de Montserrat 1,
+,Avinguda de Barberà,253,Consulta Ginecologia Espelt Badia,Salut - Medicina,doctors,Sanitat,41.5338,2.1152,,937104447,,Sanitas,,1,Avinguda de Barberà 253,
+,Carrer de les Valls,28,Psicologia Raya Tena,Salut - Medicina,doctors,Sanitat,41.5473,2.1055,,937275997,,Sanitas,,1,Carrer de les Valls 28,
+,Carrer de Josep Renom,42,SALUESPORT Fisioterapia Osteopatia,Salut - Medicina,physiotherapy,Sanitat,41.5498,2.1053,saluesportsabadell.centrefisio.cat,693817487,Mo-Th 09:00-20:30; Fr 09:00-14:00,WebSearch_2026,,1,Carrer de Josep Renom 42,
+,Carrer de l'Estrella,167,Centre Fisioterapia Osteopatia Teresa Rodriguez Creus,Salut - Medicina,physiotherapy,Sanitat,41.5479,2.1004,,,,WebSearch_2026,,1,Carrer de l'Estrella 167,
+,Rambla,9,Elena Reig Psicòloga,Salut - Medicina,psychologist,Sanitat,41.5530,2.1088,psicologos-sabadell.com,659856181,Mo-Fr adapt.,WebSearch_2026,,1,Rambla 9,
+,Carrer de les Valls,26-28,Sigma Salut,Salut - Medicina,health_center,Sanitat,41.5473,2.1055,sigmasalut.com,931935745,Mo-Fr,WebSearch_2026,,1,Carrer de les Valls 26-28,
+,Carrer de Félix Amat,1,Centre de Psicologia Clínica Rambla,Salut - Medicina,psychologist,Sanitat,41.5535,2.1082,centrepsicologiaclinicarambla.com,937277969,Mo-Fr,WebSearch_2026,,1,Carrer de Félix Amat 1,
+,Rambla,2,Centre Giner Psicologia Psicopedagogia Logopèdia,Salut - Medicina,psychologist,Sanitat,41.5461,2.1091,cginer.es,671790847,Mo-Fr 10:00-13:00; 15:15-20:30,WebSearch_2026,,1,Rambla 2,
+,Carrer de Garcilaso,143,KineStetic Sabadell,Salut - Medicina,physiotherapy,Sanitat,41.5460,2.0995,fisioterapeutasabadell.com,931414751,Mo-Fr 09:30-13:00; 16:30-21:00,WebSearch_2026,,1,Carrer de Garcilaso 143,
+,Ronda de Zamenhof,1-3,Vivantadental Sabadell,Salut - Medicina,dentist,Sanitat,41.5420,2.1170,vivantadental.es,937466206,Mo-Fr 10:00-14:00; 16:00-20:00,WebSearch_2026,,1,Ronda de Zamenhof 1-3,
+,Carrer de les Valls,10,IO Institutos Odontológicos Sabadell,Salut - Medicina,dentist,Sanitat,41.5468,2.1060,ioa.es,,,WebSearch_2026,,1,Carrer de les Valls 10,
+,Carrer de Sant Quirze,34,Resplendent Clínica Dental,Salut - Medicina,dentist,Sanitat,41.5435,2.1141,resplendent.es,930109681,,WebSearch_2026,,1,Carrer de Sant Quirze 34,
+,Carrer de Gràcia,103,Clínica Dental Doctora Marrero,Salut - Medicina,dentist,Sanitat,41.5490,2.1025,dramarrero.com,937257562,,WebSearch_2026,,1,Carrer de Gràcia 103,
+,Carrer de Calderón,194,Institut Implantològic Dental,Salut - Medicina,dentist,Sanitat,41.5462,2.1010,inidental.com,931641165,,WebSearch_2026,,1,Carrer de Calderón 194,
+,c. de Torras i Bages,1A,Iknos Centre Sanitari,Salut - Medicina,podiatrist,Sanitat,41.5461,2.1105,www.centreiknos.com,936771798,,WebSearch_2026,,1,c. de Torras i Bages 1A,
+,c. de Torras i Bages,1A,Manel Torralba Fisioterapeuta,Salut - Medicina,physiotherapy,Sanitat,41.5461,2.1105,www.maneltorralbafisio.com,,,WebSearch_2026,,1,c. de Torras i Bages 1A,
+,c. de Zurbano,7,Espai Teleret Psicologia i Logopèdia,Salut - Medicina,psychologist,Sanitat,41.5463,2.1165,www.espaiteleret.com,634435463,,WebSearch_2026,,1,c. de Zurbano 7,
+,c. de Sant Antoni Maria Claret,1,Elixium Clinic,Salut - Medicina,Podologia,Salut,41.5462,2.1087,https://elixiumclinic.com,937277696,,WebSearch_2026,,1,c. de Sant Antoni Maria Claret 1,
+,c. d'Alemanya,57,Cardiologia Padilla & Moure,Salut - Medicina,Cardiologia,Salut,41.5469,2.1065,https://www.cardiopadillamoure.com,937273511,,WebSearch_2026,,1,c. d'Alemanya 57,
+,c. del Pare Sallarès,2C,Menja sa,Salut - Medicina,Nutrició i dietètica,Salut,41.5492,2.1064,https://menjasa.es,938643276,,WebSearch_2026,,1,c. del Pare Sallarès 2C,
+,pg. de la Plaça Major,72,Creixent Salut Integral,Salut - Medicina,Centre de salut integral,Salut,41.5459,2.1084,,,,WebSearch_2026,,1,pg. de la Plaça Major 72,
+,c. del Convent,43B,FísicSalut Fisioteràpia,Salut - Medicina,Fisioterapia,Salut,41.5467,2.1103,,,,WebSearch_2026,,1,c. del Convent 43B,
+,pl. de l'Àngel,6,Alimmenta,Salut - Medicina,Nutrició i dietètica,Salut,41.5503,2.09947,https://alimmenta.com,932189532,,WebSearch_2026,,1,pl. de l'Àngel 6,
+,c. d'Arimon,17,ARS Salut Esportiva,Salut - Medicina,FISIOTERAPIA,Salut,41.5422,2.1117,arssalutesportiva.com,931285419,Dil-Div 9-22h Dis 9-14h,WebSearch_2026,,1,c. d'Arimon 17,
+,c. de Brutau,139,Smile Medic Clínica Dental,Salut - Medicina,CLÍNICA DENTAL,Salut,41.5427,2.1165,smilemedic.es,678792185,,WebSearch_2026,,1,c. de Brutau 139,
+,Carrer de Gràcia,72,ZIVING ORTODONCIA,Salut - Dental,Clínica dental,Salut dental,41.54910980,2.10599060,,937155840,,dentistaentuciudad_2026,,1,Carrer de Gràcia 72,
+,Carrer de Coromines,114,CLÍNICA DENTAL DR. XAVIER PUJOL,Salut - Dental,Clínica dental,Salut dental,41.55084880,2.10260940,,937276389,,dentistaentuciudad_2026,,1,Carrer de Coromines 114,
+,Carretera de Barcelona,121,MON DE SOMRIURES,Salut - Dental,Clínica dental,Salut dental,41.54085520,2.10577020,,937264987,,dentistaentuciudad_2026,,1,Carretera de Barcelona 121,
+,Carrer de Jovellanos,36,CARLOS PLA GOMEZ,Salut - Dental,Clínica dental,Salut dental,41.54847840,2.10520500,,937259978,,dentistaentuciudad_2026,,1,Carrer de Jovellanos 36,
+,Carrer de Calderón,38,CENTRE DENTAL SABADELL,Salut - Dental,Clínica dental,Salut dental,41.54819430,2.10614970,,937268238,,dentistaentuciudad_2026,,1,Carrer de Calderón 38,
+,Ronda de Zamenhof,3,CLINICA DENTAL DR. IVAN DIAZ BARRERA,Salut - Dental,Clínica dental,Salut dental,41.55206950,2.10620630,,937258888,,dentistaentuciudad_2026,,1,Ronda de Zamenhof 3,
+,Carrer del Doctor Puig,33,PROPISET 03,Salut - Dental,Clínica dental,Salut dental,41.54950680,2.10897170,,937255782,,dentistaentuciudad_2026,,1,Carrer del Doctor Puig 33,
+,Ronda de Zamenhof,96,Funnydent Sabadell,Salut - Dental,Clínica dental,Salut dental,41.55079050,2.10114480,,917373785,,dentistaentuciudad_2026,,1,Ronda de Zamenhof 96,
+,Carrer de Gràcia,51,CENTRO MÉDICO CERDÀ,Salut - Medicina,Centre mèdic,Salut,41.5482,2.10842,,,,WebSearch_2026,,1,Carrer de Gràcia 51,
+,Carrer de l'Escola Industrial,4,TRAFFIC CENTRE MÈDIC,Salut - Medicina,Centre mèdic,Salut,41.5476,2.1064,,,,WebSearch_2026,,1,Carrer de l'Escola Industrial 4,
+,Carrer de Sallarès i Pla,73,Centre d'Especialistes Sabadell,Salut - Medicina,Centre mèdic,Salut,41.5489,2.1069,,,,WebSearch_2026,,1,Carrer de Sallarès i Pla 73,
+,Passeig de la Plaça Major,58,Farmàcia Llic. Jordi Joan Llop,Salut - Medicina,Farmàcia,Salut,41.5479,2.1082,,937255353,,WebSearch_2026,,1,Passeig de la Plaça Major 58,
+,Carrer de Corominas,15,ÓPTICA HOSPITALARIA SABADELL,Salut - Òptica,Òptica,COMERÇ I SERVEIS,41.5473,2.1047,,937273752,,WebSearch_2026,,1,Carrer de Corominas 15,
+,Passeig de la Plaça Major,2,AFFLELOU,Salut - Òptica,Òptica,COMERÇ I SERVEIS,41.5469,2.1083,,629871597,,WebSearch_2026,,1,Passeig de la Plaça Major 2,
+,Plaça de Joan Oliu,9,CAP Centre (ABS Sabadell 1-A),Salut - Medicina,Centre d'Atenció Primària,SALUT,41.5446,2.1073,,937256585,,web.sabadell.cat,,1,Plaça de Joan Oliu 9,
+,Carrer de Narcís Giralt,16,Mestres Centre d'Ortopèdia i Podologia,Salut - Medicina,Ortopèdia/Podologia,SALUT,41.5481,2.1065,,937264172,,WebSearch_2026,,1,Carrer de Narcís Giralt 16,
+,c. del Sol,164,Tonema Logopèdia,Salut - Medicina,Salut,SALUT,41.5479,2.1038,,937275886,,WebSearch_2026,,1,c. del Sol 164,
+,c. de Blasco de Garay,84,Centre Insight Psicologia,Salut - Medicina,Salut,SALUT,41.5450,2.1028,centreinsight.es,620039045,,WebSearch_2026,,1,c. de Blasco de Garay 84,
+,Carretera de Terrassa,38,Sonreír Clínica Dental,Salut - Medicina,Salut,SALUT,41.5440,2.1090,sonreirclinicadental.com,936893291,,WebSearch_2026,,1,Carretera de Terrassa 38,
+,c. de Pi i Margall,14,Clínica Nélida Grande,Salut - Medicina,Clínica estètica,SALUT,41.5547,2.1010,doctoragrande.com,937169525,,WebSearch_2026,,1,c. de Pi i Margall 14,
+,c. de les Tres Creus,89,Farmàcia Dualfarma,Salut - Medicina,Farmàcia,SALUT,41.5486,2.10819,,937258185,,WebSearch_2026,,1,c. de les Tres Creus 89,
+,c. de Gràcia,64,Podologia David Mosquera,Salut - Medicina,Podologia,Salut,41.5481,2.1067,,,,WebSearch_2026,,1,c. de Gràcia 64,
+,c. de Torras i Bages,2A,Anna Paré Vidal Dietista Nutricionista,Salut - Medicina,Nutrició i Dietètica,Salut,41.5467,2.1096,,,,WebSearch_2026,,1,c. de Torras i Bages 2A,
+,c. de Sant Pere,3,DietFlash Medical Sabadell,Salut - Medicina,Nutrició i Dietètica,Salut,41.5488,2.1083,,,,WebSearch_2026,,1,c. de Sant Pere 3,
+,c. de Latorre,28,Vitaldent Sabadell,Salut - Medicina,Clínica Dental,Salut,41.5422,2.1122,,937155808,,WebSearch_2026,,1,c. de Latorre 28,
+,c. de Calderón,63,Centre d'Osteopatia i Medicina de Sabadell,Salut - Medicina,physiotherapy,Sanitat,41.5457,2.10549,www.fisioterapiasabadell.com,937253610,Mo-Fr 09:00-14:00 16:00-20:30,WebSearch_2026,,1,c. de Calderón 63,
+,Rambla,62,Psicologia Giner,Salut - Medicina,psychologist,Sanitat,41.5445,2.1098,psicologiaginer.es,931001877,Mo-Fr,WebSearch_2026,,1,Rambla 62,
+,c. de les Valls,10,IOA Instituts Odontologics Sabadell,Salut - Medicina,dentist,Sanitat,41.5491,2.1078,ioa.es,,,WebSearch_2026,,1,c. de les Valls 10,
+,rda. de Zamenhof,1,Vivantadental Sabadell,Salut - Medicina,dentist,Sanitat,41.5520,2.1062,vivantadental.es,,Mo-Fr 10:00-14:00 16:00-20:00,WebSearch_2026,,1,rda. de Zamenhof 1,
+,La Rambla,213,OPTICA GUFFO,Salut - Òptica,Comerç,Òptica,41.540553,2.111945,,937267029,,qdq.com_2026,,1,La Rambla 213,
+,Passeig de Manresa,24,MULTIÓPTICAS PORTA,Salut - Òptica,Comerç,Òptica,41.548706,2.108272,,937259364,,qdq.com_2026,,1,Passeig de Manresa 24,
+,Carrer de l'Escola Industrial,13,OPTICA MARTIN,Salut - Òptica,Comerç,Òptica,41.547743,2.106533,,937259342,,qdq.com_2026,,1,Carrer de l'Escola Industrial 13,
+,Carrer de Corominas,15,VISTA ÓPTICA,Salut - Òptica,Comerç,Òptica,41.547038,2.104435,http://www.vistaoptica.com,937273752,,qdq.com_2026,,1,Carrer de Corominas 15,
+,Carrer de Sant Cugat,22,ÒPTICA SAMARANCH,Salut - Òptica,Comerç,Òptica,41.545659,2.105192,,937277014,,qdq.com_2026,,1,Carrer de Sant Cugat 22,
+,Calle Corominas,15,VISTA ÓPTICA,Salut - Òptica,Òptica,Òptica,41.547038,2.104435,http://www.vistaoptica.com,937273752,,qdq_2026,,1,Calle Corominas 15,
+,Calle Escola Industrial,13,OPTICA MARTIN,Salut - Òptica,Òptica,Òptica,41.547743,2.106533,,937259342,,qdq_2026,,1,Calle Escola Industrial 13,
+,Plaza Sant Roc,22,COTTET ÒPTICS,Salut - Òptica,Òptica,Òptica,41.545953,2.108259,http://www.cottet.es,937466192,,qdq_2026,,1,Plaza Sant Roc 22,
+,Calle Sant Cugat,22,ÒPTICA SAMARANCH,Salut - Òptica,Òptica,Òptica,41.545659,2.105192,,937277014,,qdq_2026,,1,Calle Sant Cugat 22,
+,Passeig Plaça Major,1,OPTICA ANDORRANA,Salut - Òptica,Òptica,Òptica,41.546833,2.108864,,937250485,,qdq_2026,,1,Passeig Plaça Major 1,
+,Calle Rambla,5-7,GENERAL ÓPTICA,Salut - Òptica,Òptica,Òptica,41.546018,2.109250,http://www.generaloptica.es,937255555,,qdq_2026,,1,Calle Rambla 5-7,
+,Calle Rambla,41,RIBAS OPTICS,Salut - Òptica,Òptica,Òptica,41.544997,2.109791,,937259967,,qdq_2026,,1,Calle Rambla 41,
+,Passeig Manresa,24,MULTIÓPTICAS PORTA,Salut - Òptica,Òptica,Òptica,41.548706,2.108272,,937259364,,qdq_2026,,1,Passeig Manresa 24,
+,Calle Puigcerdà,2 Bis,CENTRE DE GINER DE PSICOLOGÍA,Salut - Psicologia,Psicòleg,Psicologia i Salut Mental,41.545378,2.101175,http://www.cginer.es,931001877,,qdq_2026,,1,Calle Puigcerdà 2 Bis,
+,Calle Escola Industrial,3,PSIQUE CENTRO DE PSICOLOGÍA,Salut - Psicologia,Psicòleg,Psicologia i Salut Mental,41.547869,2.106688,,667715303,,qdq_2026,,1,Calle Escola Industrial 3,
+,Carrer Vallès,42,VEIE SABADELL,Salut - Psicologia,Psicòleg,Psicologia i Salut Mental,41.5471106,2.100904,,660011094,,qdq_2026,,1,Carrer Vallès 42,
+,Calle Valls,28,"BONED PLANELLS, A.",Salut - Psicologia,Psicòleg,Psicologia i Salut Mental,41.548425,2.107056,http://anaboned.wix.com/psicologa,651732357,,qdq_2026,,1,Calle Valls 28,
+,Calle Valls,28 2º 6ª,GAP,Salut - Psicologia,Psicòleg,Psicologia i Salut Mental,41.548425,2.107056,http://www.gap-sabadell.com,649112199,,qdq_2026,,1,Calle Valls 28 2º 6ª,
+,Calle Josep Renom,42,CENTRE PSICOPEDAGÒGIC DE LA ROSA,Salut - Psicologia,Centre psicopedagògic,Psicologia i Salut Mental,41.550734,2.103442,http://www.cpdelarosa.com,937250798,,qdq_2026,,1,Calle Josep Renom 42,
+,Carrer Vallés,77,CERCA PSICOLOGÍA ONLINE,Salut - Psicologia,Psicòleg,Psicologia i Salut Mental,41.5481202,2.1001915,https://cercapsicologiaonline.com/,613613488,,qdq_2026,,1,Carrer Vallés 77,
+,Calle Valles,95,TERAPIA NEURAL. SABADELL,Salut - Psicologia,Psicòleg,Psicologia i Salut Mental,41.548643,2.099905,http://www.terapianeural.com,937278068,,qdq_2026,,1,Calle Valles 95,
+,Calle Estrella,211-217,PSICOSENS,Salut - Psicologia,Psicòleg,Psicologia i Salut Mental,41.550246,2.101381,http://lauramedinapsicologia.webs.tl,648017262,,qdq_2026,,1,Calle Estrella 211-217,
+,Carrer de Calderón,10,"CENTRO MEDICO DEL VALLES, S.L.",Salut - Medicina,Centre mèdic,Medicina / Salut,41.548344,2.106889,,937269144,,qdq_2026,,1,Carrer de Calderón 10,
+,Carrer de Gràcia,51-53,CENTRE MÈDIC CONDUCTOR SABADELL,Salut - Medicina,Centre mèdic,Medicina / Salut,41.547949,2.106771,,937272958,,qdq_2026,,1,Carrer de Gràcia 51-53,
+,Carrer de la Rambla,172,PSYNCRON,Salut - Medicina,Psicologia / Salut mental,Medicina / Salut,41.541637,2.111296,,937279344,,qdq_2026,,1,Carrer de la Rambla 172,
+,Carrer Escola Industrial,11,CENTRO MÉDICO ESCOLA INDUSTRIAL,Salut - Medicina,Centre mèdic,Medicina / Salut,41.547806,2.106604,http://www.centromedicoescolaindustrial.com,937260362,,qdq_2026,,1,Carrer Escola Industrial 11,
+,Carrer de Gràcia,87,GRACIA VALLES,Salut - Medicina,Centre mèdic,Medicina / Salut,41.54854,2.106243,http://www.cmgraciavalles.com,937274987,,qdq_2026,,1,Carrer de Gràcia 87,
+,Carrer de Pare Sallarès,8,CENTRO MEDICO SABADELL,Salut - Medicina,Centre mèdic,Medicina / Salut,41.548356,2.103988,http://www.clinicum.es,937265500,,qdq_2026,,1,Carrer de Pare Sallarès 8,
+,Passeig de Manresa,19,JESLET MEDICAL SL.,Salut - Medicina,Centre mèdic,Medicina / Salut,41.5487168,2.1081655,https://www.dorsia.es/,937378052,,qdq_2026,,1,Passeig de Manresa 19,
+,Carrer de Zurbano,7,"NAEKO, S.L.",Salut - Medicina,Centre mèdic,Medicina / Salut,41.540783,2.110678,http://www.naeko.net,937278501,,qdq_2026,,1,Carrer de Zurbano 7,
+,Carrer de la Rambla,198-200,DR. J. LUELMO,Salut - Medicina,Consulta mèdica,Medicina / Salut,41.539684,2.112246,,937155835,,qdq_2026,,1,Carrer de la Rambla 198-200,
+,Carrer de Sallarès i Pla,67,CENTRO REHABILITACION DEL VALLES,Salut - Medicina,Centre de rehabilitació,Medicina / Salut,41.54408,2.113113,,937255577,,qdq_2026,,1,Carrer de Sallarès i Pla 67,
+,Carrer de la Indústria,47,CENTRE MEDIC FUSTER,Salut - Medicina,Centre mèdic,Medicina / Salut,41.547461,2.113339,http://www.salusxxi.com,937250155,,qdq_2026,,1,Carrer de la Indústria 47,
+,Carrer de Casanovas i Bosch,62,"IBAÑEZ FARNES, P.",Salut - Medicina,Consulta mèdica,Medicina / Salut,41.546889,2.114021,,937271948,,qdq_2026,,1,Carrer de Casanovas i Bosch 62,
+,Plaça de Sant Roc,22,COTTET ÒPTICS,Salut - Òptica,Òptica,Òptica,41.545953,2.108259,http://www.cottet.es,937466192,,qdq_2026,,1,Plaça de Sant Roc 22,
+,Carrer Horta Novella,69,"VIADE I JULIA, J.",Salut - Medicina,Podòleg,Salut,41.54399,2.104697,,937259404,,qdq_2026,,1,Carrer Horta Novella 69,
+,Carrer de Colom,50,"BELLVER FORES, J.",Salut - Medicina,Podòleg,Salut,41.546139,2.103149,,937267679,,qdq_2026,,1,Carrer de Colom 50,
+,Rambla,5,GENERAL ÓPTICA,Salut - Òptica,Òptica,Òptica,41.546018,2.10925,http://www.generaloptica.es,937255555,,qdq_2026,,1,Rambla 5,
+,Carrer de l'Escola Pia,98,"CARRICAS NOGUERA, M.J.",Salut - Medicina,Podòleg,Salut,41.548359,2.101182,,937264416,,qdq_2026,,1,Carrer de l'Escola Pia 98,
+,Carrer de Sant Pau,159,REMEI MOIX,Salut - Medicina,Podòleg,Salut,41.540152,2.108962,,937450692,,qdq_2026,,1,Carrer de Sant Pau 159,
+,Carrer de Casanovas i Bosch,46,CENTRE MEDICINA CORRECTIVA,Salut - Medicina,Fisioterapia,Salut,41.546944,2.114618,http://www.cmcsl.org,937257199,,qdq_2026,,1,Carrer de Casanovas i Bosch 46,
+,Carrer del Riego,62,"CANO GARRIGA, A.",Salut - Medicina,Podòleg,Salut,41.543793,2.113329,,937251306,,qdq_2026,,1,Carrer del Riego 62,
+,Carrer de la Font,6,CENTRE DE REHABILITACIÓ VINCEÇ BORDAS I CUSCÓ,Salut - Medicina,Fisioterapia,Salut,41.547041,2.105748,,937258500,,qdq_2026,,1,Carrer de la Font 6,
+,Carrer de l'Estrella,167,"RODRIGUEZ CREUS, T.",Salut - Medicina,Fisioterapia,Salut,41.549122,2.10186,,937459587,,qdq_2026,,1,Carrer de l'Estrella 167,
+,Carrer de Josep Renom,42,SALUESPORT,Salut - Medicina,Fisioterapia,Salut,41.550686,2.103417,http://www.saluesport.com,693817487,,qdq_2026,,1,Carrer de Josep Renom 42,
+,Carrer de la Torre,28-34,CLÍNICA DENTAL VITAL DENT SABADELL II,Salut - Medicina,Clínica dental,Salut,41.543205,2.123549,http://www.vitaldent.com,937155808,,qdq_2026,,1,Carrer de la Torre 28-34,
+,Carrer del Sol,35,CLINICA DENTAL SALES,Salut - Medicina,Clínica dental,Salut,41.545096,2.109076,,937277501,,qdq_2026,,1,Carrer del Sol 35,
+,Carrer de Corominas,35,ZIVING,Salut - Medicina,Clínica dental,Salut,41.54743,2.10427,https://ziving.com/,649810439,,qdq_2026,,1,Carrer de Corominas 35,
+,Carrer de Garcilaso,1,CLINICA GARCILASO,Salut - Medicina,Clínica dental,Salut,41.550721,2.106951,,937278171,,qdq_2026,,1,Carrer de Garcilaso 1,
+,Carrer de Jovellanos,36,CLINICA DENTAL DR. CARLOS PLA,Salut - Medicina,Clínica dental,Salut,41.54843,2.105169,,937259978,,qdq_2026,,1,Carrer de Jovellanos 36,
+,Carrer de Tres Creus,154,GIRALT CLINIC,Salut - Medicina,Clínica dental,Salut,41.546155,2.114729,http://www.giraltclinic.com,937466330,,qdq_2026,,1,Carrer de Tres Creus 154,
+,Carrer de la Font,6-10,CENTRE DE REHABILITACIÓ VINCEÇ BORDAS I CUSCÓ,Salut - Medicina,Fisioterapia,Salut,41.547041,2.105748,,937258500,,qdq_2026,,1,Carrer de la Font 6-10,
+,Rambla,41,RIBAS OPTICS,Salut - Medicina,Òptica,Salut,41.544997,2.109791,,937259967,,qdq_2026,,1,Rambla 41,
+,Carrer de Casanovas i Bosch,46-50,CENTRE MEDICINA CORRECTIVA,Salut - Medicina,Fisioterapia,Salut,41.546944,2.114618,http://www.cmcsl.org,937257199,,qdq_2026,,1,Carrer de Casanovas i Bosch 46-50,
+,Rambla,5-7,GENERAL ÓPTICA,Salut - Medicina,Òptica,Salut,41.546018,2.10925,http://www.generaloptica.es,937255555,,qdq_2026,,1,Rambla 5-7,
+,Carrer de la Salut,141,COL·LECTIU DE FISIOTERAPEUTES DE SABADELL,Salut - Medicina,Fisioterapia,Salut,41.552256,2.111804,,937278125,,qdq_2026,,1,Carrer de la Salut 141,
+,Carrer de Zurbano,,"HERNÁNDEZ GONZÁLEZ, J.",Salut - Medicina,Psicologia,Salut,41.539952,2.107614,http://www.jeronihernandezcoaching.com,937118342,,qdq_2026,,1,Carrer de Zurbano,
+,Carrer de l'Estrella,211-217,PSICOSENS,Salut - Medicina,Psicologia,Salut,41.550246,2.101381,,648017262,,qdq_2026,,1,Carrer de l'Estrella 211-217,
+,Carrer de Josep Renom,42,CENTRE PSICOPEDAGÒGIC DE LA ROSA,Salut - Medicina,Psicologia,Salut,41.550734,2.103442,http://www.cpdelarosa.com,937250798,,qdq_2026,,1,Carrer de Josep Renom 42,
+,Carrer de Sant Oleguer,77,HOSPITAL VETERINARI DE SABADELL,Salut - Medicina,Veterinari,Salut,41.541588,2.112537,https://www.hospitalveterinariosabadell.com,937271125,,qdq_2026,,1,Carrer de Sant Oleguer 77,
+,Carrer del Sol,179,DOLORS RAMÍREZ PSICOLOGIA,Salut - Medicina,Psicologia,Salut,41.540165,2.110788,,669098721,,qdq_2026,,1,Carrer del Sol 179,
+,Carrer de Vallès,95,TERAPIA NEURAL. SABADELL,Salut - Medicina,Psicologia,Salut,41.548643,2.099905,http://www.terapianeural.com,937278068,,qdq_2026,,1,Carrer de Vallès 95,
+,Carrer de Puigcerdà,2,CENTRE DE GINER DE PSICOLOGIA,Salut - Medicina,Psicologia,Salut,41.545378,2.101175,http://www.cginer.es,931001877,,qdq_2026,,1,Carrer de Puigcerdà 2,
+,Carrer de Valls,28,"BONED PLANELLS, A.",Salut - Medicina,Psicologia,Salut,41.548425,2.107056,http://anaboned.wix.com/psicologa,651732357,,qdq_2026,,1,Carrer de Valls 28,
+,Rambla,172,"ARTIGAS PALLARES, J.",Salut - Medicina,Psicologia,Salut,41.541637,2.111296,,937276154,,qdq_2026,,1,Rambla 172,
+,Carrer de les Planes,2,SIS CENTRE PSICOLOGIA,Salut - Medicina,Psicologia,Salut,41.544046,2.109926,http://www.centresis.com,661567998,,qdq_2026,,1,Carrer de les Planes 2,
+,Carrer de Valls,28,GAP,Salut - Medicina,Psicologia,Salut,41.548425,2.107056,http://www.gap-sabadell.com,649112199,,qdq_2026,,1,Carrer de Valls 28,
+,Carrer de l'Escola Industrial,,PSIQUE CENTRO DE PSICOLOGIA,Salut - Medicina,Psicologia,Salut,41.547869,2.106688,,667715303,,qdq_2026,,1,Carrer de l'Escola Industrial,
+,Carrer de Vallès,77,CERCA PSICOLOGIA ONLINE,Salut - Medicina,Psicologia,Salut,41.5481202,2.1001915,https://cercapsicologiaonline.com/,613613488,,qdq_2026,,1,Carrer de Vallès 77,
+,Carrer de l'Estrella,128,ABORA,Salut - Medicina,Psicologia,Salut,41.547573,2.102833,http://www.abora.info,937254672,,qdq_2026,,1,Carrer de l'Estrella 128,
+,Carrer de Vallès,42,VEIE SABADELL,Salut - Medicina,Psicologia,Salut,41.5471106,2.100904,,660011094,,qdq_2026,,1,Carrer de Vallès 42,
+,Carrer de Lacy,62,"VENTURA PALLAROLS, C.",Salut - Medicina,Psicologia,Salut,41.544383,2.112312,,937478401,,qdq_2026,,1,Carrer de Lacy 62,
+,Carrer de Blasco de Garay,25,GABINET PSICOLOGIC JARDI,Salut - Medicina,Psicologia,Salut,41.545026,2.115055,,937256703,,qdq_2026,,1,Carrer de Blasco de Garay 25,
+,Carrer de Blasco de Garay,84,SERENA DEL PINO PSICOLOGIA,Salut - Medicina,Psicologia,Salut,41.5424886,2.1161253,,626946198,,qdq_2026,,1,Carrer de Blasco de Garay 84,
+,Carrer de Sant Oleguer,,GABINET D'ASSESSORAMENT CLINIC I PSICOPEDAGOGIC GAMA,Salut - Medicina,Psicologia,Salut,41.540761,2.112803,http://www.gamasabadell.com,937259913,,qdq_2026,,1,Carrer de Sant Oleguer,
+,Passeig de Manresa,20,PSICOLOGIA CLINICA CENTRE,Salut - Medicina,Psicologia,Salut,41.548634,2.108308,http://www.psicologiaclinicasabadell.es,937276549,,qdq_2026,,1,Passeig de Manresa 20,
+,Carrer de Sant Joan,4,PSICOESPAI,Salut - Medicina,Psicologia,Salut,41.548188,2.109337,http://www.psicoespai.es,653023718,,qdq_2026,,1,Carrer de Sant Joan 4,
+,Carrer de la Rambla,5,GENERAL ÓPTICA,Salut - Medicina,Òptica,Salut i Benestar,41.546018,2.10925,http://www.generaloptica.es,937255555,,qdq_2026,,1,Carrer de la Rambla 5,
+,Carrer de la Rambla,213,OPTICA GUFFO,Salut - Medicina,Òptica,Salut i Benestar,41.540553,2.111945,,937267029,,qdq_2026,,1,Carrer de la Rambla 213,
+,Carrer de la Rambla,41,RIBAS OPTICS,Salut - Medicina,Òptica,Salut i Benestar,41.544997,2.109791,,937259967,,qdq_2026,,1,Carrer de la Rambla 41,
+,Carrer Josep Renom,42,SALUESPORT,Salut - Medicina,Fisioterapia,Salut i Benestar,41.550686,2.103417,http://www.saluesport.com,693817487,,qdq_2026,,1,Carrer Josep Renom 42,
+,Carrer Font,6-10,CENTRE DE REHABILITACIÓ VINCEÇ BORDAS I CUSCÓ,Salut - Medicina,Fisioterapia,Salut i Benestar,41.547041,2.105748,,937258500,,qdq_2026,,1,Carrer Font 6-10,
+,Carrer Estrella,167,"RODRIGUEZ CREUS, T.",Salut - Medicina,Fisioterapia,Salut i Benestar,41.549122,2.10186,,937459587,,qdq_2026,,1,Carrer Estrella 167,
+,Carrer Casanovas i Bosch,46-50,CENTRE MEDICINA CORRECTIVA,Salut - Medicina,Fisioterapia,Salut i Benestar,41.546944,2.114618,http://www.cmcsl.org,937257199,,qdq_2026,,1,Carrer Casanovas i Bosch 46-50,
+,Carrer Salut,141,COL.LECTIU DE FISIOTERAPEUTES DE SABADELL,Salut - Medicina,Fisioterapia,Salut i Benestar,41.552256,2.111804,,937278125,,qdq_2026,,1,Carrer Salut 141,
+,Carrer Calderón,38-42,CENTRE DENTAL SABADELL,Salut - Medicina,Clínica Dental,Salut i Benestar,41.548145,2.106173,http://www.centredentalsabadell.com,937268238,,qdq_2026,,1,Carrer Calderón 38-42,
+,Carrer Garcilaso,1,CLINICA GARCILASO,Salut - Medicina,Clínica Dental,Salut i Benestar,41.550721,2.106951,,937278171,,qdq_2026,,1,Carrer Garcilaso 1,
+,Carrer Torre,28-34,CLÍNICA DENTAL VITAL DENT SABADELL II,Salut - Medicina,Clínica Dental,Salut i Benestar,41.543205,2.123549,http://www.vitaldent.com,937155808,,qdq_2026,,1,Carrer Torre 28-34,
+,Carrer Gràcia,103,CLÍNICA ORTODONCIA DRA. MARRERO,Salut - Medicina,Clínica Dental,Salut i Benestar,41.548647,2.105956,http://dramarrero.com/onsomc.html,937257562,,qdq_2026,,1,Carrer Gràcia 103,
+,Carrer Latorre,54,"PEJOAN PAGES, C.",Salut - Medicina,Dentista,Salut i Benestar,41.539089,2.110995,,937259200,,qdq_2026,,1,Carrer Latorre 54,
+,Carrer Corominas,35,ZIVING,Salut - Medicina,Clínica Dental,Salut i Benestar,41.54743,2.10427,https://ziving.com/,649810439,,qdq_2026,,1,Carrer Corominas 35,
+,Carretera Barcelona,121,MON DE SOMRIURES,Salut - Medicina,Dentista,Salut i Benestar,41.541264,2.105138,http://www.mondesomriures.com,937277995,,qdq_2026,,1,Carretera Barcelona 121,
+,Plaça Sant Roc,22,COTTET ÒPTICS,Salut - Medicina,Òptica,Salut,41.545953,2.108259,http://www.cottet.es,937466192,,qdq_2026,,1,Plaça Sant Roc 22,
+,Carrer Escola Industrial,13,OPTICA MARTIN,Salut - Medicina,Òptica,Salut,41.547743,2.106533,,937259342,,qdq_2026,,1,Carrer Escola Industrial 13,
+,Carrer Sant Cugat,22,ÒPTICA SAMARANCH,Salut - Medicina,Òptica,Salut,41.545659,2.105192,,937277014,,qdq_2026,,1,Carrer Sant Cugat 22,
+,Carrer Corominas,15,VISTA ÓPTICA,Salut - Medicina,Òptica,Salut,41.547038,2.104435,http://www.vistaoptica.com,937273752,,qdq_2026,,1,Carrer Corominas 15,
+,Carrer Les Planes,2,SIS CENTRE PSICOLOGIA,Salut - Medicina,Psicologia,Salut,41.544046,2.109926,http://www.centresis.com,661567998,,qdq_2026,,1,Carrer Les Planes 2,
+,Carrer Sol,179,DOLORS RAMÍREZ PSICOLOGIA,Salut - Medicina,Psicologia,Salut,41.540165,2.110788,,669098721,,qdq_2026,,1,Carrer Sol 179,
+,Carrer Estrella,211-217,PSICOSENS,Salut - Medicina,Psicologia,Salut,41.550246,2.101381,http://lauramedinapsicologia.webs.tl,648017262,,qdq_2026,,1,Carrer Estrella 211-217,
+,Carrer Vallès,95,TERAPIA NEURAL. SABADELL,Salut - Medicina,Psicologia,Salut,41.548643,2.099905,http://www.terapianeural.com,937278068,,qdq_2026,,1,Carrer Vallès 95,
+,Carrer Puigcerdà,2,CENTRE DE GINER DE PSICOLOGIA,Salut - Medicina,Psicologia,Salut,41.545378,2.101175,http://www.cginer.es,931001877,,qdq_2026,,1,Carrer Puigcerdà 2,
+,Carrer Estrella,128,ABORA,Salut - Medicina,Psicologia,Salut,41.547573,2.102833,http://www.abora.info,937254672,,qdq_2026,,1,Carrer Estrella 128,
+,Carrer Escola Industrial,,PSIQUE CENTRO DE PSICOLOGIA,Salut - Medicina,Psicologia,Salut,41.547869,2.106688,,667715303,,qdq_2026,,1,Carrer Escola Industrial,
+,Carrer Valls,28,"BONED PLANELLS, A.",Salut - Medicina,Psicologia,Salut,41.548425,2.107056,http://anaboned.wix.com/psicologa,651732357,,qdq_2026,,1,Carrer Valls 28,
+,Carrer Valls,28,GAP,Salut - Medicina,Psicologia,Salut,41.548425,2.107056,http://www.gap-sabadell.com,649112199,,qdq_2026,,1,Carrer Valls 28,
+,Carrer Zurbano,,"HERNÁNDEZ GONZÁLEZ, J.",Salut - Medicina,Psicologia,Salut,41.539952,2.107614,http://www.jeronihernandezcoaching.com,937118342,,qdq_2026,,1,Carrer Zurbano,
+765,c. del Portal de la Floresta,25,Farmacia Planas-Codinach,Farmàcies,pharmacy,pharmacy,41.5760979,2.0862118,,+34937167574,"Mo-Sa 09:00-13:30,16:30-20:30",OSM,,,c. del Portal de la Floresta 25,
+1085,c. de Juvenal,12,"Farmàcia Herrero Torres, Ignacio",Farmàcies,pharmacy,pharmacy,41.5552276,2.0850427,,+34937160827,,OSM,,,c. de Juvenal 12,
+1410,av. de la Concòrdia,48,"Farmàcia Cruset Garrell, Núria",Farmàcies,pharmacy,pharmacy,41.5601246,2.0951319,,+34937230794,,OSM,,,av. de la Concòrdia 48,
+1025,c. de la Lusitània,2,"Farmàcia Colomina Brusau, M. Rosa",Farmàcies,pharmacy,pharmacy,41.5581798,2.095087,,+34937162335,,OSM,,,c. de la Lusitània 2,
+1388,c. de Covadonga,310,Farmàcia Tres Creus,Farmàcies,pharmacy,pharmacy,41.5463688,2.1171732,,+34937258185,"Mo,Sa 09:00-14:30,16:30-20:30",OSM,,,c. de Covadonga 310,
+774,c. de Plini el Vell,1-5,,Farmàcies,pharmacy,pharmacy,41.5581711,2.0858445,,+34937165497,"Mo-Fr 09:00-13:30,16:30-20:30",OSM,,,c. de Plini el Vell 1-5,
+1500,c. de Candanchú,31,"Farmàcia de Cáceres Botello, José Ignacio",Farmàcies,pharmacy,pharmacy,41.572842,2.0892669,,+34937163171,,OSM,,,c. de Candanchú 31,
+1458,c. de Castellar del Vallès,222,C.A.P. Creu Alta,Salut - Medicina,clinic,clinic,41.5605371,2.1003567,,,,OSM,,,c. de Castellar del Vallès 222,
+841,c. del Papa Pius XI,116,"Clínica accidentes de tráfico, Sabadell",Salut - Medicina,clinic,clinic,41.5535059,2.1027843,,,,OSM,,,c. del Papa Pius XI 116,
+1184,c. de Gràcia,78 bis,Clínica Radiografía,Salut - Medicina,clinic,clinic,41.5490955,2.105812,,,,OSM,,,c. de Gràcia 78 bis,
+450,c. de Zurbano,3 baix-B,Centre Radiològic SBD,Salut - Medicina,doctors,doctors,41.540815,2.1111115,http://www.crsbd.info,+34 937450324,"Mo, We 08:30-13:00,15:30-19:00; Tu, Th 08:30-13:00,15:30-20:00; Fr 08:30-13:00,15:30-17:00",OSM,,,c. de Zurbano 3 baix-B,
+965,av. de Matadepera,7,"Farmàcia Relat Vidal, Jordi",Farmàcies,pharmacy,pharmacy,41.5635881,2.0905697,,+34937161065,,OSM,,,av. de Matadepera 7,
+452,rda. de Zamenhof,145,"Farmàcia Pareja Cozcolluela, Josep Manel",Farmàcies,pharmacy,pharmacy,41.5504459,2.1002161,http://www.farmaciapareja.com,+34 937265628,"Sa,Su 09:00-22:00; Mo-Fr 08:00-22:00",OSM,,,rda. de Zamenhof 145,
+569,c. de Sol i Padrís,116,"Farmàcia Capdevila Bassols, Anna M.",Farmàcies,pharmacy,pharmacy,41.5353796,2.1194049,,+34937122574,,OSM,,,c. de Sol i Padrís 116,
+767,rda. de Ponent,1,"Farmàcia Corominas Riqué, Cristina",Farmàcies,pharmacy,pharmacy,41.5448666,2.0996551,,+34937269704,,OSM,,,rda. de Ponent 1,
+659,c. de Sallarès i Pla,140,"Farmàcia Garriga Majo, Marta",Farmàcies,pharmacy,pharmacy,41.5424785,2.1139767,,+34937259757,,OSM,,,c. de Sallarès i Pla 140,
+1370,raval de Dins,17,Consulta Dra. Imma Viñolas,Salut - Medicina,doctors,doctors,41.5497711,2.1081885,https://www.draimmavinolas.com/,,Mo-Su 09:00-18:00,OSM,,,raval de Dins 17,
+1538,c. de Borràs,8,"Farmàcia Garrell Capdevila, Joan",Farmàcies,pharmacy,pharmacy,41.5516125,2.1036518,,,"PH,Mo-Su 09:00-22:00",OSM,,,c. de Borràs 8,
+756,ctra. de Prats de Lluçanès,84-89,"Farmàcia Torres Costa, L. / Matarranz Torres, L.",Farmàcies,pharmacy,pharmacy,41.5569889,2.1020879,,+34937161383,"Mo-Fr 09:00-13:30,16:45-20:15+; PH,Su off; Sa 09:00-13:30,16:45-20:15; Sa off",OSM,,,ctra. de Prats de Lluçanès 84-89,
+1466,c. del Carme,10,"Farmàcia Bagan Tapioles, Montserrat",Farmàcies,pharmacy,pharmacy,41.5487159,2.1113324,,+34937250303,,OSM,,,c. del Carme 10,
+469,c. de Viladomat,20-24,"Farmàcia Mujal Viñals, Assumpció",Farmàcies,pharmacy,pharmacy,41.5400118,2.1049833,,+34937100543,,OSM,,,c. de Viladomat 20-24,
+1588,av. de Barberà,226,"Farmàcia Bofi Martinez, Patricia",Farmàcies,pharmacy,pharmacy,41.5350045,2.114534,,+34938545286,,OSM,,,av. de Barberà 226,
+978,pl. de Marquilles,4,"Farmàcia Pons Samaranch, Isabel",Farmàcies,pharmacy,pharmacy,41.5460525,2.1056977,,+34937256745,"PH,Mo-Su 09:00-22:00",OSM,,,pl. de Marquilles 4,
+1674,via Alexandra,37,"Farmàcia Puig Camarero, Lluis",Farmàcies,pharmacy,pharmacy,41.5550041,2.0875782,,,,OSM,,,via Alexandra 37,
+507,c. de València,19,"Farmàcia Martín Poveda, Ma. Dolores",Farmàcies,pharmacy,pharmacy,41.5657766,2.0957131,,+34937166238,,OSM,,,c. de València 19,
+1009,c. de Malta,70,"Farmàcia Busquet Mitjà, M. Àngels",Farmàcies,pharmacy,pharmacy,41.5470038,2.0836812,,+34937204911,,OSM,,,c. de Malta 70,
+1587,ctra. de Barcelona,219,"Farmàcia Montané Bombardó, Glòria",Farmàcies,pharmacy,pharmacy,41.5386801,2.1077842,,+34937260539,,OSM,,,ctra. de Barcelona 219,
+1609,pl. de Còrdova,14-15,"Farmàcia Franco García, M. Pilar",Farmàcies,pharmacy,pharmacy,41.5609502,2.0826251,,+34937465026,,OSM,,,pl. de Còrdova 14-15,
+560,c. de Tàcit,1,"Farmàcia Borrás Urtubia, Teresa",Farmàcies,pharmacy,pharmacy,41.5513339,2.0853661,,+34937161120,,OSM,,,c. de Tàcit 1,
+470,c. de Vila Cinca,89,"Farmàcia Escarra Caldes, Pere",Farmàcies,pharmacy,pharmacy,41.5562216,2.1051443,,+34937162311,,OSM,,,c. de Vila Cinca 89,
+1587,ctra. de Barcelona,74,"Farmàcia Marcet Vicens, Jordi",Farmàcies,pharmacy,pharmacy,41.541889,2.1043095,,+34937478020,,OSM,,,ctra. de Barcelona 74,
+1524,c. de Brutau,187,"Farmàcia Montserrat Marco, M. Antònia",Farmàcies,pharmacy,pharmacy,41.5379091,2.1164587,,+34937103645,,OSM,,,c. de Brutau 187,
+770,av. de Polinyà,65,"Farmàcia Borja Fernandez, Laia",Farmàcies,pharmacy,pharmacy,41.5611258,2.12868,,+34937252920,,OSM,,,av. de Polinyà 65,
+780,pg. de la Plaça Major,29,Farmàcia Anna Garriga Majó,Farmàcies,pharmacy,pharmacy,41.5475242,2.1084229,,+34937255353,,OSM,,,pg. de la Plaça Major 29,
+1444,c. de Cèsar Torras,132,"Farmàcia Blanchart Tintó, Meritxell",Farmàcies,pharmacy,pharmacy,41.5408286,2.0959904,,+34937267104,,OSM,,,c. de Cèsar Torras 132,
+1260,c. Florit,28,"Farmàcia Tous Geulen, Josep M.",Farmàcies,pharmacy,pharmacy,41.56262,2.1034496,,+34937168458,,OSM,,,c. Florit 28,
+621,c. de Sant Isidor,80,"Farmàcia Mora Palà, Mireia",Farmàcies,pharmacy,pharmacy,41.5525699,2.0828473,,+34937163052,,OSM,,,c. de Sant Isidor 80,
+641,rda. de Santa Maria,28 A,"Farmàcia Esteban, M. Teresa - Lopera, M. Teresa",Farmàcies,pharmacy,pharmacy,41.5318087,2.1212239,,+34937102295,,OSM,,,rda. de Santa Maria 28 A,
+1590,c. de Balmes,83-85,"Farmàcia Sala Alegre, E. - Roca Huergo, S.I.",Farmàcies,pharmacy,pharmacy,41.5406821,2.1188733,,+34937270594,,OSM,,,c. de Balmes 83-85,
+1588,av. de Barberà,299,"Farmàcia Fàbregas Martínez, Marta",Farmàcies,pharmacy,pharmacy,41.5321623,2.1161845,,+34937101337,,OSM,,,av. de Barberà 299,
+1588,av. de Barberà,48,"Farmàcia Rosell Gras, Maria",Farmàcies,pharmacy,pharmacy,41.5382021,2.1129724,,+34937101343,,OSM,,,av. de Barberà 48,
+542,ctra. de Terrassa,316,"Farmàcia Gadea Melo, Olga",Farmàcies,pharmacy,pharmacy,41.5471264,2.0902055,,+34937262371,,OSM,,,ctra. de Terrassa 316,
+839,av. dels Paraires,26,"Farmàcia Grimalt Sancho, J - Vives Grimalt, MP",Farmàcies,pharmacy,pharmacy,41.5550314,2.0938334,,+34937165113,,OSM,,,av. dels Paraires 26,
+549,c. de Tenerife,52,"Farmàcia Manent Margarit, Meritxell",Farmàcies,pharmacy,pharmacy,41.5449011,2.0874707,,+34937264420,,OSM,,,c. de Tenerife 52,
+631,c. de Sant Cugat,95,"Farmàcia Merce Sora, Anabel",Farmàcies,pharmacy,pharmacy,41.5441024,2.1036801,,+34937254325,,OSM,,,c. de Sant Cugat 95,
+1427,c. de Colom,13,"Farmàcia Crusafont Sabaté, Anna M.",Farmàcies,pharmacy,pharmacy,41.5469636,2.1054543,,+34937250777,,OSM,,,c. de Colom 13,
+542,ctra. de Terrassa,377,"Farmàcia Carrera Graño, Rosa Maria",Farmàcies,pharmacy,pharmacy,41.5481955,2.0853367,,+34937264449,,OSM,,,ctra. de Terrassa 377,
+1065,c. de la Llanera,93,"Farmàcia Bonet Ortiz, M. Teresa",Farmàcies,pharmacy,pharmacy,41.5694743,2.0916567,,+34937167133,,OSM,,,c. de la Llanera 93,
+714,c. dels Reis Catòlics,39,"Farmàcia Ferrer San José, Carles",Farmàcies,pharmacy,pharmacy,41.5262992,2.113672,,+34937104336,,OSM,,,c. dels Reis Catòlics 39,
+1185,c. de Goya,62,"Farmàcia González Carnicer, Eulàlia",Farmàcies,pharmacy,pharmacy,41.5263769,2.1087704,,+34937105097,,OSM,,,c. de Goya 62,
+1587,ctra. de Barcelona,558,"Farmàcia Brustenga Fortuny, Marta",Farmàcies,pharmacy,pharmacy,41.5278502,2.1179897,,+34937104435,,OSM,,,ctra. de Barcelona 558,
+797,c. de Permanyer,65,Centre d'Atenció Primària de Gràcia,Salut - Medicina,clinic,clinic,41.5400635,2.0999081,,+34 937466087,,OSM,,,c. de Permanyer 65,
+780,pg. de la Plaça Major,1,Óptica Andorrana,Salut - Òptica,optician,optician,41.546913,2.1085349,https://www.optica-andorrana.com/,+34937250485,Mo-Fr 09:45-13:30; Sa 10:00-14:00; Mo-Sa 17:00-20:30,OSM,,,pg. de la Plaça Major 1,
+452,rda. de Zamenhof,153,CLINICFISIO Fisioteràpia i Osteopatia,Salut - Medicina,hospital,hospital,41.5502449,2.0994157,https://fisioterapia-sabadell.com/,+34622499373,Mo-Su 07:30-21:00,OSM,,,rda. de Zamenhof 153,
+1400,c. de Copenhaguen,235,Movident,Salut - Dental,dentist,dentist,41.558819,2.0794696,,,,OSM,,,c. de Copenhaguen 235,
+966,via de Massagué,,Farmàcia Blanchart,Farmàcies,pharmacy,pharmacy,41.5509538,2.1073542,,,,OSM,,,via de Massagué,
+831,c. del Pare Sallarès,2,Centre Mèdic Sabadell,Salut - Medicina,clinic,clinic,41.5492422,2.1064472,,+34 93 726 55 00,Mo-Fr 08:00-21:00; Sa 09:00-21:00,OSM,,,c. del Pare Sallarès 2,
+,Passeig de la Plaça Major,2,Alain Afflelou Óptico,Salut - Òptica,WebSearch,Salut - Òptica,41.5475,2.107,afflelou.es,937459881,,WebSearch_2026,,,Passeig de la Plaça Major 2,
+,Plaça de Sant Roc,23-22,Cottet Óptica y Audiología,Salut - Òptica,WebSearch,Salut - Òptica,41.5485,2.109,cottet.com,937269998,,WebSearch_2026,,,Plaça de Sant Roc 23-22,
+,Rambla,7,General Óptica,Salut - Òptica,WebSearch,Salut - Òptica,41.5475,2.107,generaloptica.es,937255555,,WebSearch_2026,,,Rambla 7,
+,Passeig de la Plaça Major,44,Multiópticas Plaça Major,Salut - Òptica,WebSearch,Salut - Òptica,41.5475,2.107,multiopticas.com,937259364,,WebSearch_2026,,,Passeig de la Plaça Major 44,
+,Rambla,185,Multiópticas Rambla,Salut - Òptica,WebSearch,Salut - Òptica,41.5475,2.107,multiopticas.com,938547765,,WebSearch_2026,,,Rambla 185,
+,Av. de Matadepera,93,Óptica Can Oriach,Salut - Òptica,WebSearch,Salut - Òptica,41.564,2.0905,,937168846,,WebSearch_2026,,,Av. de Matadepera 93,
+,Ctra. de Barcelona,640,Óptica de la Creu,Salut - Òptica,WebSearch,Salut - Òptica,41.5395,2.1095,opticadelacreu.es,937123550,,WebSearch_2026,,,Ctra. de Barcelona 640,
+,Passeig dels Almogàvers,9,Òptica del Passeig,Salut - Òptica,WebSearch,Salut - Òptica,41.5395,2.1095,naturalopticsgroup.com,644354564,,WebSearch_2026,,,Passeig dels Almogàvers 9,
+,Carrer de Jovellanos,6,Óptica gafas.es,Salut - Òptica,WebSearch,Salut - Òptica,41.5485,2.109,gafas.es,932471924,,WebSearch_2026,,,Carrer de Jovellanos 6,
+,Av. de Barberà,177,Optica Indalo,Salut - Òptica,WebSearch,Salut - Òptica,41.538,2.114,,937118134,,WebSearch_2026,,,Av. de Barberà 177,
+,Carrer Major,162,Òptica Macià,Salut - Òptica,WebSearch,Salut - Òptica,41.5605,2.1025,,937163037,,WebSearch_2026,,,Carrer Major 162,
+,Av. Onze de Setembre,22-26,Òptica Oneoptic Sabadell 2,Salut - Òptica,WebSearch,Salut - Òptica,41.5605,2.1025,oneoptic.es,931716858,,WebSearch_2026,,,Av. Onze de Setembre 22-26,
+,Carrer de Sol i Padrís,101,Opticalia Sol I Padrís,Salut - Òptica,WebSearch,Salut - Òptica,41.538,2.114,opticalia.com,937101273,,WebSearch_2026,,,Carrer de Sol i Padrís 101,
+,Passeig de la Plaça Major,1,Optica & Audiologia Andorrana,Salut - Òptica,WebSearch,Salut - Òptica,41.5475,2.107,optica-andorrana.com,937250485,,WebSearch_2026,,,Passeig de la Plaça Major 1,
+,Plaça de Sant Roc,7,Òptica & Audiologia Universitària,Salut - Òptica,WebSearch,Salut - Òptica,41.5485,2.109,opticauniversitaria.es,937466220,,WebSearch_2026,,,Plaça de Sant Roc 7,
+,Carrer de l'Escola Industrial,13,Opticalia Martin,Salut - Òptica,WebSearch,Salut - Òptica,41.5485,2.109,opticalia.com,937259342,,WebSearch_2026,,,Carrer de l'Escola Industrial 13,
+,Av. de Barberà,53,Opticam,Salut - Òptica,WebSearch,Salut - Òptica,41.538,2.114,opticam.cat,937108100,,WebSearch_2026,,,Av. de Barberà 53,
+,Av. de Francesc Macià,54,Visionlab,Salut - Òptica,WebSearch,Salut - Òptica,41.5605,2.1025,visionlab.es,937237446,,WebSearch_2026,,,Av. de Francesc Macià 54,
+,Av. de Matadepera,105,VISTAOPTICA,Salut - Òptica,WebSearch,Salut - Òptica,41.564,2.0905,vistaoptica.es,937243272,,WebSearch_2026,,,Av. de Matadepera 105,
+,Carrer de Coromines,15,VISTAOPTICA Sabadell 2,Salut - Òptica,WebSearch,Salut - Òptica,41.5485,2.109,vistaoptica.es,937273752,,WebSearch_2026,,,Carrer de Coromines 15,
+,Carrer de Plini el Vell,38,FisioClinics Sabadell,Salut - Fisioterapia,WebSearch,Salut - Fisioterapia,41.553,2.0845,sabadell.fisio-clinics.com,623537974,,WebSearch_2026,,,Carrer de Plini el Vell 38,
+,Carrer Torres i Bages A1 Local,1,Manel Torralba Fisio,Salut - Fisioterapia,WebSearch,Salut - Fisioterapia,41.5485,2.109,maneltorralbafisio.com,,,WebSearch_2026,,,Carrer Torres i Bages A1 Local 1,
+,Carrer de Salut,141,Kinetic Fisioteràpia,Salut - Fisioterapia,WebSearch,Salut - Fisioterapia,41.553,2.0845,fisiosabadell.cat,937278125,,WebSearch_2026,,,Carrer de Salut 141,
+,Passeig Rubió i Ors,91,Fisiocentre Salut,Salut - Fisioterapia,WebSearch,Salut - Fisioterapia,41.5485,2.109,fisioterapeutaensabadell.com,,,WebSearch_2026,,,Passeig Rubió i Ors 91,
+,Carrer Prat de la Riba,49,Centres Mèdics Tredic Sabadell,Salut - Medicina,WebSearch,Salut - Medicina,41.553,2.0845,centremedictredic.com,937231273,,WebSearch_2026,,,Carrer Prat de la Riba 49,
+,Rambla,9,Elena Reig Psicologia,Salut - Psicologia,WebSearch,Salut - Psicologia,41.5485,2.109,psicologos-sabadell.com,659856181,,WebSearch_2026,,,Rambla 9,
+,Carrer de Les Valls,26-28,Sigma Salut Psicologia,Salut - Psicologia,WebSearch,Salut - Psicologia,41.5485,2.109,,,,WebSearch_2026,,,Carrer de Les Valls 26-28,
+,Carrer de Blasco de Garay,84,Centre Psicologia Ara,Salut - Psicologia,WebSearch,Salut - Psicologia,41.5475,2.107,,,,WebSearch_2026,,,Carrer de Blasco de Garay 84,
+,Carrer de Sant Antoni,35,Centre Psicologia Equilibri i Benestar,Salut - Psicologia,WebSearch,Salut - Psicologia,41.5485,2.109,,,,WebSearch_2026,,,Carrer de Sant Antoni 35,
+,Av. de Matadepera,161,Clínica Dental Tres-D,Salut - Dental,WebSearch,Salut - Dental,41.564,2.0905,clinicadentaltresd.es,,,WebSearch_2026,,,Av. de Matadepera 161,
+,Av. de Matadepera,202,Dentobucal Sabadell,Salut - Dental,WebSearch,Salut - Dental,41.564,2.0905,clinicadentobucal.es,,,WebSearch_2026,,,Av. de Matadepera 202,
+,Carrer de les Valls,10,IO Clínica Dental Sabadell,Salut - Dental,WebSearch,Salut - Dental,41.5485,2.109,ioa.es,,,WebSearch_2026,,,Carrer de les Valls 10,
+,Carrer de Narcís Giralt,67,Clínica Dental Sanitas Sabadell Centre,Salut - Dental,WebSearch,Salut - Dental,41.5475,2.107,sanitas.es,,,WebSearch_2026,,,Carrer de Narcís Giralt 67,
+,Carrer del Pare Sallarès,2,Centre Mèdic Sabadell,Salut - Medicina,WebSearch,Salut - Medicina,41.5485,2.109,centremedicsabadell.com,,,WebSearch_2026,,,Carrer del Pare Sallarès 2,
+,Av. de Matadepera s/n,,Sanident Associats Centre Dental,Salut - Dental,WebSearch,Salut - Dental,41.564,2.0905,sanident.net,,,WebSearch_2026,,,Av. de Matadepera s/n,
+,Ronda de Ponent,1,Farmàcia Corominas Riqué,Farmàcies,WebSearch,Farmàcies,41.5485,2.109,,,,WebSearch_2026,,,Ronda de Ponent 1,
+,Av. de Barberà,299,Farmàcia Fàbregas Martínez,Farmàcies,WebSearch,Farmàcies,41.538,2.114,,,,WebSearch_2026,,,Av. de Barberà 299,
+,Carrer Dr. Zamenhof,145,Farmàcia Pareja Cozcolluela,Farmàcies,WebSearch,Farmàcies,41.538,2.114,,,,WebSearch_2026,,,Carrer Dr. Zamenhof 145,
+,Av. de Polinyà,65,Farmàcia Borja Fernandez,Farmàcies,WebSearch,Farmàcies,41.5605,2.1025,,,,WebSearch_2026,,,Av. de Polinyà 65,
+,Ctra. de Barcelona,558,Farmàcia Brustenga Fortuny,Farmàcies,WebSearch,Farmàcies,41.5395,2.1095,,,,WebSearch_2026,,,Ctra. de Barcelona 558,
+,Av. dels Paraires,26,Farmàcia Grimalt-Vives,Farmàcies,WebSearch,Farmàcies,41.553,2.0875,,,,WebSearch_2026,,,Av. dels Paraires 26,
+,Ctra. de Terrassa,377,Farmàcia Carrera Graño,Farmàcies,WebSearch,Farmàcies,41.553,2.0875,,,,WebSearch_2026,,,Ctra. de Terrassa 377,
+,,,Centre d'Atenció Primària Sant Oleguer,Salut - Medicina,,Activitats de medicina especialitzada,41.5385552,2.1179282,,,,OSM_2026,,1,,
+,,,Asepeyo,Salut - Medicina,,Activitats de medicina especialitzada,41.5447489,2.1002579,,,,OSM_2026,,1,,
+,,,C.A.P. Sant Fèlix,Salut - Medicina,,Activitats de medicina especialitzada,41.5325822,2.1139605,,,,OSM_2026,,1,,
+,,,Multiópticas,Salut - Òptica,optician,Òptica,41.5412052,2.1117753,,,,OSM,,1,,
+,,,Visionlab,Salut - Òptica,optician,Òptica,41.5535969,2.0985035,,,,OSM,,1,,
+,,,FIOSTEC Funcional Sabadell,Salut - Fisioterapia,WebSearch,Salut - Fisioterapia,41.5485,2.109,fiostec.com,,,WebSearch_2026,,,,
+,,,Fisioterapia i Osteopatia Sabadell,Salut - Fisioterapia,WebSearch,Salut - Fisioterapia,41.5485,2.109,fisioterapiaiosteopatia.net,,,WebSearch_2026,,,,
+,,,PsicoSabadell,Salut - Psicologia,WebSearch,Salut - Psicologia,41.5485,2.109,psicosabadell.com,,,WebSearch_2026,,,,
+,,,Psicologia Clínica Sabadell,Salut - Psicologia,WebSearch,Salut - Psicologia,41.5485,2.109,psicologiaclinicasabadell.es,,,WebSearch_2026,,,,
+,,,Psicologia i Educació Sabadell,Salut - Psicologia,WebSearch,Salut - Psicologia,41.5485,2.109,psicologiaieducaciosabadell.com,,,WebSearch_2026,,,,
+,,,Mèdic Dental Sabadell,Salut - Dental,WebSearch,Salut - Dental,41.5485,2.109,medicdentalsabadell.com,,,WebSearch_2026,,,,
+,,,Inidental Sabadell,Salut - Dental,WebSearch,Salut - Dental,41.5485,2.109,inidental.com,,,WebSearch_2026,,,,
+,,,"Centro Médico del Vallès, S.L.",Salut - Medicina,WebSearch,Salut - Medicina,41.5485,2.109,,,,WebSearch_2026,,,,
+,,,NAEKO S.L.,Salut - Medicina,WebSearch,Salut - Medicina,41.5485,2.109,,,,WebSearch_2026,,,,
+,,,Trauma Salut,Salut - Medicina,WebSearch,Salut - Medicina,41.5485,2.109,,,,WebSearch_2026,,,,

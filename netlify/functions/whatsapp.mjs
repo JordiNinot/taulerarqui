@@ -133,12 +133,9 @@ export default async function handler(req) {
       return twimlResponse('Hola! Soc el Trasto Petit. Escriu-me el que necessites i t\'ajudare!');
     }
 
-    // Fase 1: classificar intencio
+    // Fase 1: classificar intencio (tokens curts, només per detectar JSON)
     const phase1Prompt = SYSTEM_PROMPT + '\n\nMissatge de l\'usuari: ' + body;
-    const phase1Response = await callGemini(phase1Prompt, 400);
-    
-    // If this is a normal response (no JSON action), allow more tokens
-    // by re-calling with higher limit if response seems truncated
+    const phase1Response = await callGemini(phase1Prompt, 150);
 
     // Intentar parsejar com a JSON d'accio
     let parsed = null;
@@ -146,6 +143,12 @@ export default async function handler(req) {
       const jsonMatch = phase1Response.match(/\{[\s\S]*\}/);
       if (jsonMatch) parsed = JSON.parse(jsonMatch[0]);
     } catch (e) { /* no es JSON, resposta normal */ }
+
+    // Si no és una acció, tornar a cridar amb tokens suficients per resposta completa
+    if (!parsed?.action) {
+      const fullResponse = await callGemini(phase1Prompt, 2000);
+      return twimlResponse(fullResponse);
+    }
 
     if (parsed?.action === 'modify' && parsed?.file && parsed?.instruction) {
       const githubToken = process.env.GITHUB_TOKEN;

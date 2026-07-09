@@ -392,9 +392,11 @@
               <div class="form-group">
                 <label for="calc-type">Concepte d'Ocupació</label>
                 <select id="calc-type" class="form-control">
-                  <option value="tanca">Tanca, bastida o tancament d'obra (per m²)</option>
-                  <option value="grua">Grua mòbil o reserva d'espai (per metre lineal)</option>
-                  <option value="rasa">Cales, rases i calicantes en paviment (per m²)</option>
+                  <option value="tanca">Tanca protectora d'obra (per m²/dia)</option>
+                  <option value="bastida">Bastida de façana (per m²/dia)</option>
+                  <option value="elevador">Plataforma elevadora / Elevador (per m²/dia)</option>
+                  <option value="grua">Grua mòbil o torre – reserva d'espai (per m²/dia)</option>
+                  <option value="rasa">Rasa, cala o calicata en paviment (per m²/dia)</option>
                   <option value="terrassa">Terrassa / Vetlladors (per m²)</option>
                 </select>
               </div>
@@ -462,7 +464,7 @@
               <div class="breakdown-details" style="display: flex; flex-direction: column; gap: 10px; font-size: 0.85rem;">
                 <div style="display: flex; justify-content: space-between;">
                   <span style="color: var(--text-muted);">Concepte:</span>
-                  <strong id="inv-concepte" style="color: var(--text-main);">Tanca o bastida d'obra</strong>
+                  <strong id="inv-concepte" style="color: var(--text-main);">Element auxiliar d'obra</strong>
                 </div>
                 <div style="display: flex; justify-content: space-between;">
                   <span style="color: var(--text-muted);">Carrer / Emplaçament:</span>

@@ -1208,11 +1208,30 @@ function validarAdrecaNucli(nomCarrer, numPortal) {
 // en la relacio seran considerats... de l'ultima categoria").
 const COEF_MAP = { "1A": 1.50, "1B": 1.45, "2": 1.28, "3": 1.15, "4": 1.02, "5": 0.80 };
 
+// Tarifes oficials reals de l'OF 4.5 (2026) — Secció 1a: "Tarifes generals i elements
+// auxiliars d'obra (per m²/dia)". S'aplica a TOTS els elements auxiliars d'obra:
+// tanques protectores, bastides de façana, plataformes elevadores, grues mòbils,
+// rases, cales i calicates, i qualsevol ocupació no recollida específicament a l'annex.
+// Font: Annex de tarifes, Secció 1a, Ordenança Fiscal 4.5 de l'Ajuntament de Sabadell (2026).
+const TARIFES_OBRA = { "1A": 0.48, "1B": 0.42, "2": 0.37, "3": 0.31, "4": 0.31, "5": 0.31 };
+// Mínims Secció 1a: si m² × dies × tarifa < mínim aplicable, s'usa el mínim.
+// El mínim s'aplica per ocupació (no per dia), en funció de la superfície sol·licitada.
+const MINIMUMS_OBRA = [
+  { maxM2: 4,        min: 13.31 },
+  { maxM2: 6,        min: 24.83 },
+  { maxM2: 8,        min: 30.92 },
+  { maxM2: 10,       min: 41.04 },
+  { maxM2: 15,       min: 43.34 },
+  { maxM2: Infinity, min: 49.46 }
+];
+function minimumObraPerM2(m2) {
+  return (MINIMUMS_OBRA.find(e => m2 <= e.maxM2) || MINIMUMS_OBRA[MINIMUMS_OBRA.length - 1]).min;
+}
+
 // Tarifes oficials reals (€/m²) per a Terrasses i Vetlladors, segons l'Annex de
-// tarifes, Secció 2a, de l'Ordenança Fiscal 4.5 (2026). A diferència dels altres
-// conceptes (tanca/grua/rasa), aquestes tarifes ja són específiques per categoria
-// de carrer (1A-5), de manera que NO s'hi aplica el COEF_MAP per sobre (evitaria
-// duplicar l'ajust categòric). Modalitats: anual, estiu i hivern són imports fixos
+// tarifes, Secció 2a, de l'Ordenança Fiscal 4.5 (2026). A diferència dels elements
+// auxiliars d'obra (Secció 1a), les tarifes de terrassa ja estan diferenciades per
+// categoria (1A-5) i no s'aplica COEF_MAP per sobre (evita duplicar l'ajust categòric). Modalitats: anual, estiu i hivern són imports fixos
 // per a tota la temporada/any; cap_setmana_estiu i cap_setmana_hivern són imports
 // fixos per a tota la temporada però amb ocupació limitada als caps de setmana;
 // eventual és un import per m² i DIA (Article 7è.6: cap de setmana = divendres a
@@ -2670,14 +2689,24 @@ function initCalculator() {
     groupTerrassaModalitat.classList.add("hidden");
 
     if (type === "tanca") {
-      label1.textContent = "Superfície (m²)";
+      label1.textContent = "Superfície ocupada (m²)";
       label2.textContent = "Durada (Dies)";
       param1.value = 25;
       param2.value = 30;
-    } else if (type === "grua") {
-      label1.textContent = "Metres lineals ocupats";
+    } else if (type === "bastida") {
+      label1.textContent = "Superfície ocupada (m²)";
       label2.textContent = "Durada (Dies)";
-      param1.value = 8;
+      param1.value = 40;
+      param2.value = 60;
+    } else if (type === "elevador") {
+      label1.textContent = "Superfície ocupada (m²)";
+      label2.textContent = "Durada (Dies)";
+      param1.value = 12;
+      param2.value = 5;
+    } else if (type === "grua") {
+      label1.textContent = "Superfície reservada (m²)";
+      label2.textContent = "Durada (Dies)";
+      param1.value = 15;
       param2.value = 3;
     } else if (type === "rasa") {
       label1.textContent = "Superfície afectada (m²)";
@@ -2877,31 +2906,40 @@ function initCalculator() {
     let formulaText = "";
     let total = 0;
 
-    if (type === "tanca") {
-      baseRate = 1.20; // 1.20 € per m² / dia
-      total = val1 * val2 * baseRate * coeff;
-      descripcioConcepte = "Tanca, bastida o tancament d'obra";
-      descripcioParams = `${val1} m² x ${val2} dies`;
-      invTarifaBase.textContent = `${baseRate.toFixed(2)} € / m² / dia`;
-      formulaText = `${val1} m² * ${val2} dies * ${baseRate.toFixed(2)} € * ${coeff.toFixed(2)} (coef.) = ${total.toLocaleString('ca-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
-    } 
-    else if (type === "grua") {
-      baseRate = 3.50; // 3.50 € per metre lineal / dia
-      total = val1 * val2 * baseRate * coeff;
-      descripcioConcepte = "Reserva de via pública per grua mòbil";
-      descripcioParams = `${val1} ml x ${val2} dies`;
-      invTarifaBase.textContent = `${baseRate.toFixed(2)} € / m. lineal / dia`;
-      formulaText = `${val1} ml * ${val2} dies * ${baseRate.toFixed(2)} € * ${coeff.toFixed(2)} (coef.) = ${total.toLocaleString('ca-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
-    } 
-    else if (type === "rasa") {
-      baseRate = 15.00; // 15.00 € per m² de cala
-      const fix = 60.00;
-      total = fix + (val1 * baseRate * coeff);
-      descripcioConcepte = "Obertura de cales i rases en paviment";
-      descripcioParams = `${val1} m²`;
-      invTarifaBase.textContent = `${baseRate.toFixed(2)} € / m² (afectat)`;
-      formulaText = `${fix.toFixed(2)} € (drets fixos d'obra) + (${val1} m² * ${baseRate.toFixed(2)} € * ${coeff.toFixed(2)} (coef.)) = ${total.toLocaleString('ca-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
-    } 
+    // Noms dels conceptes d'elements auxiliars d'obra (OF 4.5, Secció 1a)
+    const OBRA_TIPUS_NOMS = {
+      tanca:   "Tanca protectora d'obra",
+      bastida: "Bastida de façana",
+      elevador:"Plataforma elevadora / Elevador de façana",
+      grua:    "Grua mòbil o torre – reserva d'espai",
+      rasa:    "Rasa, cala o calicata en paviment"
+    };
+
+    if (OBRA_TIPUS_NOMS[type] !== undefined) {
+      // Tarifa real Secció 1a OF 4.5: ja per categoria (no s'aplica COEF_MAP a sobre)
+      const tarifaS1a = TARIFES_OBRA[catCode] || TARIFES_OBRA["5"];
+      const calculat = val1 * val2 * tarifaS1a;
+      const minimVal = minimumObraPerM2(val1);
+      const aplicaMinim = calculat < minimVal;
+      const totalObra = aplicaMinim ? minimVal : calculat;
+
+      // Etiqueta del tram de mínim aplicable
+      const entradaMinim = MINIMUMS_OBRA.find(e => val1 <= e.maxM2) || MINIMUMS_OBRA[MINIMUMS_OBRA.length - 1];
+      const etiquetaMinim = entradaMinim.maxM2 === Infinity
+        ? "més de 15 m²" : `fins a ${entradaMinim.maxM2} m²`;
+
+      descripcioConcepte = OBRA_TIPUS_NOMS[type];
+      descripcioParams = `${val1} m² × ${val2} dies`;
+      invTarifaBase.textContent = `${tarifaS1a.toFixed(2)} € / m² / dia (Secció 1a OF 4.5, cat. ${catCode})`;
+
+      if (aplicaMinim) {
+        formulaText = `${val1} m² × ${val2} dies × ${tarifaS1a.toFixed(2)} €/m²/dia = ${calculat.toLocaleString('ca-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €\n→ S'aplica mínim per superfície (${etiquetaMinim}): ${minimVal.toFixed(2).replace('.', ',')} €\nTOTAL = ${totalObra.toLocaleString('ca-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
+      } else {
+        formulaText = `${val1} m² × ${val2} dies × ${tarifaS1a.toFixed(2)} €/m²/dia (cat. ${catCode}) = ${totalObra.toLocaleString('ca-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
+      }
+
+      total = totalObra;
+    }
     else if (type === "terrassa") {
       const tarifesCat = TARIFES_TERRASSA[catCode] || TARIFES_TERRASSA["5"];
       const linies = Array.from(terrassaLinesContainer.querySelectorAll(".terrassa-line-wrapper"));
@@ -2948,11 +2986,14 @@ function initCalculator() {
     totalTaxCalculated = total;
 
     // Actualització fitxa
+    const obraTypesList = ["tanca", "bastida", "elevador", "grua", "rasa"];
     invConcepte.textContent = descripcioConcepte;
     invStreet.textContent = streetName;
     invCategoria.textContent = (type === "terrassa")
       ? `${catText} (tarifa real per categoria, Ordenança 4.5)`
-      : `${catText} (Coeficient: ${coeff.toFixed(2)})`;
+      : obraTypesList.includes(type)
+        ? `${catText} — Secció 1a OF 4.5: ${(TARIFES_OBRA[catCode] || TARIFES_OBRA["5"]).toFixed(2)} €/m²/dia`
+        : `${catText} (Coeficient: ${coeff.toFixed(2)})`;
     invParametres.textContent = descripcioParams;
     invFormula.innerText = formulaText;
     invTotal.textContent = `${total.toLocaleString('ca-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;

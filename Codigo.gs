@@ -9,16 +9,20 @@ var GITHUB_API = 'https://api.github.com/repos/JordiNinot/taulerarqui/contents';
 var SYSTEM_PROMPT = 'Ets el Trasto Petit, l\'assistent personal del Jordi Ninot de Sabadell (Catalunya).\n' +
   'Ajudes amb qualsevol tasca: cerques, fitxers, dades, CSVs, codi, redaccions, preguntes diverses.\n\n' +
   'MEMÒRIA: Tens accés a tot el fil de correu (conversa anterior). Usa el context per donar respostes coherents i continuar el fil. Si l\'usuari fa referència a alguna cosa dita abans, recorda-ho.\n\n' +
-  'FITXERS QUE POTS MODIFICAR al web de taulerarqui:\n' +
-  '- index.html (pàgina principal)\n' +
-  '- app.html (aplicació)\n' +
+  'FITXERS DEL WEB taulerarqui (pots llegir-los i modificar-los):\n' +
+  '- index.html (dashboard principal: mapa, buscador d\'adreces, aforaments, eines)\n' +
+  '- app.html (eines tècniques: calculadora de taxes, normativa, repositori IA)\n' +
   '- styles.css (estils globals)\n' +
-  '- visor_terrasses_ds.html (visor terrasses)\n\n' +
+  '- visor_terrasses_ds.html (visor de terrasses i via pública)\n\n' +
   'NORMES:\n' +
   '- Contesta SEMPRE en català (o en l\'idioma en que t\'escriguin).\n' +
   '- Via Gmail pots donar respostes detallades i completes.\n' +
-  '- Si la petició implica modificar un d\'aquests fitxers, respon ÚNICAMENT amb aquest JSON exacte (sense cap text addicional):\n' +
+  '- Si la petició implica MODIFICAR un fitxer, respon ÚNICAMENT amb:\n' +
   '  {"action":"modify","file":"NOM_FITXER","instruction":"INSTRUCCIO_DETALLADA_EN_CATALA"}\n' +
+  '- Si la petició és sobre el CONTINGUT ACTUAL del web (com funciona, què hi ha, quines dades té...), respon ÚNICAMENT amb:\n' +
+  '  {"action":"read","files":["FITXER1","FITXER2"],"question":"PREGUNTA_REFORMULADA_CLARA"}\n' +
+  '  (inclou els fitxers més rellevants per respondre la pregunta; màxim 2)\n' +
+  '- Per a qualsevol altra pregunta, respon directament en text.\n' +
   '- Si cal accés a fitxers del Mac que no siguin els del web, avisa que s\'ha de fer des del Cowork.\n';
 
 var EDITOR_PROMPT = 'Ets un editor de codi expert. L\'usuari et donarà el contingut actual d\'un fitxer i una instrucció de modificació.\n' +
@@ -69,7 +73,7 @@ function checkEmails() {
 
     try {
       // Fase 1: classificar intencio amb historial
-      var phase1Response = callGeminiWithHistory(apiKey, SYSTEM_PROMPT, conversationHistory, userText, 400);
+      var phase1Response = callGeminiWithHistory(apiKey, SYSTEM_PROMPT, conversationHistory, userText, 1200);
 
       // Intentar parsejar com a JSON d'accio
       var parsed = null;
@@ -83,6 +87,7 @@ function checkEmails() {
       var replyText;
 
       if (parsed && parsed.action === 'modify' && parsed.file && parsed.instruction) {
+        // ── ACCIÓ: MODIFICAR FITXER ──────────────────────────────────────────
         if (!githubToken) {
           replyText = 'Error: GITHUB_TOKEN no configurada a Script Properties. Afegeix-la per poder modificar fitxers web.';
         } else if (ALLOWED_FILES.indexOf(parsed.file) === -1) {
@@ -92,24 +97,52 @@ function checkEmails() {
           var instruction = parsed.instruction;
           Logger.log('Modificant fitxer: ' + filename + ' | ' + instruction.substring(0, 80));
 
-          // Llegir fitxer actual de GitHub
           var fileData = getGithubFile(filename, githubToken);
-
-          // Fase 2: Gemini edita el fitxer (sense historial de conversa, és tasca directa)
           var editorPromptFull = EDITOR_PROMPT + '\n\nFITXER: ' + filename + '\nINSTRUCCIO: ' + instruction + '\n\nCONTINGUT ACTUAL:\n' + fileData.content;
           var newContent = callGeminiWithHistory(apiKey, EDITOR_PROMPT, [], editorPromptFull, 8000);
-
-          // Netejar possible markdown de Gemini
           newContent = newContent.replace(/^```[\w]*\n?/, '').replace(/\n?```$/, '').trim();
-
-          // Commitejar a GitHub
           commitGithubFile(filename, newContent, fileData.sha, githubToken);
 
           replyText = '✅ ' + filename + ' modificat i publicat correctament!\n\n' +
             'Els canvis es desplegaran a Netlify en uns 30 segons.\n\n' +
             'Canvi aplicat: ' + instruction;
         }
+
+      } else if (parsed && parsed.action === 'read' && parsed.files && parsed.question) {
+        // ── ACCIÓ: LLEGIR FITXERS I RESPONDRE PREGUNTA ──────────────────────
+        if (!githubToken) {
+          // Sense token, resposta directa de Gemini sense context de fitxers
+          replyText = callGeminiWithHistory(apiKey, SYSTEM_PROMPT, conversationHistory, userText, 2000);
+        } else {
+          var filesContext = '';
+          var filesLlegits = [];
+          for (var fi = 0; fi < parsed.files.length; fi++) {
+            var fn = parsed.files[fi];
+            if (ALLOWED_FILES.indexOf(fn) !== -1) {
+              try {
+                var fd = getGithubFile(fn, githubToken);
+                // Limitar a 6000 chars per fitxer per no saturar el context
+                var contingut = fd.content.length > 6000 ? fd.content.substring(0, 6000) + '\n... [truncat]' : fd.content;
+                filesContext += '\n\n=== ' + fn + ' ===\n' + contingut;
+                filesLlegits.push(fn);
+              } catch (readErr) {
+                Logger.log('Error llegint ' + fn + ': ' + readErr.message);
+              }
+            }
+          }
+
+          if (filesContext) {
+            var queryPrompt = 'CONTINGUT ACTUAL DELS FITXERS DEL WEB taulerarqui:\n' + filesContext +
+              '\n\n---\nAra respon aquesta pregunta basant-te en el contingut real dels fitxers:\n' + parsed.question;
+            replyText = callGeminiWithHistory(apiKey, SYSTEM_PROMPT, conversationHistory, queryPrompt, 2000);
+            Logger.log('Resposta basada en fitxers: ' + filesLlegits.join(', '));
+          } else {
+            replyText = callGeminiWithHistory(apiKey, SYSTEM_PROMPT, conversationHistory, userText, 2000);
+          }
+        }
+
       } else {
+        // ── RESPOSTA DIRECTA ─────────────────────────────────────────────────
         replyText = phase1Response;
       }
 

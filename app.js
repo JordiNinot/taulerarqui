@@ -2565,6 +2565,10 @@ function initCalculator() {
   const group1 = document.getElementById("group-param-1");
   const group2 = document.getElementById("group-param-2");
   const groupTerrassaModalitat = document.getElementById("group-terrassa-modalitat");
+  const groupDates = document.getElementById("group-dates");
+  const dataInici = document.getElementById("calc-data-inici");
+  const dataFinal = document.getElementById("calc-data-final");
+  const diesCounter = document.getElementById("dies-counter");
   const terrassaLinesContainer = document.getElementById("terrassa-lines-container");
   const btnAddTerrassaLine = document.getElementById("btn-add-terrassa-line");
 
@@ -2702,12 +2706,55 @@ function initCalculator() {
   streetInput.addEventListener("change", actualitzarFeedbackCategoria);
   portalInput.addEventListener("input",  actualitzarFeedbackCategoria);
 
+  // --- Lògica de calendaris de dates (data inici / data final) ---
+  // Calcula els dies d'ocupació a partir de les dues dates (ambdós extrems inclosos).
+  function calcularDiesEntreDates() {
+    if (!dataInici || !dataFinal || !dataInici.value || !dataFinal.value) return 0;
+    const ini = new Date(dataInici.value);
+    const fin = new Date(dataFinal.value);
+    if (isNaN(ini.getTime()) || isNaN(fin.getTime()) || fin < ini) return 0;
+    return Math.round((fin - ini) / (1000 * 60 * 60 * 24)) + 1;
+  }
+
+  function actualitzarDiesCounter() {
+    if (!diesCounter) return;
+    const dies = calcularDiesEntreDates();
+    if (!dataInici.value || !dataFinal.value) {
+      diesCounter.textContent = "Selecciona les dates per calcular els dies.";
+      diesCounter.style.color = "var(--text-muted)";
+    } else if (dies <= 0) {
+      diesCounter.textContent = "La data final ha de ser igual o posterior a la d'inici.";
+      diesCounter.style.color = "var(--accent-orange)";
+    } else {
+      diesCounter.textContent = `${dies} dia${dies === 1 ? "" : "s"} d'ocupació`;
+      diesCounter.style.color = "var(--primary)";
+      diesCounter.style.fontWeight = "600";
+    }
+  }
+
+  // Estableix les dates per defecte i actualitza el comptador
+  function setDefaultDates(diesDuracio) {
+    const avui = new Date();
+    const ini = avui.toISOString().split("T")[0];
+    const finDate = new Date(avui);
+    finDate.setDate(finDate.getDate() + diesDuracio - 1);
+    const fin = finDate.toISOString().split("T")[0];
+    if (dataInici) dataInici.value = ini;
+    if (dataFinal) dataFinal.value = fin;
+    actualitzarDiesCounter();
+  }
+
+  if (dataInici) dataInici.addEventListener("change", actualitzarDiesCounter);
+  if (dataFinal) dataFinal.addEventListener("change", actualitzarDiesCounter);
+
   // Canviar camps del formulari segons tipus d'ocupació
   calcType.addEventListener("change", () => {
     const type = calcType.value;
     group1.classList.remove("hidden");
-    group2.classList.remove("hidden");
+    group2.classList.add("hidden");         // mai mostrem el camp manual de dies
     groupTerrassaModalitat.classList.add("hidden");
+    if (groupDates) groupDates.classList.add("hidden");
+    if (diesCounter) { diesCounter.textContent = ""; diesCounter.style.fontWeight = ""; }
 
     // Sub-tipus d'obra: visible només per "obra"
     const groupObraSubtipus = document.getElementById("group-obra-subtipus");
@@ -2717,26 +2764,25 @@ function initCalculator() {
 
     if (type === "obra") {
       label1.textContent = "Superfície ocupada (m²)";
-      label2.textContent = "Durada (Dies)";
       param1.value = 25;
-      param2.value = 30;
+      if (groupDates) groupDates.classList.remove("hidden");
+      setDefaultDates(30);
     } else if (type === "tall_carrer") {
       label1.textContent = "Superfície de calçada (m²)";
-      label2.textContent = "Durada (Dies)";
       param1.value = 30;
-      param2.value = 5;
+      if (groupDates) groupDates.classList.remove("hidden");
+      setDefaultDates(5);
     } else if (type === "carrega_descarrega") {
       label1.textContent = "Superfície reservada (m²)";
-      label2.textContent = "Durada (Dies)";
       param1.value = 12;
-      param2.value = 1;
+      if (groupDates) groupDates.classList.remove("hidden");
+      setDefaultDates(1);
     } else if (type === "terrassa") {
       // La superfície genèrica (param1/param2) no s'usa: cada modalitat de terrassa
       // té la seva pròpia línia amb m² (i dies, si és eventual) independents, perquè
       // diferents parts de la terrassa poden tenir règims d'autorització diferents
       // (p. ex. una part anual i una extensió només a l'estiu).
       group1.classList.add("hidden");
-      group2.classList.add("hidden");
       groupTerrassaModalitat.classList.remove("hidden");
       if (terrassaLinesContainer.children.length === 0) {
         crearLiniaTerrassa("anual", 20);
@@ -2902,7 +2948,17 @@ function initCalculator() {
     const portalNum = portalInput.value.trim();
     const streetName = portalNum ? `${streetNameBase}, núm. ${portalNum}` : streetNameBase;
     const val1 = parseFloat(param1.value) || 0;
-    const val2 = parseFloat(param2.value) || 0;
+    // Per als tipus d'obra/tall/càrrega, els dies es calculen de les dates;
+    // per a terrassa, val2 no s'utilitza (cada línia té els seus propis dies).
+    const obraTypesForDate = ["obra", "tall_carrer", "carrega_descarrega"];
+    let val2 = parseFloat(param2.value) || 0;
+    if (obraTypesForDate.includes(type)) {
+      val2 = calcularDiesEntreDates();
+      if (val2 <= 0) {
+        invFormula.innerText = "Selecciona una data d'inici i una data final vàlides per calcular.";
+        return;
+      }
+    }
 
     let baseRate = 0;
     let coeff = 0.80;
@@ -2955,7 +3011,11 @@ function initCalculator() {
       const etiquetaMinim = entradaMinim.maxM2 === Infinity
         ? "més de 15 m²" : `fins a ${entradaMinim.maxM2} m²`;
 
-      descripcioParams = `${val1} m² × ${val2} dies`;
+      // Etiqueta de les dates a la fitxa de resultat
+      const dataIniciStr = dataInici && dataInici.value ? dataInici.value.split("-").reverse().join("/") : "";
+      const dataFinalStr = dataFinal && dataFinal.value ? dataFinal.value.split("-").reverse().join("/") : "";
+      const dateLabel = dataIniciStr && dataFinalStr ? ` (${dataIniciStr} – ${dataFinalStr})` : "";
+      descripcioParams = `${val1} m² × ${val2} dies${dateLabel}`;
       invTarifaBase.textContent = `${tarifaS1a.toFixed(2)} € / m² / dia (Secció 1a OF 4.5, cat. ${catCode})`;
 
       if (aplicaMinim) {

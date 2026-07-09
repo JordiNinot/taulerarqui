@@ -436,11 +436,24 @@
                   <label id="label-param-1" for="calc-param-1">Superfície (m²)</label>
                   <input type="number" id="calc-param-1" class="form-control" value="25" min="1">
                 </div>
-                <div class="form-group" id="group-param-2">
+                <div class="form-group hidden" id="group-param-2">
                   <label id="label-param-2" for="calc-param-2">Durada (Dies)</label>
                   <input type="number" id="calc-param-2" class="form-control" value="30" min="1">
                 </div>
               </div>
+
+              <!-- Selectors de dates (per a obra, tall de carrer, càrrega/descàrrega) -->
+              <div class="form-row" id="group-dates">
+                <div class="form-group">
+                  <label for="calc-data-inici">Data d'inici</label>
+                  <input type="date" id="calc-data-inici" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label for="calc-data-final">Data final</label>
+                  <input type="date" id="calc-data-final" class="form-control">
+                </div>
+              </div>
+              <div id="dies-counter" style="font-size: 0.83em; color: var(--text-muted); margin-top: -10px; margin-bottom: 8px; padding-left: 2px; min-height: 1.2em;"></div>
 
               <div class="form-group hidden" id="group-terrassa-modalitat">
                 <label>Línies d'autorització de terrassa <span style="color: var(--text-muted); font-weight: 400;">(una superfície independent per cada modalitat; es poden combinar, p. ex. una part anual i una extensió només d'estiu. Per a la modalitat "Eventual", els dies es marquen amb un calendari que assenyala els festius estatals, autonòmics i locals)</span></label>

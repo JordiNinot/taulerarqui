@@ -2709,31 +2709,27 @@ function initCalculator() {
     group2.classList.remove("hidden");
     groupTerrassaModalitat.classList.add("hidden");
 
-    if (type === "tanca") {
+    // Sub-tipus d'obra: visible només per "obra"
+    const groupObraSubtipus = document.getElementById("group-obra-subtipus");
+    if (groupObraSubtipus) {
+      groupObraSubtipus.classList.toggle("hidden", type !== "obra");
+    }
+
+    if (type === "obra") {
       label1.textContent = "Superfície ocupada (m²)";
       label2.textContent = "Durada (Dies)";
       param1.value = 25;
       param2.value = 30;
-    } else if (type === "bastida") {
-      label1.textContent = "Superfície ocupada (m²)";
+    } else if (type === "tall_carrer") {
+      label1.textContent = "Superfície de calçada (m²)";
       label2.textContent = "Durada (Dies)";
-      param1.value = 40;
-      param2.value = 60;
-    } else if (type === "elevador") {
-      label1.textContent = "Superfície ocupada (m²)";
-      label2.textContent = "Durada (Dies)";
-      param1.value = 12;
+      param1.value = 30;
       param2.value = 5;
-    } else if (type === "grua") {
+    } else if (type === "carrega_descarrega") {
       label1.textContent = "Superfície reservada (m²)";
       label2.textContent = "Durada (Dies)";
-      param1.value = 15;
-      param2.value = 3;
-    } else if (type === "rasa") {
-      label1.textContent = "Superfície afectada (m²)";
-      label2.textContent = "Durada dels treballs (Dies)";
-      param1.value = 15;
-      param2.value = 10;
+      param1.value = 12;
+      param2.value = 1;
     } else if (type === "terrassa") {
       // La superfície genèrica (param1/param2) no s'usa: cada modalitat de terrassa
       // té la seva pròpia línia amb m² (i dies, si és eventual) independents, perquè
@@ -2927,29 +2923,38 @@ function initCalculator() {
     let formulaText = "";
     let total = 0;
 
-    // Noms dels conceptes d'elements auxiliars d'obra (OF 4.5, Secció 1a)
-    const OBRA_TIPUS_NOMS = {
+    // Noms descriptius per als subtipus d'elements auxiliars d'obra
+    const SUBTIPUS_OBRA_NOMS = {
       tanca:   "Tanca protectora d'obra",
       bastida: "Bastida de façana",
       elevador:"Plataforma elevadora / Elevador de façana",
-      grua:    "Grua mòbil o torre – reserva d'espai",
-      rasa:    "Rasa, cala o calicata en paviment"
+      grua:    "Grua mòbil o torre – reserva d'espai"
     };
 
-    if (OBRA_TIPUS_NOMS[type] !== undefined) {
-      // Tarifa real Secció 1a OF 4.5: ja per categoria (no s'aplica COEF_MAP a sobre)
+    if (type === "obra" || type === "tall_carrer" || type === "carrega_descarrega") {
+      // Tots tres usen Secció 1a OF 4.5 (tarifes generals i elements auxiliars d'obra)
       const tarifaS1a = TARIFES_OBRA[catCode] || TARIFES_OBRA["5"];
       const calculat = val1 * val2 * tarifaS1a;
       const minimVal = minimumObraPerM2(val1);
       const aplicaMinim = calculat < minimVal;
       const totalObra = aplicaMinim ? minimVal : calculat;
 
+      // Nom del concepte
+      if (type === "obra") {
+        const subtipusEl = document.getElementById("calc-obra-subtipus");
+        const subtipus = subtipusEl ? subtipusEl.value : "tanca";
+        descripcioConcepte = SUBTIPUS_OBRA_NOMS[subtipus] || "Element auxiliar d'obra";
+      } else if (type === "tall_carrer") {
+        descripcioConcepte = "Tall o tancament de carrer";
+      } else {
+        descripcioConcepte = "Zona de càrrega i descàrrega";
+      }
+
       // Etiqueta del tram de mínim aplicable
       const entradaMinim = MINIMUMS_OBRA.find(e => val1 <= e.maxM2) || MINIMUMS_OBRA[MINIMUMS_OBRA.length - 1];
       const etiquetaMinim = entradaMinim.maxM2 === Infinity
         ? "més de 15 m²" : `fins a ${entradaMinim.maxM2} m²`;
 
-      descripcioConcepte = OBRA_TIPUS_NOMS[type];
       descripcioParams = `${val1} m² × ${val2} dies`;
       invTarifaBase.textContent = `${tarifaS1a.toFixed(2)} € / m² / dia (Secció 1a OF 4.5, cat. ${catCode})`;
 
@@ -3007,7 +3012,7 @@ function initCalculator() {
     totalTaxCalculated = total;
 
     // Actualització fitxa
-    const obraTypesList = ["tanca", "bastida", "elevador", "grua", "rasa"];
+    const obraTypesList = ["obra", "tall_carrer", "carrega_descarrega"];
     invConcepte.textContent = descripcioConcepte;
     invStreet.textContent = streetName;
     invCategoria.textContent = (type === "terrassa")
@@ -3162,6 +3167,8 @@ TOTAL DRETS DE LIQUIDACIÓ: ${totalText}
   });
 
   // Carregar dades al iniciar la calculadora
+  // Dispara change per sincronitzar visibilitat sub-desplegables al carregar
+  calcType.dispatchEvent(new Event('change'));
   carregarHistorial();
 }
 

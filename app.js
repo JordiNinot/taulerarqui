@@ -122,18 +122,21 @@ let tasquesKanban = [
 ];
 
 // INICIALITZACIÓ
+// Cada init() comprova si els elements necessaris existeixen al DOM actual,
+// de manera que app.js funciona tant a index.html (dashboard complet) com
+// a app.html (calculadora + normativa + repositori sense dashboard).
 document.addEventListener("DOMContentLoaded", async () => {
   await carregarNucli(); // Carregar el nucli abans d'inicialitzar la calculadora
-  initTabs();
-  initMapPins();
+  if (document.querySelector(".nav-link")) initTabs();
+  if (document.querySelector(".map-pin"))  initMapPins();
   initBibliotecaNormativa();
-  initCharts();
-  initFieldNotes();
-  initCalculator();
-  initKanban();
-  initPomodoro();
+  if (document.getElementById("timeChart"))   initCharts();
+  if (document.getElementById("field-notes")) initFieldNotes();
+  if (document.getElementById("btn-calculate")) initCalculator();
+  if (document.getElementById("kanban-form"))  initKanban();
+  if (document.getElementById("pomodoro-display")) initPomodoro();
   initRepositoriFiles();
-  initCopilotSimulator();
+  if (document.getElementById("copilot-chat-messages")) initCopilotSimulator();
 });
 
 // 1. SISTEMA DE PESTANYES
@@ -193,10 +196,13 @@ function initTabs() {
   });
 
   // Shortcut a NotebookLM en el Header obre la pestanya del Repositori
-  document.getElementById("btn-notebooklm-shortcut").addEventListener("click", () => {
-    const repositoriLink = document.querySelector('[data-tab="tab-repositori"]');
-    if (repositoriLink) repositoriLink.click();
-  });
+  const btnNlm = document.getElementById("btn-notebooklm-shortcut");
+  if (btnNlm) {
+    btnNlm.addEventListener("click", () => {
+      const repositoriLink = document.querySelector('[data-tab="tab-repositori"]');
+      if (repositoriLink) repositoriLink.click();
+    });
+  }
 }
 
 // 2. DETALLS INTERACTIUS DEL MAPA
@@ -2951,8 +2957,9 @@ function initCalculator() {
     invFormula.innerText = formulaText;
     invTotal.textContent = `${total.toLocaleString('ca-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
 
-    // Actualitza KPI de l'escriptori
-    document.getElementById("kpi-tax-calc").textContent = `${Math.round(total).toLocaleString('ca-ES')} €`;
+    // Actualitza KPI de l'escriptori (només existeix a index.html)
+    const kpiEl = document.getElementById("kpi-tax-calc");
+    if (kpiEl) kpiEl.textContent = `${Math.round(total).toLocaleString('ca-ES')} €`;
 
     // Afegir a l'historial dinàmic
     afegirAHistorial(streetName, descripcioConcepte, descripcioParams, catText, total);
@@ -3065,7 +3072,6 @@ TOTAL DRETS DE LIQUIDACIÓ: ${totalText}
     const concepte = invConcepte.textContent;
     const carrer = invStreet.textContent;
     const totalText = invTotal.textContent;
-    const fieldNotes = document.getElementById("field-notes");
 
     if (totalTaxCalculated === 0) {
       alert("Fes un càlcul primer per poder-lo enviar a les teves notes.");
@@ -3073,16 +3079,24 @@ TOTAL DRETS DE LIQUIDACIÓ: ${totalText}
     }
 
     const textToInsert = `\n[CÀLCUL DE TAXA - ${new Date().toLocaleDateString('ca-ES')}] Concepte: ${concepte} a ${carrer} -> TOTAL ESTIMAT: ${totalText}\n`;
-    fieldNotes.value += textToInsert;
-    
-    localStorage.setItem("via_publica_field_notes", fieldNotes.value);
-    
-    // Canviar a pestanya dashboard
-    const dashboardLink = document.querySelector('[data-tab="tab-dashboard"]');
-    if (dashboardLink) dashboardLink.click();
-    
-    fieldNotes.focus();
-    alert("Dades enviades amb èxit al Bloc de Notes de Camp al Dashboard!");
+
+    const fieldNotes = document.getElementById("field-notes");
+    if (fieldNotes) {
+      // Estem a index.html: afegir a les notes i anar al dashboard
+      fieldNotes.value += textToInsert;
+      localStorage.setItem("via_publica_field_notes", fieldNotes.value);
+      const dashboardLink = document.querySelector('[data-tab="tab-dashboard"]');
+      if (dashboardLink) dashboardLink.click();
+      fieldNotes.focus();
+      alert("Dades enviades amb èxit al Bloc de Notes de Camp al Dashboard!");
+    } else {
+      // Estem a app.html: copiar al portapapers com a alternativa
+      navigator.clipboard.writeText(textToInsert.trim()).then(() => {
+        alert("Resultat copiat al portapapers!\n" + textToInsert.trim());
+      }).catch(() => {
+        alert("Resultat del càlcul:\n" + textToInsert.trim());
+      });
+    }
   });
 
   // Carregar dades al iniciar la calculadora

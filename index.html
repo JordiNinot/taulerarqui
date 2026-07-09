@@ -464,71 +464,71 @@ header .sub {
 .badge-tur { background: #fde8f5; color: #a01070; }
 .badge-altre { background: var(--ink-100); color: var(--ink-400); }
 
-/* === PANELL CAPES === */
-.capes-list {
-  padding: 8px 12px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2px 8px;
-  overflow-y: auto;
-}
-.capa-row {
+/* === PANELL CAPES - BOTONS MODALS === */
+.capes-btns {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 6px 4px;
-  border-radius: var(--r-2);
-  cursor: pointer;
-  transition: background var(--t-fast);
-  user-select: none;
-}
-.capa-row:hover { background: var(--ink-50); }
-.capa-check {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 16px; height: 16px;
-  border: 1.5px solid var(--ink-300);
-  border-radius: 4px;
-  flex-shrink: 0;
-  cursor: pointer;
-  position: relative;
-  transition: background var(--t-fast), border-color var(--t-fast);
-}
-.capa-check:checked {
-  background: var(--primary);
-  border-color: var(--primary);
-}
-.capa-check:checked::after {
-  content: '';
-  position: absolute;
-  left: 3px; top: 1px;
-  width: 5px; height: 8px;
-  border: 1.5px solid white;
-  border-top: none; border-left: none;
-  transform: rotate(45deg);
-}
-.capa-dot {
-  width: 8px; height: 8px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.capa-label {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--ink-700);
+  flex-direction: column;
+  overflow-y: auto;
   flex: 1;
+  min-height: 0;
 }
-.capa-disabled { opacity: 0.45; cursor: not-allowed; }
-.capa-disabled * { cursor: not-allowed; }
-.capes-grup-label {
+.capes-grup-sep {
   font-size: 10px;
   font-weight: 600;
   letter-spacing: .06em;
   text-transform: uppercase;
-  color: var(--ink-300);
-  padding: 4px 12px 2px;
+  color: var(--ink-400);
+  padding: 5px 14px 4px;
+  background: var(--ink-50);
+  border-top: 1px solid var(--ink-100);
+  border-bottom: 1px solid var(--ink-100);
+  flex-shrink: 0;
 }
-.capa-tag {
+.capa-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 14px 0 0;
+  width: 100%;
+  height: 60px;
+  flex-shrink: 0;
+  border: none;
+  border-bottom: 1px solid var(--ink-100);
+  background: white;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.13s;
+  font-family: var(--font-sans, 'IBM Plex Sans', sans-serif);
+  overflow: hidden;
+}
+.capa-btn:hover { background: var(--ink-50); }
+.capa-btn-disabled { opacity: 0.4; }
+.capa-btn-activa { background: var(--primary-bg, #eef6ef); }
+.capa-btn-activa:hover { background: #dff0e5; }
+.capa-btn-color {
+  width: 5px;
+  align-self: stretch;
+  flex-shrink: 0;
+}
+.capa-btn-nom {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink-700);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.capa-btn-badge {
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--ink-100);
+  color: var(--ink-400);
+  border-radius: 8px;
+  padding: 2px 8px;
+  flex-shrink: 0;
+}
+.capa-btn-count {
   display: inline-block;
   font-size: 10px;
   font-weight: 600;
@@ -539,7 +539,121 @@ header .sub {
   margin-left: 4px;
   vertical-align: middle;
 }
-.capa-loading { font-size: 10px; color: var(--ink-300); margin-left: 4px; }
+.capa-btn-onoff {
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 10px;
+  background: var(--ink-100);
+  color: var(--ink-400);
+  flex-shrink: 0;
+  min-width: 36px;
+  text-align: center;
+}
+.capa-btn-onoff.actiu {
+  background: var(--primary, #2f7548);
+  color: #fff;
+}
+.capa-btn-line-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  height: 22px;
+  border-radius: 11px;
+  font-size: 11px;
+  font-weight: 800;
+  padding: 0 8px;
+  flex-shrink: 0;
+  letter-spacing: .02em;
+  white-space: nowrap;
+}
+/* Modal overlay */
+#capa-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.45);
+  z-index: 3000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.capa-modal-box {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,.22);
+  width: 340px;
+  max-width: 90vw;
+  overflow: hidden;
+}
+.capa-modal-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border-bottom: 1px solid var(--ink-100);
+}
+.capa-modal-color {
+  width: 6px;
+  border-radius: 3px;
+  align-self: stretch;
+  flex-shrink: 0;
+  min-height: 40px;
+}
+.capa-modal-titol {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink-700);
+}
+.capa-modal-desc {
+  font-size: 12px;
+  color: var(--ink-400);
+  margin-top: 3px;
+}
+.capa-modal-close {
+  background: none;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  color: var(--ink-400);
+  padding: 4px 6px;
+  line-height: 1;
+  border-radius: 4px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+.capa-modal-close:hover { background: var(--ink-100); }
+.capa-modal-body { padding: 16px; }
+.capa-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.capa-toggle-label { font-size: 13px; font-weight: 500; color: var(--ink-700); }
+.toggle-switch { position: relative; width: 40px; height: 22px; flex-shrink: 0; }
+.toggle-switch input { opacity: 0; width: 0; height: 0; }
+.toggle-slider {
+  position: absolute; inset: 0;
+  background: var(--ink-200);
+  border-radius: 22px;
+  cursor: pointer;
+  transition: background .2s;
+}
+.toggle-slider::before {
+  content: '';
+  position: absolute;
+  width: 16px; height: 16px;
+  left: 3px; top: 3px;
+  background: white;
+  border-radius: 50%;
+  transition: transform .2s;
+  box-shadow: 0 1px 3px rgba(0,0,0,.2);
+}
+.toggle-switch input:checked + .toggle-slider { background: var(--primary); }
+.toggle-switch input:checked + .toggle-slider::before { transform: translateX(18px); }
+.toggle-switch input:disabled + .toggle-slider { opacity: 0.5; cursor: not-allowed; }
+.capa-tag { display: inline-block; font-size: 10px; font-weight: 600; background: var(--ink-100); color: var(--ink-400); border-radius: 8px; padding: 1px 5px; margin-left: 4px; vertical-align: middle; }
 /* Leaflet popup capes */
 .popup-activ { font-family: 'IBM Plex Sans', sans-serif; font-size: 12px; min-width: 160px; }
 .popup-activ strong { font-size: 13px; display: block; margin-bottom: 2px; }
@@ -710,47 +824,45 @@ header .sub {
           </div>
           <h2>Capes de Dades</h2>
         </div>
-        <div class="capes-list">
-          <div class="capes-grup-label">Via Pública</div>
-          <label class="capa-row capa-disabled">
-            <input type="checkbox" class="capa-check" disabled>
-            <span class="capa-dot" style="background:#e05c2e"></span>
-            <span class="capa-label">Terrasses</span>
-          </label>
-          <label class="capa-row capa-disabled">
-            <input type="checkbox" class="capa-check" disabled>
-            <span class="capa-dot" style="background:#e0a82e"></span>
-            <span class="capa-label">Auxiliars d'obra</span>
-          </label>
-          <label class="capa-row capa-disabled">
-            <input type="checkbox" class="capa-check" disabled>
-            <span class="capa-dot" style="background:#c0392b"></span>
-            <span class="capa-label">Talls de carrer</span>
-          </label>
-          <div class="capes-grup-label" style="margin-top:8px">Transport</div>
-          <label class="capa-row" id="capa-row-bus">
-            <input type="checkbox" class="capa-check" id="capa-bus">
-            <span class="capa-dot" style="background:#1a6bbf"></span>
-            <span class="capa-label">Línies de bus <span class="capa-tag" id="capa-bus-tag"></span></span>
-          </label>
-          <!-- Llegenda línies TUS (es genera dinàmicament) -->
-          <div id="bus-llegenda" style="display:none;margin:3px 0 5px 20px;flex-wrap:wrap;gap:3px"></div>
-          <label class="capa-row" id="capa-row-parades">
-            <input type="checkbox" class="capa-check" id="capa-parades">
-            <span class="capa-dot" style="background:#0e4a8a"></span>
-            <span class="capa-label">Parades de bus <span class="capa-tag" id="capa-parades-tag"></span></span>
-          </label>
-          <div class="capes-grup-label" style="margin-top:8px">Urbanisme</div>
-          <label class="capa-row" id="capa-row-srv">
-            <input type="checkbox" class="capa-check" id="capa-srv">
-            <span class="capa-dot" style="background:#b04000"></span>
-            <span class="capa-label">Servituds aeronàutiques</span>
-          </label>
-          <label class="capa-row" id="capa-row-activ">
-            <input type="checkbox" class="capa-check" id="capa-activ">
-            <span class="capa-dot" style="background:#7c3d8a"></span>
-            <span class="capa-label">Activitats (OSM) <span class="capa-tag">237</span></span>
-          </label>
+        <div class="capes-btns">
+          <!-- Via Pública (dades no disponibles) -->
+          <div class="capes-grup-sep">Via Pública</div>
+          <button class="capa-btn capa-btn-disabled" onclick="obrirCapaModal('terrasses')">
+            <span class="capa-btn-color" style="background:#e05c2e"></span>
+            <span class="capa-btn-nom">Terrasses</span>
+            <span class="capa-btn-badge">Aviat</span>
+          </button>
+          <button class="capa-btn capa-btn-disabled" onclick="obrirCapaModal('auxiliars')">
+            <span class="capa-btn-color" style="background:#e0a82e"></span>
+            <span class="capa-btn-nom">Auxiliars d'obra</span>
+            <span class="capa-btn-badge">Aviat</span>
+          </button>
+          <button class="capa-btn capa-btn-disabled" onclick="obrirCapaModal('talls')">
+            <span class="capa-btn-color" style="background:#c0392b"></span>
+            <span class="capa-btn-nom">Talls de carrer</span>
+            <span class="capa-btn-badge">Aviat</span>
+          </button>
+          <!-- Transport -->
+          <div class="capes-grup-sep">Transport</div>
+          <button class="capa-btn" id="capabtn-parades" onclick="obrirCapaModal('parades')">
+            <span class="capa-btn-color" style="background:#0e4a8a"></span>
+            <span class="capa-btn-nom">Parades de bus <span class="capa-btn-count" id="capa-parades-tag"></span></span>
+            <span class="capa-btn-onoff" id="capabtn-onoff-parades">OFF</span>
+          </button>
+          <!-- Botons per línia de bus (generats dinàmicament per JS) -->
+          <div id="bus-btns-container"></div>
+          <!-- Urbanisme -->
+          <div class="capes-grup-sep">Urbanisme</div>
+          <button class="capa-btn" id="capabtn-srv" onclick="obrirCapaModal('srv')">
+            <span class="capa-btn-color" style="background:#b04000"></span>
+            <span class="capa-btn-nom">Servituds aeronàutiques</span>
+            <span class="capa-btn-onoff" id="capabtn-onoff-srv">OFF</span>
+          </button>
+          <button class="capa-btn" id="capabtn-activ" onclick="obrirCapaModal('activ')">
+            <span class="capa-btn-color" style="background:#7c3d8a"></span>
+            <span class="capa-btn-nom">Activitats (OSM) <span class="capa-btn-count">237</span></span>
+            <span class="capa-btn-onoff" id="capabtn-onoff-activ">OFF</span>
+          </button>
         </div>
       </div>
     </div>
@@ -1196,171 +1308,263 @@ header .sub {
   function tancarFitxa() {
     document.getElementById('modal-fitxa').style.display = 'none';
   }
-  document.addEventListener('keydown', function(e){ if(e.key==='Escape') tancarFitxa(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape') { tancarCapaModal(); tancarFitxa(); } });
 
   /* ===== CAPES DE DADES ===== */
 
-  /* --- Servituds aeronàutiques LELL (RD 715/2023) --- */
-  // PR LELL: 41°31'18"N 002°06'18"E
   var LELL_PR = [41.52167, 2.10500];
-  var _layerSrv = null;
-  document.getElementById('capa-srv').addEventListener('change', function() {
-    if (this.checked) {
-      _layerSrv = L.layerGroup([
-        L.circle(LELL_PR, { radius: 4000, color: '#b04000', weight: 1.5, fillColor: '#e06020', fillOpacity: 0.07, dashArray: '4 3' })
-          .bindPopup('<div class="popup-activ"><strong>Sup. Horitzontal Interna (SHI)</strong><span class="pa-cat">r ≤ 4 km · Límit 188 m AMSL</span></div>'),
-        L.circle(LELL_PR, { radius: 6000, color: '#806000', weight: 1.5, fillColor: '#c09000', fillOpacity: 0.04, dashArray: '6 4' })
-          .bindPopup('<div class="popup-activ"><strong>Superfície Cònica</strong><span class="pa-cat">r 4–6 km · Límit fins 288 m AMSL</span></div>'),
-        L.circleMarker(LELL_PR, { radius: 5, color: '#b04000', fillColor: '#e05000', fillOpacity: 1, weight: 2 })
-          .bindPopup('<div class="popup-activ"><strong>Aeroport de Sabadell (LELL)</strong><span class="pa-cat">Punt de Referència · RD 715/2023</span></div>')
-      ]).addTo(map);
-    } else {
-      if (_layerSrv) { _layerSrv.remove(); _layerSrv = null; }
+  var _layerSrv = null, _layerActiv = null, _layerBusParades = null;
+  var _layersBusLinia = {}; // r → L.layerGroup
+  var _capaActiva = {};     // capaId → boolean
+
+  /* --- Helpers d'estat --- */
+  function _actualitzarBotoEstat(capaId) {
+    var el  = document.getElementById('capabtn-onoff-' + capaId);
+    var btn = document.getElementById('capabtn-' + capaId);
+    var actiu = !!_capaActiva[capaId];
+    if (el) {
+      el.textContent = actiu ? 'ACTIU' : 'OFF';
+      if (actiu) el.classList.add('actiu'); else el.classList.remove('actiu');
     }
-  });
+    if (btn) {
+      if (actiu) btn.classList.add('capa-btn-activa'); else btn.classList.remove('capa-btn-activa');
+    }
+  }
+
+  /* --- Servituds aeronàutiques --- */
+  function _activarSrv() {
+    if (_layerSrv) return;
+    _layerSrv = L.layerGroup([
+      L.circle(LELL_PR, { radius: 4000, color: '#b04000', weight: 1.5, fillColor: '#e06020', fillOpacity: 0.07, dashArray: '4 3' })
+        .bindPopup('<div class="popup-activ"><strong>Sup. Horitzontal Interna (SHI)</strong><span class="pa-cat">r ≤ 4 km · Límit 188 m AMSL</span></div>'),
+      L.circle(LELL_PR, { radius: 6000, color: '#806000', weight: 1.5, fillColor: '#c09000', fillOpacity: 0.04, dashArray: '6 4' })
+        .bindPopup('<div class="popup-activ"><strong>Superfície Cònica</strong><span class="pa-cat">r 4–6 km · Límit fins 288 m AMSL</span></div>'),
+      L.circleMarker(LELL_PR, { radius: 5, color: '#b04000', fillColor: '#e05000', fillOpacity: 1, weight: 2 })
+        .bindPopup('<div class="popup-activ"><strong>Aeroport de Sabadell (LELL)</strong><span class="pa-cat">Punt de Referència · RD 715/2023</span></div>')
+    ]).addTo(map);
+    _capaActiva['srv'] = true; _actualitzarBotoEstat('srv');
+  }
+  function _desactivarSrv() {
+    if (_layerSrv) { _layerSrv.remove(); _layerSrv = null; }
+    _capaActiva['srv'] = false; _actualitzarBotoEstat('srv');
+  }
 
   /* --- Activitats OSM --- */
-  var _layerActiv = null;
   var _catActivColor = { 'equipament':'#1a5bb0', 'comerç':'#1a7a1a', 'oficina':'#a06010', 'turisme':'#a01070', 'taller':'#555', 'salut':'#c01010' };
-  document.getElementById('capa-activ').addEventListener('change', function() {
-    if (this.checked) {
-      if (typeof _ACTIVITATS_GEO === 'undefined') return;
-      _layerActiv = L.layerGroup();
-      _ACTIVITATS_GEO.forEach(function(r) {
-        // r = [lat, lng, nom, cat, tipus, adr, tel?, web?]
-        var col = _catActivColor[r[3]] || '#555';
-        var m = L.circleMarker([r[0], r[1]], {
-          radius: 5, color: col, fillColor: col, fillOpacity: 0.85, weight: 1.5
-        });
-        var html = '<div class="popup-activ">'
-          + '<strong>' + (r[2] || 'Sense nom') + '</strong>'
-          + '<span class="pa-cat">' + (r[3] || '') + (r[4] ? ' · ' + r[4] : '') + '</span>'
-          + '<span class="pa-adr">' + r[5] + '</span>'
-          + (r[6] ? '<span class="pa-adr">' + r[6] + '</span>' : '')
-          + '</div>';
-        m.bindPopup(html);
-        _layerActiv.addLayer(m);
-      });
-      _layerActiv.addTo(map);
-    } else {
-      if (_layerActiv) { _layerActiv.remove(); _layerActiv = null; }
-    }
-  });
+  function _activarActiv() {
+    if (_layerActiv) return;
+    if (typeof _ACTIVITATS_GEO === 'undefined') return;
+    _layerActiv = L.layerGroup();
+    _ACTIVITATS_GEO.forEach(function(r) {
+      var col = _catActivColor[r[3]] || '#555';
+      var m = L.circleMarker([r[0], r[1]], { radius: 5, color: col, fillColor: col, fillOpacity: 0.85, weight: 1.5 });
+      var html = '<div class="popup-activ">'
+        + '<strong>' + (r[2] || 'Sense nom') + '</strong>'
+        + '<span class="pa-cat">' + (r[3] || '') + (r[4] ? ' · ' + r[4] : '') + '</span>'
+        + '<span class="pa-adr">' + r[5] + '</span>'
+        + (r[6] ? '<span class="pa-adr">' + r[6] + '</span>' : '')
+        + '</div>';
+      m.bindPopup(html);
+      _layerActiv.addLayer(m);
+    });
+    _layerActiv.addTo(map);
+    _capaActiva['activ'] = true; _actualitzarBotoEstat('activ');
+  }
+  function _desactivarActiv() {
+    if (_layerActiv) { _layerActiv.remove(); _layerActiv = null; }
+    _capaActiva['activ'] = false; _actualitzarBotoEstat('activ');
+  }
 
-  /* --- Línies de bus i parades (Overpass OSM) --- */
-  var _layerBusLines = null, _layerBusParades = null;
+  /* --- Bus: dades i carregador --- */
   var _busDataLoaded = false, _busLoading = false, _busQueue = [];
-  var _busRoutes = [], _busStops = [];
-
   function _carregarBus(callback) {
     if (_busDataLoaded) { callback(); return; }
     _busQueue.push(callback);
     if (_busLoading) return;
     _busLoading = true;
-
-    var tag  = document.getElementById('capa-bus-tag');
-    var tagP = document.getElementById('capa-parades-tag');
-
     if (typeof _BUS_ROUTES !== 'undefined' && typeof _BUS_STOPS !== 'undefined') {
-      _busDataLoaded = true;
-      _busLoading = false;
-      var _numLinies = new Set(_BUS_ROUTES.map(function(r){return r.r;})).size;
-      if (tag)  tag.textContent  = _numLinies || '0';
-      if (tagP) tagP.textContent = _BUS_STOPS.length  || '0';
+      _busDataLoaded = true; _busLoading = false;
       var q = _busQueue.slice(); _busQueue = [];
       q.forEach(function(cb){ cb(); });
     } else {
-      if (tag)  tag.textContent  = '!';
-      if (tagP) tagP.textContent = '!';
       console.error('bus_data.js no carregat');
       _busLoading = false; _busQueue = [];
     }
   }
 
-  document.getElementById('capa-bus').addEventListener('change', function() {
-    if (this.checked) {
-      _carregarBus(function() {
-        _layerBusLines = L.layerGroup();
-        _BUS_ROUTES.forEach(function(rt) {
-          if (rt.p.length < 10) return; // descarta stubs OSM incomplerts
-          var latlngs = rt.p.map(function(p){ return [41 + p[0]/10000, 2 + p[1]/10000]; });
-          var pl = L.polyline(latlngs, { color: rt.c, weight: 4, opacity: 0.8 });
-          pl.on('mouseover', function(){ this.setStyle({weight:6, opacity:1}); });
-          pl.on('mouseout',  function(){ this.setStyle({weight:4, opacity:0.8}); });
-          pl.bindPopup(
-            '<div class="popup-bus">'
-            + '<span class="pb-badge" style="background:' + rt.c + '">' + rt.r + '</span>'
-            + (rt.n ? '<div style="margin-top:6px;font-size:12px;color:#555">' + rt.n + '</div>' : '')
-            + '</div>'
-          ).addTo(_layerBusLines);
-        });
-        _layerBusLines.addTo(map);
-        // Llegenda: una badge per línia única
-        var leg = document.getElementById('bus-llegenda');
-        if (leg) {
-          var seen = {};
-          _BUS_ROUTES.forEach(function(rt){ if (!seen[rt.r]) seen[rt.r] = rt.c; });
-          var sorted = Object.keys(seen).sort(function(a,b){ return a.localeCompare(b, undefined, {numeric:true}); });
-          leg.innerHTML = sorted.map(function(r){
-            return '<span class="pb-badge" style="background:' + seen[r] + ';font-size:10px;padding:2px 6px;cursor:default" title="' + r + '">' + r + '</span>';
-          }).join('');
-          leg.style.display = 'flex';
-        }
+  /* --- Una línia de bus per capa --- */
+  function _activarLiniaBus(r) {
+    if (_layersBusLinia[r]) return;
+    _carregarBus(function() {
+      var layer = L.layerGroup();
+      _BUS_ROUTES.forEach(function(rt) {
+        if (rt.r !== r || rt.p.length < 10) return;
+        var latlngs = rt.p.map(function(p){ return [41 + p[0]/10000, 2 + p[1]/10000]; });
+        var pl = L.polyline(latlngs, { color: rt.c, weight: 4, opacity: 0.8 });
+        pl.on('mouseover', function(){ this.setStyle({weight:6, opacity:1}); });
+        pl.on('mouseout',  function(){ this.setStyle({weight:4, opacity:0.8}); });
+        pl.bindPopup(
+          '<div class="popup-bus"><span class="pb-badge" style="background:' + rt.c + '">' + rt.r + '</span>'
+          + (rt.n ? '<div style="margin-top:6px;font-size:12px;color:#555">' + rt.n + '</div>' : '')
+          + '</div>'
+        ).addTo(layer);
       });
-    } else {
-      if (_layerBusLines) { _layerBusLines.remove(); _layerBusLines = null; }
-      var leg = document.getElementById('bus-llegenda');
-      if (leg) { leg.style.display = 'none'; leg.innerHTML = ''; }
-    }
-  });
+      layer.addTo(map);
+      _layersBusLinia[r] = layer;
+      _capaActiva['bus-' + r] = true;
+      _actualitzarBotoEstat('bus-' + r);
+    });
+  }
+  function _desactivarLiniaBus(r) {
+    if (_layersBusLinia[r]) { _layersBusLinia[r].remove(); delete _layersBusLinia[r]; }
+    _capaActiva['bus-' + r] = false;
+    _actualitzarBotoEstat('bus-' + r);
+  }
 
-  document.getElementById('capa-parades').addEventListener('change', function() {
-    if (this.checked) {
-      _carregarBus(function() {
-        _layerBusParades = L.layerGroup();
-        _BUS_STOPS.forEach(function(s) {
-          var lat = 41 + s[1]/10000, lon = 2 + s[2]/10000;
-          var nomParada = s[3] || 'Parada';
-          // Filtra números invàlids (IDs nacionals >9999 o amb text)
-          var rawNum = s[4] || '';
-          // Números TUS vàlids: 1-3 dígits (1-999). Més grans = ID nacional, no es mostra.
-          var numParada = (rawNum && /^\d{1,3}$/.test(rawNum.trim())) ? rawNum.trim() : '';
-          var linies    = s[5] || [];
-
-          // Popup amb nom, número i línies
-          var html = '<div class="popup-bus">'
-            + '<div class="pb-header">'
-            + '<strong>' + nomParada + '</strong>'
-            + (numParada ? '<span class="pb-num">Parada ' + numParada + '</span>' : '')
-            + '</div>';
-          if (linies.length) {
-            linies.sort(function(a,b){ return (a.r||'').localeCompare(b.r||'', undefined, {numeric:true}); });
-            html += '<div class="pb-linies">';
-            linies.forEach(function(l) {
-              html += '<span class="pb-badge" style="background:' + l.c + '">' + (l.r || '?') + '</span>';
-            });
-            html += '</div>';
-          } else {
-            html += '<div class="pb-linies pb-nodata">Sense línies TUS associades</div>';
-          }
+  /* --- Parades de bus --- */
+  function _activarParades() {
+    if (_layerBusParades) return;
+    _carregarBus(function() {
+      _layerBusParades = L.layerGroup();
+      _BUS_STOPS.forEach(function(s) {
+        var lat = 41 + s[1]/10000, lon = 2 + s[2]/10000;
+        var nomParada = s[3] || 'Parada';
+        var rawNum = s[4] || '';
+        var numParada = (rawNum && /^\d{1,3}$/.test(rawNum.trim())) ? rawNum.trim() : '';
+        var linies = s[5] || [];
+        var html = '<div class="popup-bus"><div class="pb-header"><strong>' + nomParada + '</strong>'
+          + (numParada ? '<span class="pb-num">Parada ' + numParada + '</span>' : '') + '</div>';
+        if (linies.length) {
+          linies.sort(function(a,b){ return (a.r||'').localeCompare(b.r||'', undefined, {numeric:true}); });
+          html += '<div class="pb-linies">';
+          linies.forEach(function(l){ html += '<span class="pb-badge" style="background:' + l.c + '">' + (l.r||'?') + '</span>'; });
           html += '</div>';
-
-          // Icona: número si en té, punt petit si no
-          var iconHtml = numParada
-            ? '<div class="bs-mrk">' + numParada + '</div>'
-            : '<div class="bs-mrk bs-dot"></div>';
-          var icon = L.divIcon({ html: iconHtml, className: '', iconAnchor: [0, 0] });
-
-          L.marker([lat, lon], { icon: icon })
-            .bindPopup(html, { maxWidth: 280 })
-            .addTo(_layerBusParades);
-        });
-        _layerBusParades.addTo(map);
+        } else {
+          html += '<div class="pb-linies pb-nodata">Sense línies TUS associades</div>';
+        }
+        html += '</div>';
+        var iconHtml = numParada ? '<div class="bs-mrk">' + numParada + '</div>' : '<div class="bs-mrk bs-dot"></div>';
+        L.marker([lat, lon], { icon: L.divIcon({ html: iconHtml, className: '', iconAnchor: [0,0] }) })
+          .bindPopup(html, { maxWidth: 280 }).addTo(_layerBusParades);
       });
-    } else {
-      if (_layerBusParades) { _layerBusParades.remove(); _layerBusParades = null; }
+      _layerBusParades.addTo(map);
+      _capaActiva['parades'] = true; _actualitzarBotoEstat('parades');
+      var tagP = document.getElementById('capa-parades-tag');
+      if (tagP) tagP.textContent = _BUS_STOPS.length || '';
+    });
+  }
+  function _desactivarParades() {
+    if (_layerBusParades) { _layerBusParades.remove(); _layerBusParades = null; }
+    _capaActiva['parades'] = false; _actualitzarBotoEstat('parades');
+  }
+
+  /* --- Activació / desactivació genèrica --- */
+  function _activarCapa(capaId) {
+    if (capaId === 'srv') _activarSrv();
+    else if (capaId === 'activ') _activarActiv();
+    else if (capaId === 'parades') _activarParades();
+    else if (capaId.indexOf('bus-') === 0) _activarLiniaBus(capaId.slice(4));
+  }
+  function _desactivarCapa(capaId) {
+    if (capaId === 'srv') _desactivarSrv();
+    else if (capaId === 'activ') _desactivarActiv();
+    else if (capaId === 'parades') _desactivarParades();
+    else if (capaId.indexOf('bus-') === 0) _desactivarLiniaBus(capaId.slice(4));
+  }
+
+  /* --- Info per modal --- */
+  function _capaInfo(capaId) {
+    var infos = {
+      'terrasses': { color:'#e05c2e', titol:'Terrasses', desc:'Ocupació de via pública per terrasses i vetlladors. Capa en preparació.' },
+      'auxiliars': { color:'#e0a82e', titol:"Auxiliars d'obra", desc:'Tanques, bastides i elevadors actius. Capa en preparació.' },
+      'talls':     { color:'#c0392b', titol:'Talls de carrer', desc:'Restriccions temporals de circulació. Capa en preparació.' },
+      'parades':   { color:'#0e4a8a', titol:'Parades de bus (TUS)', desc:'Punts de parada del transport urbà de Sabadell.' },
+      'srv':       { color:'#b04000', titol:'Servituds aeronàutiques', desc:"Zones de protecció de l'aeroport LELL (RD 715/2023)." },
+      'activ':     { color:'#7c3d8a', titol:'Activitats (OSM)', desc:'237 activitats econòmiques georeferenciades.' }
+    };
+    if (infos[capaId]) return infos[capaId];
+    if (capaId.indexOf('bus-') === 0) {
+      var r = capaId.slice(4);
+      var color = '#1a6bbf';
+      if (typeof _BUS_ROUTES !== 'undefined') {
+        var rt = _BUS_ROUTES.filter(function(x){ return x.r === r; })[0];
+        if (rt) { color = rt.c; }
+      }
+      return { color: color, titol: 'Línia ' + r, desc: 'Traçat de la línia ' + r + ' del TUS Sabadell.' };
     }
-  });
+    return null;
+  }
+
+  /* --- Modal de capa --- */
+  var _capaModalActual = null;
+  var _capaDisabledIds = { 'terrasses':true, 'auxiliars':true, 'talls':true };
+
+  function obrirCapaModal(capaId) {
+    var info = _capaInfo(capaId);
+    if (!info) return;
+    _capaModalActual = capaId;
+    var isDisabled = !!_capaDisabledIds[capaId];
+    var actiu = !!_capaActiva[capaId];
+    document.getElementById('capa-modal-color').style.background = info.color;
+    document.getElementById('capa-modal-titol').textContent = info.titol;
+    document.getElementById('capa-modal-desc').textContent = info.desc;
+    document.getElementById('capa-modal-body').innerHTML =
+      '<div class="capa-toggle">'
+      + '<span class="capa-toggle-label">Mostrar al mapa</span>'
+      + '<label class="toggle-switch">'
+      + '<input type="checkbox" id="capa-modal-toggle"'
+      + (actiu ? ' checked' : '') + (isDisabled ? ' disabled' : '')
+      + ' onchange="toggleCapaModal()">'
+      + '<span class="toggle-slider"></span>'
+      + '</label>'
+      + '</div>'
+      + (isDisabled ? '<p style="font-size:11px;color:var(--ink-400);margin-top:12px">Capa disponible pròximament.</p>' : '');
+    document.getElementById('capa-modal').style.display = 'flex';
+  }
+
+  function tancarCapaModal() {
+    document.getElementById('capa-modal').style.display = 'none';
+    _capaModalActual = null;
+  }
+
+  function toggleCapaModal() {
+    var capaId = _capaModalActual;
+    if (!capaId || _capaDisabledIds[capaId]) return;
+    if (_capaActiva[capaId]) _desactivarCapa(capaId);
+    else _activarCapa(capaId);
+  }
+
+  /* --- Generació dinàmica de botons per línia de bus --- */
+  (function() {
+    if (typeof _BUS_ROUTES === 'undefined') return;
+    var seen = {};
+    _BUS_ROUTES.forEach(function(rt){ if (!seen[rt.r]) seen[rt.r] = rt.c; });
+    var sorted = Object.keys(seen).sort(function(a,b){ return a.localeCompare(b, undefined, {numeric:true}); });
+    var container = document.getElementById('bus-btns-container');
+    if (!container) return;
+    sorted.forEach(function(r) {
+      var color = seen[r];
+      var capaId = 'bus-' + r;
+      // Contrast text: light background → dark text
+      var textCol = '#fff';
+      var hex = color.replace('#','');
+      if (hex.length === 6) {
+        var lum = (parseInt(hex.substr(0,2),16)*0.299 + parseInt(hex.substr(2,2),16)*0.587 + parseInt(hex.substr(4,2),16)*0.114)/255;
+        if (lum > 0.6) textCol = '#333';
+      }
+      var btn = document.createElement('button');
+      btn.className = 'capa-btn';
+      btn.id = 'capabtn-' + capaId;
+      btn.setAttribute('data-capa', capaId);
+      btn.onclick = function() { obrirCapaModal(capaId); };
+      btn.innerHTML =
+        '<span class="capa-btn-color" style="background:' + color + '"></span>'
+        + '<span class="capa-btn-line-badge" style="background:' + color + ';color:' + textCol + '">' + r + '</span>'
+        + '<span class="capa-btn-nom"></span>'
+        + '<span class="capa-btn-onoff" id="capabtn-onoff-' + capaId + '">OFF</span>';
+      container.appendChild(btn);
+    });
+  })();
 
   /* ===== FI CAPES ===== */
 
@@ -1395,13 +1599,15 @@ header .sub {
   })();
   /* ===== FI AFORAMENTS ===== */
 
-  // Auto-activa les capes de bus quan les dades estàtiques estan disponibles
+  // Auto-activa totes les línies de bus i les parades en carregar
   setTimeout(function() {
-    var cbBus    = document.getElementById('capa-bus');
-    var cbParade = document.getElementById('capa-parades');
-    if (cbBus && typeof _BUS_ROUTES !== 'undefined') {
-      cbBus.checked = true;    cbBus.dispatchEvent(new Event('change'));
-      cbParade.checked = true; cbParade.dispatchEvent(new Event('change'));
+    if (typeof _BUS_ROUTES !== 'undefined') {
+      _carregarBus(function() {
+        var seen = {};
+        _BUS_ROUTES.forEach(function(rt){ if (!seen[rt.r]) seen[rt.r] = rt.c; });
+        Object.keys(seen).forEach(function(r){ _activarLiniaBus(r); });
+      });
+      _activarParades();
     }
   }, 400);
 
@@ -1436,5 +1642,20 @@ header .sub {
       .catch(function(){ setStatus('⚠ Error geocodificant.', 'hint'); });
   }
 </script>
+
+<!-- Modal de capa (un per a totes les capes) -->
+<div id="capa-modal" style="display:none" onclick="if(event.target===this)tancarCapaModal()">
+  <div class="capa-modal-box">
+    <div class="capa-modal-head">
+      <div class="capa-modal-color" id="capa-modal-color"></div>
+      <div style="flex:1;min-width:0">
+        <div class="capa-modal-titol" id="capa-modal-titol"></div>
+        <div class="capa-modal-desc" id="capa-modal-desc"></div>
+      </div>
+      <button class="capa-modal-close" onclick="tancarCapaModal()">✕</button>
+    </div>
+    <div class="capa-modal-body" id="capa-modal-body"></div>
+  </div>
+</div>
 </body>
 </html>

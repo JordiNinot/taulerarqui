@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Via Pública — Eines Tècniques</title>
+  <title>Calculadora de Taxes — Via Pública</title>
   <meta name="theme-color" content="#2f7548">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -115,4 +115,141 @@
       border: 1px solid rgba(255,255,255,0.26);
       color: white;
       padding: 2px 8px;
-      border-
+      border-radius: 10px;
+      margin-left: 10px;
+    }
+
+    /* ---- MAIN CONTENT ---- */
+    .app-main {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .calculator-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      padding: 30px;
+      width: 100%;
+      max-width: 600px;
+    }
+    .calculator-card h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-main);
+      margin-bottom: 8px;
+    }
+    .form-group select {
+      width: 100%;
+      padding: 10px 12px;
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      background-color: var(--bg-secondary);
+      font-family: var(--font-sans);
+      font-size: 15px;
+      color: var(--text-main);
+      appearance: none; /* Remove default arrow */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%235f5b50' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 18px;
+      transition: border-color 150ms, box-shadow 150ms;
+    }
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
+    }
+    .form-group select option {
+      color: var(--text-main);
+      background-color: var(--bg-primary);
+    }
+    /* Placeholder for other calculator fields */
+    .calculator-fields {
+      min-height: 150px; /* Just for visual representation */
+      border: 1px dashed var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-style: italic;
+      margin-top: 20px;
+    }
+
+    /* ---- APP FOOTER ---- */
+    .app-footer {
+      flex-shrink: 0;
+      background: var(--bg-tertiary);
+      border-top: 1px solid var(--border-color);
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+  </style>
+</head>
+<body>
+  <header class="app-header">
+    <div class="app-header-left">
+      <a href="index.html" class="back-link">
+        <i data-lucide="chevron-left"></i>
+        Tornar
+      </a>
+      <div class="header-divider"></div>
+      <h1 class="app-title">Calculadora de Taxes <span>Via Pública</span></h1>
+      <span class="header-badge">v0.1.0</span>
+    </div>
+    <div class="app-header-right">
+      <!-- Future controls -->
+    </div>
+  </header>
+
+  <main class="app-main">
+    <div class="calculator-card">
+      <h2>Calculadora de Taxes per Ocupació de Via Pública</h2>
+
+      <div class="form-group">
+        <label for="postalCode">Número postal (Codi Postal):</label>
+        <select id="postalCode" name="postalCode">
+          <option value="">Selecciona un número postal</option>
+          <option value="08201">08201</option>
+          <option value="08202">08202</option>
+          <option value="08203">08203</option>
+          <option value="08204">08204</option>
+          <option value="08205">08205</option>
+        </select>
+      </div>
+
+      <div class="calculator-fields">
+        <span>Aquí aniran els futurs camps de la calculadora de taxes</span>
+      </div>
+    </div>
+  </main>
+
+  <footer class="app-footer">
+    <span>© 2024 Ajuntament de Sabadell</span>
+  </footer>
+
+  <script>
+    lucide.createIcons();
+  </script>
+</body>
+</html>

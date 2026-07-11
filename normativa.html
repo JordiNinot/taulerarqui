@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Normativa — Via Pública Sabadell</title>
+  <meta name="theme-color" content="#2f7548">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:ital,wght@0,400;0,500;0,600;0,700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    :root {
+      --primary:        #2f7548;
+      --primary-hover:  #245c39;
+      --bg-primary:     #faf8f3;
+      --bg-secondary:   #f3efe5;
+      --bg-tertiary:    #ebe7db;
+      --bg-hover:       #e3dfd3;
+      --bg-card:        #faf8f3;
+      --border-color:   #d6d0bf;
+      --text-primary:   #111110;
+      --text-secondary: #3a3830;
+      --text-muted:     #5f5b50;
+      --text-main:      #111110;
+      --shadow-sm: 0 1px 3px rgba(0,0,0,0.10), 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-md: 0 4px 12px rgba(0,0,0,0.12), 0 2px 4px rgba(0,0,0,0.06);
+      --radius-sm: 4px;
+      --radius-md: 8px;
+      --radius-lg: 14px;
+      --purple:    #7c3aed;
+      --font-sans: 'IBM Plex Sans', -apple-system, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'IBM Plex Mono', Consolas, monospace;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+    body { font-family: var(--font-sans); background: var(--bg-secondary); color: var(--text-main); display: flex; flex-direction: column; }
+
+    /* ── Header ── */
+    .app-header {
+      flex-shrink: 0; background: var(--primary); color: white;
+      height: 52px; padding: 0 20px;
+      display: flex; align-items: center; gap: 12px;
+      border-bottom: 1px solid rgba(0,0,0,0.15); box-shadow: var(--shadow-sm);
+    }
+    .back-link {
+      display: flex; align-items: center; gap: 5px; color: rgba(255,255,255,0.82);
+      text-decoration: none; font-size: 13px; font-weight: 500;
+      padding: 4px 10px; border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.10);
+      transition: background 120ms;
+    }
+    .back-link:hover { background: rgba(255,255,255,0.22); color: white; }
+    .back-link svg { width: 13px; height: 13px; }
+    .header-div { width: 1px; height: 20px; background: rgba(255,255,255,0.25); }
+    .app-title { font-size: 16px; font-weight: 600; }
+    .app-title span { opacity: 0.7; font-weight: 400; font-size: 13px; margin-left: 8px; }
+    .header-badge {
+      font-size: 11px; font-weight: 500; margin-left: 4px;
+      background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.26);
+      color: white; padding: 2px 8px; border-radius: 10px;
+    }
+
+    /* ── Main layout ── */
+    .workspace {
+      flex: 1; display: flex; overflow: hidden;
+      padding: 16px; gap: 16px; background: var(--bg-secondary);
+    }
+    .norm-biblioteca-layout {
+      display: grid; grid-template-columns: 270px 1fr;
+      flex: 1; overflow: hidden;
+      border: 1px solid var(--border-color); border-radius: 12px;
+      background: var(--bg-card); box-shadow: var(--shadow-sm);
+    }
+
+    /* ── LEFT sidebar ── */
+    .norm-left {
+      display: flex; flex-direction: column;
+      border-right: 1px solid var(--border-color); overflow: hidden;
+      background: var(--bg-primary); border-radius: 12px 0 0 12px;
+    }
+    .norm-left-header {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 12px 14px; border-bottom: 1px solid var(--border-color); flex-shrink: 0;
+    }
+    .norm-left-title {
+      font-weight: 700; font-size: 13px; color: var(--text-primary);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .norm-left-title svg { width: 15px; height: 15px; color: var(--purple); }
+    .norm-left-header button {
+      background: none; border: 1px solid var(--border-color); border-radius: 6px;
+      padding: 4px 6px; cursor: pointer; color: var(--text-muted);
+      display: flex; align-items: center; transition: all 120ms;
+    }
+    .norm-left-header button:hover { background: var(--bg-hover); color: var(--purple); border-color: rgba(124,58,237,0.3); }
+    .norm-left-header button svg { width: 14px; height: 14px; }
+    .norm-search-bar {
+      display: flex; align-items: center; gap: 8px;
+      padding: 8px 12px; border-bottom: 1px solid var(--border-color); flex-shrink: 0;
+    }
+    .norm-search-bar svg { width: 14px; height: 14px; color: var(--text-muted); flex-shrink: 0; }
+    .norm-search-bar input {
+      background: none; border: none; outline: none;
+      color: var(--text-primary); font-size: 12px; width: 100%; font-family: var(--font-sans);
+    }
+    .norm-search-bar input::placeholder { color: var(--text-muted); }
+    .norm-topics-scroll { flex: 1; overflow-y: auto; padding: 8px 0; }
+    .norm-topics-scroll::-webkit-scrollbar { width: 3px; }
+    .norm-topics-scroll::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+
+    /* Topics */
+    .norm-topic { margin: 2px 8px; border-radius: 8px; overflow: hidden; }
+    .norm-topic-header {
+      display: flex; align-items: center; gap: 6px;
+      padding: 7px 10px; cursor: pointer; border-radius: 8px; user-select: none; transition: background 100ms;
+    }
+    .norm-topic-header:hover { background: var(--bg-hover); }
+    .norm-topic-color { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+    .norm-topic-name { font-size: 12px; font-weight: 600; color: var(--text-primary); flex: 1; }
+    .norm-topic-count { font-size: 10px; color: var(--text-muted); }
+    .norm-topic-chevron { width: 12px; height: 12px; color: var(--text-muted); transition: transform .2s; flex-shrink: 0; }
+    .norm-topic.open .norm-topic-chevron { transform: rotate(90deg); }
+    .norm-topic-actions { opacity: 0; transition: opacity .15s; }
+    .norm-topic-header:hover .norm-topic-actions { opacity: 1; }
+    .norm-topic-actions button {
+      background: none; border: none; cursor: pointer; padding: 2px;
+      color: var(--text-muted); display: flex; align-items: center; border-radius: 4px;
+    }
+    .norm-topic-actions button:hover { color: var(--purple); }
+    .norm-topic-actions button svg { width: 12px; height: 12px; }
+    .norm-topic-docs { display: none; padding: 2px 0 4px 22px; }
+    .norm-topic.open .norm-topic-docs { display: block; }
+    .norm-doc-item {
+      display: flex; align-items: center; gap: 6px; padding: 5px 8px;
+      border-radius: 6px; cursor: pointer; font-size: 11px; color: var(--text-secondary);
+      margin: 1px 0; transition: background 100ms;
+    }
+    .norm-doc-item:hover { background: var(--bg-hover); color: var(--text-primary); }
+    .norm-doc-item.active { background: rgba(124,58,237,0.10); color: var(--purple); font-weight: 600; }
+    .norm-doc-item svg { width: 12px; height: 12px; flex-shrink: 0; }
+    .norm-doc-item-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .norm-doc-item-import {
+      opacity: 0; background: none; border: none; cursor: pointer;
+      color: var(--text-muted); padding: 1px; display: flex; align-items: center;
+    }
+    .norm-doc-item:hover .norm-doc-item-import { opacity: 1; }
+    .norm-doc-item-import:hover { color: var(--purple); }
+    .norm-doc-item-import svg { width: 10px; height: 10px; }
+    .norm-doc-item-del {
+      opacity: 0; background: none; border: none; cursor: pointer;
+      color: var(--text-muted); padding: 1px; display: flex; align-items: center;
+    }
+    .norm-doc-item:hover .norm-doc-item-del { opacity: 1; }
+    .norm-doc-item-del:hover { color: #dc2626; }
+    .norm-doc-item-del svg { width: 10px; height: 10px; }
+    .norm-add-doc-btn {
+      display: flex; align-items: center; gap: 5px; padding: 4px 8px;
+      font-size: 11px; color: var(--text-muted); cursor: pointer; border-radius: 5px;
+      background: none; border: none; width: 100%; font-family: var(--font-sans); transition: all 100ms;
+    }
+    .norm-add-doc-btn:hover { color: var(--purple); background: var(--bg-hover); }
+    .norm-add-doc-btn svg { width: 11px; height: 11px; }
+
+    /* Dropdown menu */
+    .norm-topic-dropdown {
+      position: fixed; background: var(--bg-card);
+      border: 1px solid var(--border-color); border-radius: 8px;
+      box-shadow: var(--shadow-md); z-index: 200; padding: 4px; min-width: 140px;
+    }
+    .norm-topic-dropdown button {
+      display: flex; align-items: center; gap: 8px; padding: 7px 12px;
+      width: 100%; background: none; border: none; border-radius: 5px;
+      cursor: pointer; font-size: 12px; color: var(--text-primary);
+      text-align: left; font-family: var(--font-sans); transition: background 100ms;
+    }
+    .norm-topic-dropdown button:hover { background: var(--bg-hover); }
+    .norm-topic-dropdown button svg { width: 13px; height: 13px; }
+
+    /* ── RIGHT viewer ── */
+    .norm-right { display: flex; flex-direction: column; overflow: hidden; border-radius: 0 12px 12px 0; }
+    .norm-viewer-empty {
+      flex: 1; display: flex; flex-direction: column; align-items: center;
+      justify-content: center; gap: 12px; color: var(--text-muted);
+    }
+    .norm-viewer-empty svg { width: 40px; height: 40px; opacity: .22; }
+    .norm-viewer-empty p { font-size: 13px; }
+    .norm-viewer-empty small { font-size: 11px; opacity: 0.7; }
+    #norm-doc-viewer { display: none; flex-direction: column; height: 100%; overflow: hidden; }
+    .norm-doc-topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 10px 16px; border-bottom: 1px solid var(--border-color);
+      flex-shrink: 0; gap: 12px; background: var(--bg-primary);
+    }
+    .norm-doc-info { flex: 1; min-width: 0; }
+    .norm-doc-title {
+      font-size: 13px; font-weight: 600; color: var(--text-primary);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: block;
+    }
+    .norm-doc-actions { display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+    .btn-icon-label {
+      display: flex; align-items: center; gap: 5px; padding: 5px 10px;
+      border-radius: 6px; font-size: 11px; cursor: pointer;
+      border: 1px solid var(--border-color); background: var(--bg-secondary);
+      color: var(--text-secondary); text-decoration: none; white-space: nowrap;
+      font-family: var(--font-sans); transition: all 120ms;
+    }
+    .btn-icon-label:hover { border-color: var(--purple); color: var(--purple); }
+    .btn-icon-label svg { width: 12px; height: 12px; }
+    .norm-view-toggle { display: flex; gap: 4px; }
+    .norm-view-btn {
+      display: flex; align-items: center; gap: 5px; padding: 5px 12px;
+      background: var(--bg-secondary); border: 1px solid var(--border-color);
+      border-radius: 6px; color: var(--text-muted); font-size: 11px; font-weight: 600;
+      cursor: pointer; transition: all 0.15s; font-family: var(--font-sans);
+    }
+    .norm-view-btn:hover { background: rgba(124,58,237,0.08); color: var(--purple); border-color: rgba(124,58,237,0.25); }
+    .norm-view-btn.active { background: rgba(124,58,237,0.12); border-color: rgba(124,58,237,0.4); color: var(--purple); }
+    .norm-view-btn svg { width: 13px; height: 13px; }
+
+    /* PDF */
+    #norm-view-pdf { display: none; flex: 1; overflow: hidden; min-height: 0; }
+    #norm-view-pdf iframe { width: 100%; height: 100%; border: none; }
+    .norm-ext-placeholder {
+      display: flex; flex-direction: column; align-items: center;
+      justify-content: center; height: 100%; gap: 12px; color: var(--text-muted);
+    }
+    .norm-ext-placeholder svg { width: 48px; height: 48px; opacity: .25; }
+    .norm-ext-placeholder a { color: var(--purple); font-size: 13px; text-decoration: underline; }
+
+    /* Articles */
+    #norm-view-articles { flex: 1; display: flex; flex-direction: column; overflow: hidden; min-height: 0; }
+    .norm-art-toolbar {
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      padding: 8px 14px; border-bottom: 1px solid var(--border-color);
+      background: var(--bg-primary); flex-shrink: 0;
+    }
+    .norm-art-count { display: flex; align-items: center; gap: 5px; font-size: 11px; color: var(--text-muted); font-weight: 500; }
+    .norm-art-count svg { width: 13px; height: 13px; }
+    .norm-art-count span { color: var(--purple); font-weight: 700; }
+    .norm-art-toolbar-search {
+      flex: 1; min-width: 140px; display: flex; align-items: center; gap: 6px;
+      border: 1px solid var(--border-color); border-radius: 6px;
+      padding: 5px 10px; background: var(--bg-secondary); transition: border 120ms;
+    }
+    .norm-art-toolbar-search:focus-within { border-color: rgba(124,58,237,0.4); }
+    .norm-art-toolbar-search svg { width: 13px; height: 13px; color: var(--text-muted); flex-shrink: 0; }
+    .norm-art-toolbar-search input {
+      background: none; border: none; outline: none; font-size: 12px;
+      color: var(--text-primary); width: 100%; font-family: var(--font-sans);
+    }
+    .norm-art-toolbar-search input::placeholder { color: var(--text-muted); }
+    .norm-art-toolbar-actions { display: flex; gap: 6px; }
+    .norm-lang-toggle { display: flex; border: 1px solid var(--border-color); border-radius: 6px; overflow: hidden; }
+    .norm-lang-btn {
+      padding: 4px 10px; font-size: 11px; font-weight: 600; background: none; border: none;
+      cursor: pointer; color: var(--text-muted); font-family: var(--font-sans); transition: all 120ms;
+    }
+    .norm-lang-btn:first-child { border-right: 1px solid var(--border-color); }
+    .norm-lang-btn:hover { background: rgba(124,58,237,0.08); color: var(--purple); }
+    .norm-lang-btn.active { background: rgba(124,58,237,0.15); color: var(--purple); }
+    .norm-art-tb-btn {
+      display: flex; align-items: center; gap: 5px; padding: 5px 10px;
+      border: 1px solid var(--border-color); border-radius: 6px; background: var(--bg-secondary);
+      color: var(--text-muted); font-size: 11px; cursor: pointer;
+      font-family: var(--font-sans); transition: all 120ms;
+    }
+    .norm-art-tb-btn:hover { background: rgba(124,58,237,0.08); border-color: rgba(124,58,237,0.3); color: var(--purple); }
+    .norm-art-tb-btn svg { width: 13px; height: 13px; }
+    .norm-articles-view {
+      flex: 1; overflow-y: auto; padding: 12px 14px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .norm-articles-view::-webkit-scrollbar { width: 4px; }
+    .norm-articles-view::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+    .norm-articles-loading { display: flex; align-items: center; gap: 10px; padding: 32px; color: var(--text-muted); font-size: 13px; justify-content: center; }
+    .norm-articles-empty { padding: 32px; text-align: center; color: var(--text-muted); font-size: 13px; }
+    .norm-articles-empty a { color: var(--purple); }
+    .norm-art-card {
+      border: 1px solid var(--border-color); border-radius: 8px;
+      background: var(--bg-primary); overflow: hidden; transition: border-color 150ms;
+    }
+    .norm-art-card:hover { border-color: rgba(124,58,237,0.3); }
+    .norm-art-header {
+      display: flex; align-items: center; gap: 8px; padding: 10px 14px;
+      cursor: pointer; user-select: none; border-radius: 8px; transition: background 100ms;
+    }
+    .norm-art-header:hover { background: rgba(124,58,237,0.04); }
+    .norm-art-header.open { border-radius: 8px 8px 0 0; border-bottom: 1px solid var(--border-color); }
+    .norm-art-num {
+      font-size: 11px; font-weight: 700; color: var(--purple);
+      background: rgba(124,58,237,0.10); border-radius: 4px;
+      padding: 2px 7px; flex-shrink: 0; font-family: 'IBM Plex Mono', monospace;
+    }
+    .norm-art-title { flex: 1; font-size: 12px; font-weight: 600; color: var(--text-primary); line-height: 1.4; }
+    .norm-art-comment-badge {
+      display: flex; align-items: center; gap: 3px; font-size: 10px;
+      color: var(--purple); background: rgba(124,58,237,0.10);
+      border-radius: 10px; padding: 1px 6px; flex-shrink: 0;
+    }
+    .norm-art-comment-badge:empty { display: none; }
+    .norm-art-comment-badge svg { width: 11px; height: 11px; }
+    .norm-art-copy-btn {
+      display: flex; align-items: center; padding: 4px; border-radius: 5px;
+      background: none; border: 1px solid transparent; cursor: pointer;
+      color: var(--text-muted); flex-shrink: 0; transition: all 120ms;
+    }
+    .norm-art-copy-btn:hover { background: var(--bg-hover); border-color: var(--border-color); color: var(--purple); }
+    .norm-art-copy-btn.copied { background: rgba(34,197,94,0.10); border-color: rgba(34,197,94,0.4); color: #16a34a; }
+    .norm-art-copy-btn svg { width: 13px; height: 13px; pointer-events: none; }
+    .norm-art-chevron { width: 15px; height: 15px; color: var(--text-muted); transition: transform 0.2s; flex-shrink: 0; }
+    .norm-art-header.open .norm-art-chevron { transform: rotate(180deg); }
+    .norm-art-body { padding: 12px 16px; display: flex; flex-direction: column; gap: 12px; }
+    .norm-art-text {
+      font-size: 12px; line-height: 1.75; color: var(--text-secondary);
+      white-space: pre-wrap; max-height: 400px; overflow-y: auto;
+    }
+    .norm-art-comments { border-top: 1px solid var(--border-color); padding-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+    .norm-art-com-toggle {
+      display: flex; align-items: center; gap: 6px; background: none; border: none;
+      cursor: pointer; font-size: 11px; color: var(--text-muted); font-family: var(--font-sans); padding: 0; transition: color 120ms;
+    }
+    .norm-art-com-toggle:hover { color: var(--purple); }
+    .norm-art-com-toggle svg { width: 13px; height: 13px; flex-shrink: 0; }
+    .norm-art-com-chevron { transition: transform 0.2s; }
+    .norm-art-com-panel { display: flex; flex-direction: column; gap: 8px; }
+    .norm-art-com-list { display: flex; flex-direction: column; gap: 6px; }
+    .norm-art-com-empty { font-size: 11px; color: var(--text-muted); font-style: italic; }
+    .norm-art-com-item { background: var(--bg-secondary); border-radius: 6px; padding: 8px 12px; }
+    .norm-art-com-date { font-size: 10px; color: var(--text-muted); margin-bottom: 3px; }
+    .norm-art-com-text { font-size: 12px; color: var(--text-secondary); line-height: 1.5; white-space: pre-wrap; }
+    .norm-art-com-input-row { display: flex; gap: 8px; align-items: flex-end; }
+    .norm-art-com-input {
+      flex: 1; background: var(--bg-secondary); border: 1px solid var(--border-color);
+      border-radius: 6px; padding: 6px 10px; font-size: 12px; color: var(--text-primary);
+      resize: none; outline: none; font-family: var(--font-sans); transition: border 120ms;
+    }
+    .norm-art-com-input:focus { border-color: rgba(124,58,237,0.4); }
+    .norm-art-com-send {
+      background: var(--purple); color: white; border: none; border-radius: 6px;
+      padding: 7px 10px; cursor: pointer; display: flex; align-items: center; transition: opacity 120ms;
+    }
+    .norm-art-com-send:hover { opacity: 0.85; }
+    .norm-art-com-send svg { width: 14px; height: 14px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spin { animation: spin 1s linear infinite; }
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+  </style>
+</head>
+<body>
+
+<header class="app-header">
+  <a href="index.html" class="back-link">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+    Inici
+  </a>
+  <div class="header-div"></div>
+  <div class="app-title">Normativa <span>Biblioteca de documents</span></div>
+  <span class="header-badge">Blobs</span>
+</header>
+
+<div class="workspace">
+  <div class="norm-biblioteca-layout">
+
+    <!-- LEFT -->
+    <div class="norm-left">
+      <div class="norm-left-header">
+        <div class="norm-left-title">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+          Biblioteca
+        </div>
+        <button id="norm-btn-add-topic" title="Nou tema">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>
+        </button>
+      </div>
+      <div class="norm-search-bar">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+        <input type="text" id="norm-search" placeholder="Cercar document..." autocomplete="off">
+      </div>
+      <div class="norm-topics-scroll"><div id="norm-topics-list"></div></div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="norm-right">
+      <div id="norm-viewer-empty" class="norm-viewer-empty">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+        <p>Selecciona un document de la biblioteca</p>
+        <small>O afegeix un document a un tema existent</small>
+      </div>
+
+      <div id="norm-doc-viewer">
+        <div class="norm-doc-topbar">
+          <div class="norm-doc-info">
+            <span class="norm-doc-title" id="norm-doc-name">—</span>
+          </div>
+          <div class="norm-doc-actions">
+            <div class="norm-view-toggle">
+              <button class="norm-view-btn active" id="norm-btn-view-articles">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12h18"/><path d="M3 6h18"/><path d="M3 18h18"/></svg>
+                Articles
+              </button>
+              <button class="norm-view-btn" id="norm-btn-view-pdf">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+                PDF
+              </button>
+            </div>
+            <a id="norm-doc-open" href="#" target="_blank" rel="noopener" class="btn-icon-label">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg>
+              Obrir
+            </a>
+          </div>
+        </div>
+
+        <div id="norm-view-articles">
+          <div class="norm-articles-view" id="norm-articles-list"></div>
+        </div>
+        <div id="norm-view-pdf">
+          <div id="norm-doc-embed" style="width:100%;height:100%;"></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+(function() {
+  const BLOBS_API  = "/api/blobs";
+  const TOPICS_KEY = "norm_biblioteca_temes";
+  const COLORS     = ["#7c3aed","#2563eb","#059669","#d97706","#dc2626","#0891b2","#db2777"];
+
+  let topics      = [];
+  let activeDoc    = null;
+  let activeDocKey = null;
+  let artLang      = "orig";
+  const ART_CACHE_PREFIX    = "norm_art_";
+  const ART_CA_CACHE_PREFIX = "norm_art_ca_";
+
+  function loadTopics() { try { topics = JSON.parse(localStorage.getItem(TOPICS_KEY) || "[]"); } catch { topics = []; } }
+  function saveTopics() { localStorage.setItem(TOPICS_KEY, JSON.stringify(topics)); }
+  function genId() { return "t_" + Math.random().toString(36).slice(2, 10); }
+
+  function ensureDefaults() {
+    if (topics.length === 0) {
+      topics.push({ id: genId(), nom: "Normativa General", color: COLORS[0], open: true, docs: [] });
+      saveTopics();
+    }
+  }
+
+  /* ── SVG helpers ── */
+  const SVG = {
+    chevRight: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>',
+    chevDown:  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>',
+    fileText:  '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/><path d="M10 9H8"/><path d="M16 13H8"/><path d="M16 17H8"/></svg>',
+    upload:    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>',
+    x:         '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>',
+    more:      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>',
+    plus:      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="M12 5v14"/></svg>',
+    copy:      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>',
+    check:     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>',
+    msg:       '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>',
+    send:      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>',
+    spin:      '<svg class="spin" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg>',
+    pencil:    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>',
+    trash:     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/></svg>',
+    search:    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>',
+    layers:    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z"/><path d="m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65"/><path d="m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65"/></svg>',
+    chevsDown: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 6 5 5 5-5"/><path d="m7 13 5 5 5-5"/></svg>',
+    chevsUp:   '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m7 18 5-5 5 5"/><path d="m7 11 5-5 5 5"/></svg>',
+  };
+
+  /* ── Render sidebar ── */
+  function renderTopics() {
+    const container = document.getElementById("norm-topics-list");
+    if (!container) return;
+    const q = (document.getElementById("norm-search")?.value || "").toLowerCase();
+    container.innerHTML = "";
+    topics.forEach(topic => {
+      const filteredDocs = q ? topic.docs.filter(d => d.nom.toLowerCase().includes(q)) : topic.docs;
+      if (q && filteredDocs.length === 0) return;
+      const div = document.createElement("div");
+      div.className = "norm-topic" + (topic.open ? " open" : "");
+      div.dataset.topicId = topic.id;
+      div.innerHTML = `
+        <div class="norm-topic-header">
+          <span class="norm-topic-color" style="background:${topic.color}"></span>
+          <span class="norm-topic-name">${topic.nom}</span>
+          <span class="norm-topic-count">${topic.docs.length}</span>
+          <div class="norm-topic-actions"><button class="norm-topic-menu-btn" title="Opcions">${SVG.more}</button></div>
+          <span class="norm-topic-chevron">${SVG.chevRight}</span>
+        </div>
+        <div class="norm-topic-docs">
+          ${filteredDocs.map(doc => `
+            <div class="norm-doc-item${activeDocKey === doc.key ? " active" : ""}" data-doc-key="${doc.key}" data-topic-id="${topic.id}">
+              ${SVG.fileText}
+              <span class="norm-doc-item-name" title="${doc.nom}">${doc.nom}</span>
+              <button class="norm-doc-item-import" data-import-key="${doc.key}" title="Importar articles">${SVG.upload}</button>
+              <button class="norm-doc-item-del" data-del-key="${doc.key}" data-del-topic="${topic.id}" title="Eliminar">${SVG.x}</button>
+            </div>`).join("")}
+          <button class="norm-add-doc-btn" data-topic-id="${topic.id}">${SVG.plus} Afegir document</button>
+        </div>`;
+      container.appendChild(div);
+    });
+    bindSidebarEvents(container);
+  }
+
+  function bindSidebarEvents(container) {
+    container.querySelectorAll(".norm-topic-header").forEach(h => {
+      h.addEventListener("click", e => {
+        if (e.target.closest(".norm-topic-menu-btn,.norm-topic-actions")) return;
+        const t = topics.find(x => x.id === h.closest(".norm-topic").dataset.topicId);
+        if (t) { t.open = !t.open; saveTopics(); renderTopics(); }
+      });
+    });
+    container.querySelectorAll(".norm-topic-menu-btn").forEach(btn => {
+      btn.addEventListener("click", e => { e.stopPropagation(); showTopicMenu(e, topics.find(x => x.id === btn.closest(".norm-topic").dataset.topicId)); });
+    });
+    container.querySelectorAll(".norm-doc-item").forEach(item => {
+      item.addEventListener("click", e => {
+        if (e.target.closest(".norm-doc-item-del,.norm-doc-item-import")) return;
+        const t = topics.find(x => x.id === item.dataset.topicId);
+        if (t) { const doc = t.docs.find(d => d.key === item.dataset.docKey); if (doc) openDoc(doc); }
+      });
+    });
+    container.querySelectorAll(".norm-doc-item-import").forEach(btn => {
+      btn.addEventListener("click", e => { e.stopPropagation(); importArticlesJson(btn.dataset.importKey, btn); });
+    });
+    container.querySelectorAll(".norm-doc-item-del").forEach(btn => {
+      btn.addEventListener("click", e => { e.stopPropagation(); if (confirm("Eliminar document?")) removeDoc(btn.dataset.delTopic, btn.dataset.delKey); });
+    });
+    container.querySelectorAll(".norm-add-doc-btn").forEach(btn => {
+      btn.addEventListener("click", e => { e.stopPropagation(); showAddDocDialog(btn.dataset.topicId); });
+    });
+  }
+
+  function showTopicMenu(e, topic) {
+    document.querySelectorAll(".norm-topic-dropdown").forEach(m => m.remove());
+    const menu = document.createElement("div");
+    menu.className = "norm-topic-dropdown";
+    menu.innerHTML = `
+      <button id="nm-rename">${SVG.pencil} Reanomenar</button>
+      <button id="nm-delete" style="color:#dc2626">${SVG.trash} Eliminar tema</button>`;
+    menu.style.cssText = `left:${e.clientX}px;top:${e.clientY}px`;
+    document.body.appendChild(menu);
+    menu.querySelector("#nm-rename").onclick = () => {
+      const nou = prompt("Nou nom:", topic.nom);
+      if (nou?.trim()) { topic.nom = nou.trim(); saveTopics(); renderTopics(); }
+      menu.remove();
+    };
+    menu.querySelector("#nm-delete").onclick = () => {
+      if (confirm(`Eliminar tema "${topic.nom}"?`)) {
+        topics = topics.filter(t => t.id !== topic.id);
+        saveTopics();
+        if (activeDoc && topic.docs.find(d => d.key === activeDocKey)) { activeDoc = null; activeDocKey = null; showEmpty(); }
+        renderTopics();
+      }
+      menu.remove();
+    };
+    setTimeout(() => document.addEventListener("click", () => menu.remove(), { once: true }), 0);
+  }
+
+  function showAddDocDialog(tid) {
+    const topic = topics.find(t => t.id === tid);
+    if (!topic) return;
+    const url = prompt("URL del document (https://...):");
+    if (!url?.trim()) return;
+    if (!url.trim().startsWith("http")) { alert("Ha de ser una URL valida (https://...)"); return; }
+    const nom = prompt("Nom del document:", url.trim().split("/").pop().split("?")[0] || "Document");
+    if (!nom) return;
+    topic.docs.push({ key: "ndoc_" + Date.now().toString(36), nom: nom.trim(), url: url.trim() });
+    saveTopics(); renderTopics();
+  }
+
+  function removeDoc(tid, key) {
+    const t = topics.find(x => x.id === tid);
+    if (!t) return;
+    t.docs = t.docs.filter(d => d.key !== key);
+    saveTopics();
+    if (activeDocKey === key) { activeDoc = null; activeDocKey = null; showEmpty(); }
+    renderTopics();
+  }
+
+  /* ── Viewer ── */
+  let currentView = "articles";
+
+  function showEmpty() {
+    document.getElementById("norm-viewer-empty").style.display = "";
+    document.getElementById("norm-doc-viewer").style.display = "none";
+  }
+
+  function setView(view) {
+    currentView = view;
+    const vA = document.getElementById("norm-view-articles");
+    const vP = document.getElementById("norm-view-pdf");
+    const bA = document.getElementById("norm-btn-view-articles");
+    const bP = document.getElementById("norm-btn-view-pdf");
+    if (view === "articles") {
+      vA.style.display = "flex"; vP.style.display = "none";
+      bA.classList.add("active"); bP.classList.remove("active");
+    } else {
+      vA.style.display = "none"; vP.style.display = "flex";
+      bP.classList.add("active"); bA.classList.remove("active");
+    }
+  }
+
+  function openDoc(doc) {
+    activeDoc = doc; activeDocKey = doc.key;
+    renderTopics();
+    document.getElementById("norm-viewer-empty").style.display = "none";
+    const viewer = document.getElementById("norm-doc-viewer");
+    viewer.style.display = "flex";
+    document.getElementById("norm-doc-name").textContent = doc.nom;
+    const openEl = document.getElementById("norm-doc-open");
+    if (openEl) openEl.href = doc.url;
+    const embed = document.getElementById("norm-doc-embed");
+    if (embed) {
+      const isPdf = /\.pdf(\?|$)/i.test(doc.url);
+      embed.innerHTML = isPdf
+        ? `<iframe src="${doc.url}" allowfullscreen></iframe>`
+        : `<div class="norm-ext-placeholder"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:48px;height:48px"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg><p>${doc.nom}</p><a href="${doc.url}" target="_blank" rel="noopener">${doc.url}</a></div>`;
+    }
+    setView("articles");
+    loadArticles(doc);
+  }
+
+  function importArticlesJson(docKey, btn) {
+    const input = document.createElement("input");
+    input.type = "file"; input.accept = ".json,application/json";
+    input.onchange = e => {
+      const file = e.target.files[0]; if (!file) return;
+      const reader = new FileReader();
+      reader.onload = ev => {
+        try {
+          const data = JSON.parse(ev.target.result);
+          if (!Array.isArray(data) || !data.length || !("text" in data[0])) throw new Error("Format invalit");
+          localStorage.setItem(ART_CACHE_PREFIX + docKey, JSON.stringify(data));
+          if (activeDocKey === docKey) renderArticleCards(data, docKey);
+          if (btn) { const o = btn.innerHTML; btn.innerHTML = SVG.check; setTimeout(() => { btn.innerHTML = o; }, 2000); }
+        } catch (err) { alert("Error: " + err.message); }
+      };
+      reader.readAsText(file);
+    };
+    input.click();
+  }
+
+  function blobKeyFromUrl(url) {
+    try { const u = new URL(url, location.origin); if (u.pathname.includes("/api/blobs")) return u.searchParams.get("key"); } catch {}
+    return null;
+  }
+
+  async function loadArticles(doc) {
+    const list = document.getElementById("norm-articles-list");
+    if (!list) return;
+    const cacheKey = ART_CACHE_PREFIX + activeDocKey;
+    const cached = localStorage.getItem(cacheKey);
+    if (cached) { try { renderArticleCards(JSON.parse(cached), activeDocKey); return; } catch {} }
+    const blobKey = blobKeyFromUrl(doc.url);
+    if (!blobKey) { list.innerHTML = `<div class="norm-articles-empty">No es un document del repositori. <a href="${doc.url}" target="_blank">Obrir directament</a></div>`; return; }
+    list.innerHTML = `<div class="norm-articles-loading">${SVG.spin}<span>Comprovant...</span></div>`;
+    try {
+      const r = await fetch("/api/gemini", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ extractStatus:true, docKeys:[blobKey] }) });
+      const d = await r.json();
+      if (d.status === "done" && d.articles?.length) { localStorage.setItem(cacheKey, JSON.stringify(d.articles)); renderArticleCards(d.articles, activeDocKey); return; }
+      if (d.status === "processing") { _pollExtract(blobKey, cacheKey, doc.url); return; }
+    } catch {}
+    list.innerHTML = `<div class="norm-articles-loading">${SVG.spin}<span>Extraient articles... (pot trigar 1 minut)</span></div>`;
+    try {
+      await fetch("/.netlify/functions/extract-background", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ docKey:blobKey }) });
+    } catch (err) { list.innerHTML = `<div class="norm-articles-empty" style="color:#dc2626">Error: ${err.message}</div>`; return; }
+    _pollExtract(blobKey, cacheKey, doc.url);
+  }
+
+  function _pollExtract(blobKey, cacheKey, docUrl) {
+    let elapsed = 0;
+    const timer = setInterval(async () => {
+      elapsed += 5;
+      try {
+        const r = await fetch("/api/gemini", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ extractStatus:true, docKeys:[blobKey] }) });
+        const d = await r.json();
+        if (d.status === "done" && d.articles?.length) { clearInterval(timer); localStorage.setItem(cacheKey, JSON.stringify(d.articles)); renderArticleCards(d.articles, activeDocKey); }
+        else if (d.status === "error") { clearInterval(timer); const el = document.getElementById("norm-articles-list"); if (el) el.innerHTML = `<div class="norm-articles-empty">Error: ${d.message||"desconegut"}. <a href="${docUrl}" target="_blank">Veure PDF</a></div>`; }
+        else if (elapsed >= 180) { clearInterval(timer); const el = document.getElementById("norm-articles-list"); if (el) el.innerHTML = `<div class="norm-articles-empty">Temps esgotat. <a href="${docUrl}" target="_blank">Veure PDF</a></div>`; }
+        else { const sp = document.querySelector("#norm-articles-list .norm-articles-loading span"); if (sp) sp.textContent = `Extraient articles... (${elapsed}s)`; }
+      } catch {}
+    }, 5000);
+  }
+
+  async function loadArticlesCA(doc) {
+    const list = document.getElementById("norm-articles-list");
+    if (!list) return;
+    const blobKey = blobKeyFromUrl(doc.url);
+    if (!blobKey) return;
+    const caCacheKey = ART_CA_CACHE_PREFIX + activeDocKey;
+    const caCached = localStorage.getItem(caCacheKey);
+    if (caCached) { try { renderArticleCards(JSON.parse(caCached), activeDocKey); return; } catch {} }
+    list.innerHTML = `<div class="norm-articles-loading">${SVG.spin}<span>Comprovant versio catalana...</span></div>`;
+    try {
+      const r = await fetch("/api/gemini", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ translateStatus:true, docKeys:[blobKey] }) });
+      const d = await r.json();
+      if (d.status === "done" && d.articles?.length) { localStorage.setItem(caCacheKey, JSON.stringify(d.articles)); renderArticleCards(d.articles, activeDocKey); return; }
+      if (d.status === "processing") { _pollTranslate(blobKey, caCacheKey, doc.url); return; }
+    } catch {}
+    list.innerHTML = `<div class="norm-articles-loading">${SVG.spin}<span>Traduint al catala... (pot trigar 1-2 minuts)</span></div>`;
+    try {
+      await fetch("/.netlify/functions/translate-background", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ docKey:blobKey }) });
+    } catch (err) { list.innerHTML = `<div class="norm-articles-empty" style="color:#dc2626">Error: ${err.message}</div>`; return; }
+    _pollTranslate(blobKey, caCacheKey, doc.url);
+  }
+
+  function _pollTranslate(blobKey, caCacheKey, docUrl) {
+    let elapsed = 0;
+    const timer = setInterval(async () => {
+      elapsed += 5;
+      try {
+        const r = await fetch("/api/gemini", { method:"POST", headers:{"Content-Type":"application/json"}, body: JSON.stringify({ translateStatus:true, docKeys:[blobKey] }) });
+        const d = await r.json();
+        if (d.status === "done" && d.articles?.length) { clearInterval(timer); localStorage.setItem(caCacheKey, JSON.stringify(d.articles)); renderArticleCards(d.articles, activeDocKey); }
+        else if (d.status === "error") { clearInterval(timer); const el = document.getElementById("norm-articles-list"); if (el) el.innerHTML = `<div class="norm-articles-empty">Error traduccio: ${d.message||"desconegut"}</div>`; }
+        else if (elapsed >= 600) { clearInterval(timer); const el = document.getElementById("norm-articles-list"); if (el) el.innerHTML = `<div class="norm-articles-empty">Temps de traduccio esgotat.</div>`; }
+        else { const sp = document.querySelector("#norm-articles-list .norm-articles-loading span"); if (sp) sp.textContent = `Traduint al catala... (${elapsed}s)`; }
+      } catch {}
+    }, 5000);
+  }
+
+  /* ── Comments ── */
+  function getArtComments(artId) { try { return JSON.parse(localStorage.getItem("norm_artcom_" + artId) || "[]"); } catch { return []; } }
+  function saveArtComments(artId, all) { localStorage.setItem("norm_artcom_" + artId, JSON.stringify(all)); }
+  function renderArtComments(artId) {
+    const el = document.getElementById(`comlist-${artId}`);
+    if (!el) return;
+    const all = getArtComments(artId);
+    el.innerHTML = all.length === 0
+      ? `<span class="norm-art-com-empty">Sense comentaris encara</span>`
+      : all.map(c => `<div class="norm-art-com-item"><div class="norm-art-com-date">${c.date}</div><div class="norm-art-com-text">${c.text}</div></div>`).join("");
+  }
+
+  /* ── Render article cards ── */
+  function renderArticleCards(articles, docKey) {
+    const list = document.getElementById("norm-articles-list");
+    const view = document.getElementById("norm-view-articles");
+    if (!list || !view) return;
+
+    let toolbar = document.getElementById("norm-art-toolbar");
+    if (toolbar) toolbar.remove();
+    toolbar = document.createElement("div");
+    toolbar.id = "norm-art-toolbar";
+    toolbar.className = "norm-art-toolbar";
+    toolbar.innerHTML = `
+      <span class="norm-art-count">${SVG.layers}<span id="norm-art-count-n">${articles.length}</span>&nbsp;articles</span>
+      <div class="norm-art-toolbar-search">${SVG.search}<input type="text" id="norm-art-search" placeholder="Cerca en articles..." autocomplete="off"></div>
+      <div class="norm-lang-toggle">
+        <button id="norm-lang-orig" class="norm-lang-btn${artLang==="orig"?" active":""}">ES</button>
+        <button id="norm-lang-cat"  class="norm-lang-btn${artLang==="cat"?" active":""}">CA</button>
+      </div>
+      <div class="norm-art-toolbar-actions">
+        <button id="norm-art-expand-all"   class="norm-art-tb-btn">${SVG.chevsDown}<span>Tots</span></button>
+        <button id="norm-art-collapse-all" class="norm-art-tb-btn">${SVG.chevsUp}<span>Cap</span></button>
+      </div>`;
+    view.insertBefore(toolbar, list);
+
+    toolbar.querySelector("#norm-lang-orig").addEventListener("click", () => {
+      artLang = "orig";
+      toolbar.querySelector("#norm-lang-orig").classList.add("active");
+      toolbar.querySelector("#norm-lang-cat").classList.remove("active");
+      const c = localStorage.getItem(ART_CACHE_PREFIX + activeDocKey);
+      if (c) { try { renderArticleCards(JSON.parse(c), activeDocKey); return; } catch {} }
+      if (activeDoc) loadArticles(activeDoc);
+    });
+    toolbar.querySelector("#norm-lang-cat").addEventListener("click", () => {
+      artLang = "cat";
+      toolbar.querySelector("#norm-lang-cat").classList.add("active");
+      toolbar.querySelector("#norm-lang-orig").classList.remove("active");
+      if (activeDoc) loadArticlesCA(activeDoc);
+    });
+
+    list.innerHTML = "";
+    articles.forEach((art, idx) => {
+      const artId = `${docKey}_${idx}`;
+      const coms  = getArtComments(artId);
+      const hasCom = coms.length > 0;
+      const card  = document.createElement("div");
+      card.className = "norm-art-card";
+      card.dataset.idx = idx;
+      card.innerHTML = `
+        <div class="norm-art-header open" data-art-id="${artId}">
+          <span class="norm-art-num">${art.num || `SS${idx+1}`}</span>
+          <span class="norm-art-title">${art.title || ""}</span>
+          <span class="norm-art-comment-badge" id="badge-${artId}">${hasCom ? SVG.msg + coms.length : ""}</span>
+          <button class="norm-art-copy-btn" data-art-idx="${idx}" title="Copiar" onclick="event.stopPropagation()">${SVG.copy}</button>
+          <span class="norm-art-chevron">${SVG.chevDown}</span>
+        </div>
+        <div class="norm-art-body" id="body-${artId}">
+          <div class="norm-art-text">${(art.text||"").replace(/\n/g,"<br>")}</div>
+          <div class="norm-art-comments">
+            <button class="norm-art-com-toggle" data-art-id="${artId}">
+              ${SVG.msg}
+              <span>${hasCom ? `${coms.length} comentari${coms.length!==1?"s":""}` : "Afegir comentari"}</span>
+              <span class="norm-art-com-chevron">${SVG.chevDown}</span>
+            </button>
+            <div class="norm-art-com-panel" id="companel-${artId}" style="display:${hasCom?"":"none"}">
+              <div class="norm-art-com-list" id="comlist-${artId}"></div>
+              <div class="norm-art-com-input-row">
+                <textarea class="norm-art-com-input" placeholder="Escriu un comentari..." rows="2" data-art-id="${artId}"></textarea>
+                <button class="norm-art-com-send" data-art-id="${artId}">${SVG.send}</button>
+              </div>
+            </div>
+          </div>
+        </div>`;
+      list.appendChild(card);
+      if (hasCom) renderArtComments(artId);
+    });
+
+    // Toggle card
+    list.querySelectorAll(".norm-art-header").forEach(h => {
+      h.addEventListener("click", () => {
+        const body = document.getElementById(`body-${h.dataset.artId}`);
+        const isOpen = body.style.display !== "none";
+        body.style.display = isOpen ? "none" : "";
+        h.classList.toggle("open", !isOpen);
+      });
+    });
+    // Toggle comments
+    list.querySelectorAll(".norm-art-com-toggle").forEach(btn => {
+      btn.addEventListener("click", e => {
+        e.stopPropagation();
+        const panel = document.getElementById(`companel-${btn.dataset.artId}`);
+        if (!panel) return;
+        const isOpen = panel.style.display !== "none";
+        panel.style.display = isOpen ? "none" : "";
+        btn.querySelector(".norm-art-com-chevron").style.transform = isOpen ? "" : "rotate(180deg)";
+        if (!isOpen) renderArtComments(btn.dataset.artId);
+      });
+    });
+    // Copy
+    list.querySelectorAll(".norm-art-copy-btn").forEach(btn => {
+      btn.addEventListener("click", e => {
+        e.stopPropagation();
+        const art = articles[parseInt(btn.dataset.artIdx)];
+        if (!art) return;
+        const text = `${art.num||""} ${art.title||""}\n\n${art.text||""}`.trim();
+        const ok = () => {
+          btn.innerHTML = SVG.check; btn.classList.add("copied");
+          setTimeout(() => { btn.innerHTML = SVG.copy; btn.classList.remove("copied"); }, 2000);
+        };
+        navigator.clipboard.writeText(text).then(ok).catch(() => {
+          const ta = document.createElement("textarea");
+          ta.value = text; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); ta.remove(); ok();
+        });
+      });
+    });
+    // Send comment
+    list.querySelectorAll(".norm-art-com-send").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const artId = btn.dataset.artId;
+        const ta = list.querySelector(`.norm-art-com-input[data-art-id="${artId}"]`);
+        if (!ta || !ta.value.trim()) return;
+        const all = getArtComments(artId);
+        all.push({ text: ta.value.trim(), date: new Date().toLocaleString("ca-ES", {day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}) });
+        saveArtComments(artId, all);
+        ta.value = "";
+        renderArtComments(artId);
+        const badge = document.getElementById(`badge-${artId}`);
+        if (badge) badge.innerHTML = SVG.msg + all.length;
+        const tBtn = list.querySelector(`.norm-art-com-toggle[data-art-id="${artId}"] span`);
+        if (tBtn) tBtn.textContent = `${all.length} comentari${all.length!==1?"s":""}`;
+      });
+    });
+    list.querySelectorAll(".norm-art-com-input").forEach(ta => {
+      ta.addEventListener("keydown", e => {
+        if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); list.querySelector(`.norm-art-com-send[data-art-id="${ta.dataset.artId}"]`)?.click(); }
+      });
+    });
+    // Expand/collapse
+    document.getElementById("norm-art-expand-all")?.addEventListener("click", () => {
+      list.querySelectorAll(".norm-art-body").forEach(b => b.style.display = "");
+      list.querySelectorAll(".norm-art-header").forEach(h => h.classList.add("open"));
+    });
+    document.getElementById("norm-art-collapse-all")?.addEventListener("click", () => {
+      list.querySelectorAll(".norm-art-body").forEach(b => b.style.display = "none");
+      list.querySelectorAll(".norm-art-header").forEach(h => h.classList.remove("open"));
+    });
+    // Search
+    document.getElementById("norm-art-search")?.addEventListener("input", e => {
+      const q = e.target.value.trim().toLowerCase();
+      let visible = 0;
+      list.querySelectorAll(".norm-art-card").forEach(card => {
+        const art = articles[parseInt(card.dataset.idx)];
+        if (!art) return;
+        const match = !q || (art.num||"").toLowerCase().includes(q) || (art.title||"").toLowerCase().includes(q) || (art.text||"").toLowerCase().includes(q);
+        card.style.display = match ? "" : "none";
+        if (match) visible++;
+        if (match && q) { const artId=`${docKey}_${card.dataset.idx}`; const b=document.getElementById(`body-${artId}`); const h=card.querySelector(".norm-art-header"); if(b) b.style.display=""; if(h) h.classList.add("open"); }
+      });
+      const cn = document.getElementById("norm-art-count-n");
+      if (cn) cn.textContent = q ? `${visible}/${articles.length}` : String(articles.length);
+    });
+  }
+
+  /* ── Sync Via Publica ── */
+  async function syncViaPublica() {
+    try {
+      const res = await fetch(`${BLOBS_API}?action=list`);
+      if (!res.ok) return;
+      const blobs = await res.json();
+      if (!Array.isArray(blobs) || !blobs.length) return;
+      let vp = topics.find(t => t.nom === "Via Publica");
+      if (!vp) { vp = { id: genId(), nom: "Via Publica", color: COLORS[1], open: true, docs: [] }; topics.unshift(vp); }
+      let changed = false;
+      blobs.forEach(blob => {
+        const url = `${BLOBS_API}?action=get&key=${encodeURIComponent(blob.nom)}`;
+        if (!vp.docs.find(d => d.nom === blob.nom)) { vp.docs.push({ key: "vp_" + blob.nom.replace(/[^a-zA-Z0-9._-]/g,"_"), nom: blob.nom, url }); changed = true; }
+      });
+      if (changed) { saveTopics(); renderTopics(); }
+    } catch {}
+  }
+
+  /* ── Init ── */
+  loadTopics();
+  ensureDefaults();
+  renderTopics();
+  showEmpty();
+  syncViaPublica();
+
+  document.getElementById("norm-btn-add-topic")?.addEventListener("click", () => {
+    const nom = prompt("Nom del nou tema:");
+    if (!nom?.trim()) return;
+    topics.push({ id: genId(), nom: nom.trim(), color: COLORS[topics.length % COLORS.length], open: true, docs: [] });
+    saveTopics(); renderTopics();
+  });
+  document.getElementById("norm-search")?.addEventListener("input", renderTopics);
+  document.getElementById("norm-btn-view-articles")?.addEventListener("click", () => setView("articles"));
+  document.getElementById("norm-btn-view-pdf")?.addEventListener("click",      () => setView("pdf"));
+})();
+</script>
+</body>
+</html>

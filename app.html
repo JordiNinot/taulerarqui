@@ -125,6 +125,10 @@
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/></svg>
         Normativa
       </button>
+      <button class="app-tab" data-tab="consulta" onclick="switchTab('consulta')">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        Consulta IA
+      </button>
     </nav>
   </header>
 
@@ -135,21 +139,25 @@
     <div class="tab-panel" id="panel-normativa">
       <iframe src="" title="Normativa" id="iframe-normativa"></iframe>
     </div>
+    <div class="tab-panel" id="panel-consulta">
+      <iframe src="" title="Consulta IA" id="iframe-consulta"></iframe>
+    </div>
   </main>
 
   <script>
-    const TABS = ['calculadora', 'normativa'];
+    const TABS = ['calculadora', 'normativa', 'consulta'];
 
     function switchTab(name) {
       TABS.forEach(t => {
         document.querySelector(`[data-tab="${t}"]`).classList.toggle('active', t === name);
         document.getElementById(`panel-${t}`).classList.toggle('active', t === name);
       });
-      // Lazy-load normativa iframe
-      if (name === 'normativa') {
-        const ifr = document.getElementById('iframe-normativa');
+      // Lazy-load iframes
+      const lazyMap = { normativa: 'normativa.html', consulta: 'consulta.html' };
+      if (lazyMap[name]) {
+        const ifr = document.getElementById('iframe-' + name);
         if (!ifr.src || ifr.src === window.location.href) {
-          ifr.src = 'normativa.html';
+          ifr.src = lazyMap[name];
         }
       }
       // Update hash without scroll

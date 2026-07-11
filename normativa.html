@@ -562,15 +562,7 @@
   }
 
   function showAddDocDialog(tid) {
-    const topic = topics.find(t => t.id === tid);
-    if (!topic) return;
-    const url = prompt("URL del document (https://...):");
-    if (!url?.trim()) return;
-    if (!url.trim().startsWith("http")) { alert("Ha de ser una URL valida (https://...)"); return; }
-    const nom = prompt("Nom del document:", url.trim().split("/").pop().split("?")[0] || "Document");
-    if (!nom) return;
-    topic.docs.push({ key: "ndoc_" + Date.now().toString(36), nom: nom.trim(), url: url.trim() });
-    saveTopics(); renderTopics();
+    openUploadModal(tid);
   }
 
   function removeDoc(tid, key) {
@@ -916,6 +908,160 @@
     } catch {}
   }
 
+
+  /* ── Upload modal ── */
+  let _uploadModalTopic = null;
+  let _uploadTab = 'upload';
+  let _pendingFiles = [];
+
+  window.switchUploadTab = function(tab) {
+    _uploadTab = tab;
+    const pu = document.getElementById('panel-upload');
+    const purl = document.getElementById('panel-url');
+    const tu = document.getElementById('tab-upload');
+    const turl = document.getElementById('tab-url');
+    if (tab === 'upload') {
+      pu.style.display = ''; purl.style.display = 'none';
+      tu.style.background = 'rgba(124,58,237,0.12)'; tu.style.color = 'var(--purple)';
+      turl.style.background = 'none'; turl.style.color = 'var(--text-muted)';
+    } else {
+      pu.style.display = 'none'; purl.style.display = 'flex';
+      turl.style.background = 'rgba(124,58,237,0.12)'; turl.style.color = 'var(--purple)';
+      tu.style.background = 'none'; tu.style.color = 'var(--text-muted)';
+    }
+  };
+
+  function openUploadModal(tid) {
+    _uploadModalTopic = tid;
+    _pendingFiles = [];
+    document.getElementById('file-list').innerHTML = '';
+    document.getElementById('upload-progress').style.display = 'none';
+    document.getElementById('upload-progress-bar').style.width = '0%';
+    document.getElementById('url-input').value = '';
+    document.getElementById('url-name-input').value = '';
+    document.getElementById('file-input').value = '';
+    switchUploadTab('upload');
+    const modal = document.getElementById('upload-modal');
+    modal.style.display = 'flex';
+  }
+
+  function closeUploadModal() {
+    document.getElementById('upload-modal').style.display = 'none';
+    _uploadModalTopic = null;
+  }
+
+  function renderFileList() {
+    const el = document.getElementById('file-list');
+    el.innerHTML = _pendingFiles.map((f, i) => `
+      <div style="display:flex;align-items:center;gap:8px;padding:6px 10px;background:var(--bg-secondary);border-radius:6px;border:1px solid var(--border-color);">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:13px;height:13px;flex-shrink:0;color:var(--purple);"><path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z"/><path d="M14 2v4a2 2 0 0 0 2 2h4"/></svg>
+        <span style="flex:1;font-size:11px;color:var(--text-primary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">${f.name}</span>
+        <span style="font-size:10px;color:var(--text-muted);">${(f.size/1024/1024).toFixed(1)} MB</span>
+        <button onclick="_pendingFiles.splice(${i},1);renderFileList()" style="background:none;border:none;cursor:pointer;color:var(--text-muted);padding:1px;display:flex;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:11px;height:11px;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>`).join('');
+  }
+
+  async function uploadFile(file, onProgress) {
+    const CHUNK_SIZE = 2 * 1024 * 1024; // 2MB
+    if (file.size <= CHUNK_SIZE) {
+      // Simple upload
+      const fd = new FormData();
+      fd.append('file', file);
+      const r = await fetch(BLOBS_API, { method: 'POST', body: fd });
+      if (!r.ok) throw new Error(await r.text());
+      onProgress(100);
+      return { nom: file.name, url: `${BLOBS_API}?action=get&key=${encodeURIComponent(file.name)}` };
+    }
+    // Chunked upload
+    const total = Math.ceil(file.size / CHUNK_SIZE);
+    for (let i = 0; i < total; i++) {
+      const chunk = file.slice(i * CHUNK_SIZE, (i + 1) * CHUNK_SIZE);
+      const fd = new FormData();
+      fd.append('chunk', chunk);
+      const r = await fetch(`${BLOBS_API}?action=chunk&key=${encodeURIComponent(file.name)}&index=${i}&total=${total}`, { method: 'POST', body: fd });
+      if (!r.ok) throw new Error(await r.text());
+      onProgress(Math.round(((i + 1) / total) * 90));
+    }
+    // Assemble
+    const r = await fetch(`${BLOBS_API}?action=assemble`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ nom: file.name, total, mimeType: file.type || 'application/pdf' })
+    });
+    if (!r.ok) throw new Error(await r.text());
+    onProgress(100);
+    return { nom: file.name, url: `${BLOBS_API}?action=get&key=${encodeURIComponent(file.name)}` };
+  }
+
+  async function handleUploadModalOk() {
+    const topic = topics.find(t => t.id === _uploadModalTopic);
+    if (!topic) return;
+
+    if (_uploadTab === 'url') {
+      const url = document.getElementById('url-input').value.trim();
+      const nom = document.getElementById('url-name-input').value.trim() || url.split('/').pop().split('?')[0] || 'Document';
+      if (!url.startsWith('http')) { alert('Introdueix una URL valida'); return; }
+      topic.docs.push({ key: 'ndoc_' + Date.now().toString(36), nom, url });
+      saveTopics(); renderTopics(); closeUploadModal();
+      return;
+    }
+
+    if (!_pendingFiles.length) { alert('Selecciona almenys un fitxer'); return; }
+
+    const okBtn = document.getElementById('upload-modal-ok');
+    okBtn.disabled = true; okBtn.textContent = 'Pujant...';
+    const progressDiv = document.getElementById('upload-progress');
+    const progressBar = document.getElementById('upload-progress-bar');
+    const statusText = document.getElementById('upload-status-text');
+    progressDiv.style.display = 'block';
+
+    for (let i = 0; i < _pendingFiles.length; i++) {
+      const file = _pendingFiles[i];
+      statusText.textContent = `Pujant ${file.name}… (${i+1}/${_pendingFiles.length})`;
+      try {
+        await uploadFile(file, pct => {
+          const overall = ((i / _pendingFiles.length) + (pct / 100 / _pendingFiles.length)) * 100;
+          progressBar.style.width = overall + '%';
+        });
+        const key = 'vp_' + file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+        if (!topic.docs.find(d => d.nom === file.name)) {
+          topic.docs.push({
+            key,
+            nom: file.name,
+            url: `${BLOBS_API}?action=get&key=${encodeURIComponent(file.name)}`
+          });
+        }
+      } catch(err) {
+        alert('Error pujant ' + file.name + ': ' + err.message);
+      }
+    }
+    saveTopics(); renderTopics();
+    okBtn.disabled = false; okBtn.textContent = 'Afegir';
+    closeUploadModal();
+  }
+
+  function initUploadModal() {
+    document.getElementById('upload-modal-close').onclick = closeUploadModal;
+    document.getElementById('upload-modal-cancel').onclick = closeUploadModal;
+    document.getElementById('upload-modal-ok').onclick = handleUploadModalOk;
+    document.getElementById('upload-modal').addEventListener('click', e => { if (e.target === document.getElementById('upload-modal')) closeUploadModal(); });
+
+    const fi = document.getElementById('file-input');
+    fi.addEventListener('change', () => {
+      _pendingFiles = [..._pendingFiles, ...Array.from(fi.files)];
+      renderFileList();
+    });
+    const dz = document.getElementById('drop-zone');
+    dz.addEventListener('dragover', e => { e.preventDefault(); dz.style.borderColor = 'var(--purple)'; });
+    dz.addEventListener('dragleave', () => { dz.style.borderColor = 'var(--border-color)'; });
+    dz.addEventListener('drop', e => {
+      e.preventDefault(); dz.style.borderColor = 'var(--border-color)';
+      _pendingFiles = [..._pendingFiles, ...Array.from(e.dataTransfer.files)];
+      renderFileList();
+    });
+  }
+
   /* ── Init ── */
   loadTopics();
   ensureDefaults();
@@ -923,6 +1069,7 @@
   showEmpty();
   syncViaPublica();
 
+  initUploadModal();
   document.getElementById("norm-btn-add-topic")?.addEventListener("click", () => {
     const nom = prompt("Nom del nou tema:");
     if (!nom?.trim()) return;
@@ -934,5 +1081,53 @@
   document.getElementById("norm-btn-view-pdf")?.addEventListener("click",      () => setView("pdf"));
 })();
 </script>
+
+  <!-- Upload modal -->
+  <div id="upload-modal" style="display:none;position:fixed;inset:0;z-index:500;background:rgba(0,0,0,0.35);display:none;align-items:center;justify-content:center;">
+    <div style="background:var(--bg-card);border:1px solid var(--border-color);border-radius:14px;box-shadow:var(--shadow-md);width:440px;max-width:95vw;padding:24px;display:flex;flex-direction:column;gap:16px;">
+      <div style="display:flex;align-items:center;justify-content:space-between;">
+        <div style="font-size:14px;font-weight:700;color:var(--text-primary);">Afegir document</div>
+        <button id="upload-modal-close" style="background:none;border:none;cursor:pointer;color:var(--text-muted);padding:4px;border-radius:4px;display:flex;align-items:center;">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:16px;height:16px;"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+      </div>
+
+      <!-- Tabs -->
+      <div style="display:flex;gap:0;border:1px solid var(--border-color);border-radius:7px;overflow:hidden;">
+        <button id="tab-upload" onclick="switchUploadTab('upload')" style="flex:1;padding:8px;font-size:12px;font-weight:600;border:none;cursor:pointer;background:rgba(124,58,237,0.12);color:var(--purple);font-family:var(--font-sans);">Pujar fitxer</button>
+        <button id="tab-url" onclick="switchUploadTab('url')" style="flex:1;padding:8px;font-size:12px;font-weight:600;border:none;cursor:pointer;background:none;color:var(--text-muted);border-left:1px solid var(--border-color);font-family:var(--font-sans);">URL externa</button>
+      </div>
+
+      <!-- Upload panel -->
+      <div id="panel-upload">
+        <label id="drop-zone" for="file-input" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border:2px dashed var(--border-color);border-radius:10px;padding:28px 20px;cursor:pointer;transition:border-color 150ms;background:var(--bg-secondary);">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:36px;height:36px;color:var(--text-muted);opacity:.6;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+          <span style="font-size:13px;font-weight:600;color:var(--text-secondary);">Arrossega aquí o fes clic per seleccionar</span>
+          <span style="font-size:11px;color:var(--text-muted);">PDF, DOC, DOCX, TXT — fins a 50 MB</span>
+        </label>
+        <input type="file" id="file-input" accept=".pdf,.doc,.docx,.txt,application/pdf,application/msword" style="display:none;" multiple>
+        <div id="file-list" style="margin-top:10px;display:flex;flex-direction:column;gap:6px;"></div>
+        <div id="upload-progress" style="display:none;margin-top:12px;">
+          <div style="font-size:12px;color:var(--text-muted);margin-bottom:6px;" id="upload-status-text">Pujant…</div>
+          <div style="background:var(--bg-tertiary);border-radius:4px;height:6px;overflow:hidden;">
+            <div id="upload-progress-bar" style="height:100%;background:var(--purple);width:0%;transition:width 300ms;border-radius:4px;"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- URL panel -->
+      <div id="panel-url" style="display:none;flex-direction:column;gap:10px;">
+        <input type="text" id="url-input" placeholder="https://..." style="width:100%;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:7px;padding:9px 12px;font-size:13px;color:var(--text-primary);outline:none;font-family:var(--font-sans);">
+        <input type="text" id="url-name-input" placeholder="Nom del document" style="width:100%;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:7px;padding:9px 12px;font-size:13px;color:var(--text-primary);outline:none;font-family:var(--font-sans);">
+      </div>
+
+      <!-- Footer -->
+      <div style="display:flex;gap:8px;justify-content:flex-end;">
+        <button id="upload-modal-cancel" style="padding:8px 16px;border:1px solid var(--border-color);border-radius:7px;background:none;cursor:pointer;font-size:12px;color:var(--text-secondary);font-family:var(--font-sans);">Cancel·lar</button>
+        <button id="upload-modal-ok" style="padding:8px 16px;border:none;border-radius:7px;background:var(--purple);color:white;cursor:pointer;font-size:12px;font-weight:600;font-family:var(--font-sans);">Afegir</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>

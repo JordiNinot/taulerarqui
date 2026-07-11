@@ -2125,18 +2125,29 @@ function eaActualitzar() {
   });
   if (totalM2 > 0 && fbEl) {
     fbEl.style.display = "";
+    // Categoria (sempre necessària per calcular la tarifa real)
+    const detEl  = document.getElementById("detected-category");
+    const catRaw = detEl ? detEl.textContent : "-";
+    const catCode = catRaw.replace("Categoria ", "").split(" ")[0] || "5";
+    const catNorm = catCode.replace("ª", "").replace("a", "").toUpperCase();
+    const rate    = _EA_CAT_RATES[catNorm] || 0.31;
     const bracket = eaGetBracket(totalM2);
     if (bracket.tarifa !== null) {
-      if (blEl) blEl.textContent = bracket.label + " (import fix, Sec. 1 OF4.5):";
-      if (pvEl) pvEl.textContent = bracket.tarifa.toLocaleString("ca-ES", { minimumFractionDigits: 2 }) + " €";
+      // ≤15 m²: l'import fix és el MÍNIM; es compara amb m²×dies×tarifa i es pren el major
+      const calculat = dies > 0 ? Math.round(totalM2 * dies * rate * 100) / 100 : null;
+      const final    = calculat !== null ? Math.max(bracket.tarifa, calculat) : bracket.tarifa;
+      const aplicatMin = calculat !== null && bracket.tarifa >= calculat;
+      if (blEl) blEl.textContent = bracket.label
+        + " — cat. " + catNorm + " (" + rate.toFixed(2) + " €/m²/dia)"
+        + (aplicatMin ? " → mínim aplicat:" : " → calculat:");
+      if (pvEl) pvEl.textContent = final.toLocaleString("ca-ES", { minimumFractionDigits: 2 }) + " €"
+        + (calculat !== null && !aplicatMin
+          ? " (" + totalM2 + " m² × " + dies + " dies × " + rate.toFixed(2) + ")"
+          : " (mínim OF4.5 Sec.1: " + bracket.tarifa.toFixed(2) + " €)");
       if (catEl) catEl.style.display = "none";
     } else {
-      const detEl  = document.getElementById("detected-category");
-      const catRaw = detEl ? detEl.textContent : "-";
-      const catCode = catRaw.replace("Categoria ", "").split(" ")[0] || "5";
-      const catNorm = catCode.replace("ª", "").replace("a", "").toUpperCase();
-      const rate    = _EA_CAT_RATES[catNorm] || 0.31;
-      const est     = dies > 0 ? totalM2 * dies * rate : null;
+      // >15 m²: només m²×dies×tarifa_cat
+      const est = dies > 0 ? totalM2 * dies * rate : null;
       if (blEl) blEl.textContent = "Més de 15 m² — " + rate.toFixed(2) + " €/m²/dia (cat. " + catNorm + ", Sec. 1 OF4.5):";
       if (pvEl) pvEl.textContent = est !== null
         ? est.toLocaleString("ca-ES", { minimumFractionDigits: 2 }) + " € (" + totalM2 + " m² × " + dies + " dies)"
@@ -2670,12 +2681,20 @@ function initCalculator() {
       const mesuresText = mesures.map(function(m){ return m.a+"×"+m.l+" m = "+m.m2+" m²"; }).join(" + ");
       descripcioParams = mesuresText + " = "+totalM2ea+" m² · "+dies2+" dies";
       const bracket = eaGetBracket(totalM2ea);
+      const catR = _EA_CAT_RATES[catCode] || 0.31;
       if (bracket.tarifa !== null) {
-        total = bracket.tarifa;
-        invTarifaBase.textContent = bracket.tarifa.toFixed(2)+" € (import fix "+bracket.label+", Sec. 1 OF4.5)";
-        formulaText = "Mesures: "+mesuresText+"\nTotal: "+totalM2ea+" m² → "+bracket.label+"\nImport fix: "+bracket.tarifa.toFixed(2)+" € (OF 4.5, Sec. 1)";
+        // ≤15 m²: mínim fix vs. calculat (m²×dies×tarifa_cat), s'aplica el major
+        const calculat = Math.round(totalM2ea * dies2 * catR * 100) / 100;
+        const aplicatMin = bracket.tarifa >= calculat;
+        total = Math.max(bracket.tarifa, calculat);
+        invTarifaBase.textContent = aplicatMin
+          ? bracket.tarifa.toFixed(2)+" € (mínim "+bracket.label+", Sec. 1 OF4.5)"
+          : catR.toFixed(2)+" € / m² / dia ("+catText+", calculat > mínim)";
+        formulaText = "Mesures: "+mesuresText+"\nTotal: "+totalM2ea+" m²"
+          +"\nCalculat: "+totalM2ea+" m² × "+dies2+" dies × "+catR.toFixed(2)+" €/m²/dia = "+calculat.toLocaleString('ca-ES',{minimumFractionDigits:2})+" €"
+          +"\nMínim OF4.5 Sec.1 ("+bracket.label+"): "+bracket.tarifa.toFixed(2)+" €"
+          +"\n→ S'aplica: "+total.toLocaleString('ca-ES',{minimumFractionDigits:2,maximumFractionDigits:2})+" € ("+( aplicatMin ? "mínim" : "calculat")+" )";
       } else {
-        const catR = _EA_CAT_RATES[catCode] || 0.31;
         total = totalM2ea * dies2 * catR;
         invTarifaBase.textContent = catR.toFixed(2)+" € / m² / dia ("+catText+", >15 m²)";
         formulaText = "Mesures: "+mesuresText+"\nTotal: "+totalM2ea+" m² × "+dies2+" dies × "+catR.toFixed(2)+" €/m²/dia ("+catText+") = "+total.toLocaleString('ca-ES',{minimumFractionDigits:2,maximumFractionDigits:2})+" €";

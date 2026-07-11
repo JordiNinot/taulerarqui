@@ -2271,12 +2271,12 @@ function initCalculator() {
   //    cap duplicat de cap modalitat
   // ================================================================
   const _CONFLICTS = {
-    "anual":              ["estiu","hivern","cap_setmana_estiu","cap_setmana_hivern","eventual"],
-    "estiu":              ["anual","hivern","cap_setmana_estiu"],
-    "hivern":             ["anual","estiu","cap_setmana_hivern"],
-    "cap_setmana_estiu":  ["anual","estiu"],
-    "cap_setmana_hivern": ["anual","hivern"],
-    "eventual":           ["anual"]
+    "anual":              [],
+    "estiu":              ["hivern","cap_setmana_estiu"],
+    "hivern":             ["estiu","cap_setmana_hivern"],
+    "cap_setmana_estiu":  ["estiu"],
+    "cap_setmana_hivern": ["hivern"],
+    "eventual":           []
   };
 
   function enforceEstiuHivern() {

@@ -624,27 +624,36 @@
             </div>
 
             <!-- Elements auxiliars d'obra (Sec. 1 OF4.5) -->
-            <div class="form-group" id="group-elements-auxiliars" style="display:none;">
-              <label for="ea-superficie">Superfície de l'element</label>
-              <select id="ea-superficie" class="form-control">
-                <option value="fins_4">Fins 4 m² — 13,31 €</option>
-                <option value="fins_6">Fins 6 m² — 24,83 €</option>
-                <option value="fins_8">Fins 8 m² — 30,92 €</option>
-                <option value="fins_10">Fins 10 m² — 41,04 €</option>
-                <option value="fins_15">Fins 15 m² — 43,34 €</option>
-                <option value="mes_15">Més de 15 m² — tarifa/m²/dia (categoria)</option>
-              </select>
-              <div id="group-ea-mes15" style="display:none; margin-top:8px;">
-                <div class="form-row">
-                  <div class="form-group">
-                    <label for="ea-m2">Superfície (m²)</label>
-                    <input type="number" id="ea-m2" class="form-control" value="20" min="16">
-                  </div>
-                  <div class="form-group">
-                    <label for="ea-dies">Durada (dies)</label>
-                    <input type="number" id="ea-dies" class="form-control" value="30" min="1">
-                  </div>
+            <div id="group-elements-auxiliars" style="display:none;">
+              <!-- Rang de dates -->
+              <div class="form-row" style="margin-bottom:4px;">
+                <div class="form-group">
+                  <label for="ea-data-inici">Data d'inici</label>
+                  <input type="date" id="ea-data-inici" class="form-control">
                 </div>
+                <div class="form-group">
+                  <label for="ea-data-fi">Data de fi</label>
+                  <input type="date" id="ea-data-fi" class="form-control">
+                </div>
+              </div>
+              <div class="street-feedback" id="ea-dies-feedback" style="margin-bottom:10px;">
+                <span>Durada calculada: <strong id="ea-dies-calc" style="color:var(--primary);">— dies</strong></span>
+                <span>Total m²: <strong id="ea-total-m2" style="color:var(--accent-orange);">0 m²</strong></span>
+              </div>
+              <!-- Línies de mesures -->
+              <label>Mesures d'ocupació
+                <span style="font-weight:400;font-size:11px;letter-spacing:0;color:var(--text-muted);text-transform:none;">
+                  — amplada × llargada per a cada element
+                </span>
+              </label>
+              <div id="ea-mesures-container" style="margin-top:6px;"></div>
+              <button type="button" class="btn btn-secondary" id="btn-add-ea-mesura" style="margin-top:6px;">
+                <i data-lucide="plus"></i> Afegir mesura
+              </button>
+              <!-- Resum tarifa -->
+              <div class="street-feedback" id="ea-tarifa-feedback" style="margin-top:10px;display:none;">
+                <span id="ea-bracket-label" style="font-weight:600;color:var(--primary);"></span>
+                <span id="ea-tarifa-preview" style="font-weight:700;color:var(--accent-orange);"></span>
               </div>
             </div>
 
@@ -2126,11 +2135,95 @@ function initCalculator() {
   // Canviar camps del formulari segons tipus d'ocupació
   const groupEA  = document.getElementById("group-elements-auxiliars");
   const groupTC  = document.getElementById("group-tall-carrer");
-  const eaSupSel = document.getElementById("ea-superficie");
-  const groupEA15= document.getElementById("group-ea-mes15");
-  if (eaSupSel) eaSupSel.addEventListener("change", function() {
-    groupEA15.style.display = this.value === "mes_15" ? "" : "none";
-  });
+
+  // ── Elements Auxiliars d'Obra: dates + mesures ──────────────────────────
+  const OF45_EA_BRACKETS = [
+    { max: 4,        tarifa: 13.31,  label: "Fins 4 m²" },
+    { max: 6,        tarifa: 24.83,  label: "Fins 6 m²" },
+    { max: 8,        tarifa: 30.92,  label: "Fins 8 m²" },
+    { max: 10,       tarifa: 41.04,  label: "Fins 10 m²" },
+    { max: 15,       tarifa: 43.34,  label: "Fins 15 m²" },
+    { max: Infinity, tarifa: null,   label: "Més de 15 m²" }
+  ];
+  const OF45_CAT_RATES = { "1A":0.48, "1B":0.42, "2":0.37, "3":0.31, "4":0.31, "5":0.31 };
+  let eaMesuresCounter = 0;
+
+  function eaCalcDies() {
+    const inici = document.getElementById("ea-data-inici").value;
+    const fi    = document.getElementById("ea-data-fi").value;
+    if (!inici || !fi) return 0;
+    const d1 = new Date(inici), d2 = new Date(fi);
+    return d2 >= d1 ? Math.round((d2-d1)/86400000)+1 : 0;
+  }
+  function eaCalcTotalM2() {
+    let total = 0;
+    document.querySelectorAll(".ea-mesura-row").forEach(function(row) {
+      const a = parseFloat(row.querySelector(".ea-amplada").value)||0;
+      const l = parseFloat(row.querySelector(".ea-llargada").value)||0;
+      total += a * l;
+    });
+    return Math.round(total*100)/100;
+  }
+  function eaGetBracket(m2) {
+    return OF45_EA_BRACKETS.find(function(b){ return m2 <= b.max; }) || OF45_EA_BRACKETS[5];
+  }
+  function eaActualitzar() {
+    const dies   = eaCalcDies();
+    const totalM2 = eaCalcTotalM2();
+    const dEl  = document.getElementById("ea-dies-calc");
+    const m2El = document.getElementById("ea-total-m2");
+    const fbEl = document.getElementById("ea-tarifa-feedback");
+    const blEl = document.getElementById("ea-bracket-label");
+    const pvEl = document.getElementById("ea-tarifa-preview");
+    if (dEl)  dEl.textContent  = dies > 0 ? dies+" dies" : "— dies";
+    if (m2El) m2El.textContent = totalM2+" m²";
+    if (totalM2 > 0 && fbEl) {
+      fbEl.style.display = "";
+      const bracket = eaGetBracket(totalM2);
+      if (bracket.tarifa !== null) {
+        blEl.textContent = bracket.label+" (import fix):";
+        pvEl.textContent = bracket.tarifa.toLocaleString("ca-ES",{minimumFractionDigits:2})+" €";
+      } else {
+        const catCode2 = document.getElementById("detected-category").textContent.replace("Categoria ","").split(" ")[0] || "5";
+        const rate = OF45_CAT_RATES[catCode2.replace("ª","").replace("a","").toUpperCase()] || 0.31;
+        const est  = totalM2 * (dies||1) * rate;
+        blEl.textContent = "Més de 15 m² — "+rate.toFixed(2)+" €/m²/dia ("+catCode2+"):";
+        pvEl.textContent = "≈ "+est.toLocaleString("ca-ES",{minimumFractionDigits:2})+" € ("+totalM2+" m² × "+(dies||"N")+" dies)";
+      }
+    } else if (fbEl) { fbEl.style.display = "none"; }
+    // Actualitza resultat de cada fila
+    document.querySelectorAll(".ea-mesura-row").forEach(function(row) {
+      const a = parseFloat(row.querySelector(".ea-amplada").value)||0;
+      const l = parseFloat(row.querySelector(".ea-llargada").value)||0;
+      const rEl = row.querySelector(".ea-m2-result");
+      if (rEl) rEl.textContent = (Math.round(a*l*100)/100)+" m²";
+    });
+  }
+  function eaAfegirMesura(amplada, llargada) {
+    eaMesuresCounter++;
+    const id = "ea-mesura-"+eaMesuresCounter;
+    const row = document.createElement("div");
+    row.className = "ea-mesura-row";
+    row.dataset.id = id;
+    row.style.cssText = "display:flex;align-items:center;gap:8px;margin-bottom:6px;";
+    row.innerHTML =
+      '<input type="number" class="form-control ea-amplada" placeholder="Amplada (m)" value="'+(amplada||"")
+      +'" min="0" step="0.01" style="flex:1;">'
+      +'<span style="color:var(--text-muted);font-weight:600;">×</span>'
+      +'<input type="number" class="form-control ea-llargada" placeholder="Llargada (m)" value="'+(llargada||"")
+      +'" min="0" step="0.01" style="flex:1;">'
+      +'<span style="font-size:12px;font-weight:700;color:var(--primary);min-width:50px;" class="ea-m2-result">0 m²</span>'
+      +'<button type="button" class="terrassa-line-remove" title="Eliminar mesura" '
+      +'onclick="this.closest('.ea-mesura-row').remove();eaActualitzar();">&times;</button>';
+    row.querySelectorAll("input").forEach(function(inp){
+      inp.addEventListener("input", eaActualitzar);
+    });
+    document.getElementById("ea-mesures-container").appendChild(row);
+    eaActualitzar();
+  }
+  document.getElementById("btn-add-ea-mesura").addEventListener("click", function(){ eaAfegirMesura(); });
+  document.getElementById("ea-data-inici").addEventListener("change", eaActualitzar);
+  document.getElementById("ea-data-fi").addEventListener("change", eaActualitzar);
 
   function aplicarTipus(type) {
     // Reset tots els grups especials
@@ -2149,6 +2242,16 @@ function initCalculator() {
       group1.style.display = "none";
       group2.style.display = "none";
       groupEA.style.display = "";
+      // Inicialitzar data d'avui com a inici si buida
+      const ini = document.getElementById("ea-data-inici");
+      if (ini && !ini.value) {
+        const avui = new Date().toISOString().slice(0,10);
+        ini.value = avui;
+        document.getElementById("ea-data-fi").value = avui;
+      }
+      // Afegir una mesura inicial si el contenidor és buit
+      const cont = document.getElementById("ea-mesures-container");
+      if (cont && cont.children.length === 0) eaAfegirMesura(3, 1);
     } else if (type === "tall_carrer") {
       group1.style.display = "none";
       group2.style.display = "none";
@@ -2514,32 +2617,31 @@ function initCalculator() {
     }
 
     else if (type === "elements_auxiliars") {
-      const eaSup  = document.getElementById("ea-superficie").value;
-      const OF45_EA_RATES = {
-        "fins_4":  { label: "Fins 4 m²",    tarifa: 13.31 },
-        "fins_6":  { label: "Fins 6 m²",    tarifa: 24.83 },
-        "fins_8":  { label: "Fins 8 m²",    tarifa: 30.92 },
-        "fins_10": { label: "Fins 10 m²",   tarifa: 41.04 },
-        "fins_15": { label: "Fins 15 m²",   tarifa: 43.34 },
-        "mes_15":  { label: "Més de 15 m²", tarifa: null   }
-      };
-      // Tarifes per categoria (Sec. 1 OF4.5) per a elements >15m²
-      const OF45_CAT_RATES = { "1A":0.48, "1B":0.42, "2":0.37, "3":0.31, "4":0.31, "5":0.31 };
-      descripcioConcepte = "Element auxiliar d'obra (OF 4.5, Sec. 1)";
-      if (eaSup === "mes_15") {
-        const eaM2   = parseFloat(document.getElementById("ea-m2").value)   || 0;
-        const eaDies = parseFloat(document.getElementById("ea-dies").value)  || 0;
-        const catR   = OF45_CAT_RATES[catCode] || OF45_CAT_RATES["5"];
-        total = eaM2 * eaDies * catR;
-        descripcioParams = `${eaM2} m² × ${eaDies} dies (>${15} m²)`;
-        invTarifaBase.textContent = `${catR.toFixed(2)} € / m² / dia (${catText})`;
-        formulaText = `${eaM2} m² * ${eaDies} dies * ${catR.toFixed(2)} € (${catText}, Sec. 1 OF4.5) = ${total.toLocaleString('ca-ES',{minimumFractionDigits:2,maximumFractionDigits:2})} €`;
+      descripcioConcepte = "Elements auxiliars d'obra (OF 4.5, Sec. 1)";
+      const dies2  = eaCalcDies();
+      const totalM2ea = eaCalcTotalM2();
+      // Desglossar mesures
+      const mesures = [];
+      document.querySelectorAll(".ea-mesura-row").forEach(function(row) {
+        const a = parseFloat(row.querySelector(".ea-amplada").value)||0;
+        const l = parseFloat(row.querySelector(".ea-llargada").value)||0;
+        if (a && l) mesures.push({a, l, m2: Math.round(a*l*100)/100});
+      });
+      const mesuresText = mesures.map(function(m){ return m.a+"×"+m.l+" m = "+m.m2+" m²"; }).join(" + ");
+      descripcioParams = mesuresText + " = "+totalM2ea+" m² · "+dies2+" dies";
+      const bracket = eaGetBracket(totalM2ea);
+      if (bracket.tarifa !== null) {
+        total = bracket.tarifa;
+        invTarifaBase.textContent = bracket.tarifa.toFixed(2)+" € (import fix "+bracket.label+", Sec. 1 OF4.5)";
+        formulaText = "Mesures: "+mesuresText+"
+Total: "+totalM2ea+" m² → "+bracket.label+"
+Import fix: "+bracket.tarifa.toFixed(2)+" € (OF 4.5, Sec. 1)";
       } else {
-        const entry  = OF45_EA_RATES[eaSup];
-        total = entry.tarifa;
-        descripcioParams = entry.label;
-        invTarifaBase.textContent = `${entry.tarifa.toFixed(2)} € (import fix, Sec. 1 OF4.5)`;
-        formulaText = `Import fix per a element de ${entry.label}: ${entry.tarifa.toFixed(2)} € (OF 4.5, Sec. 1)`;
+        const catR = OF45_CAT_RATES[catCode] || 0.31;
+        total = totalM2ea * dies2 * catR;
+        invTarifaBase.textContent = catR.toFixed(2)+" € / m² / dia ("+catText+", >15 m²)";
+        formulaText = "Mesures: "+mesuresText+"
+Total: "+totalM2ea+" m² × "+dies2+" dies × "+catR.toFixed(2)+" €/m²/dia ("+catText+") = "+total.toLocaleString('ca-ES',{minimumFractionDigits:2,maximumFractionDigits:2})+" €";
       }
     }
 

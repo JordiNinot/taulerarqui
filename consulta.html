@@ -13,7 +13,6 @@
     :root {
       --primary:       #2f7548;
       --primary-hover: #245c39;
-      --primary-press: #1c462c;
       --primary-bg:    #eef6ef;
       --primary-light: #d6e8d9;
       --bg-primary:    #faf8f3;
@@ -30,271 +29,353 @@
       --font-sans: 'IBM Plex Sans', -apple-system, 'Segoe UI', Roboto, sans-serif;
       --font-mono: 'IBM Plex Mono', Consolas, monospace;
     }
-
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body { height: 100%; overflow: hidden; }
-    body {
-      font-family: var(--font-sans);
-      background: var(--bg-secondary);
-      color: var(--text-main);
-      display: flex;
-      flex-direction: column;
-    }
+    body { font-family: var(--font-sans); background: var(--bg-secondary); color: var(--text-main); display: flex; flex-direction: column; }
 
     /* ── Header ── */
     .app-header {
-      flex-shrink: 0;
-      background: var(--primary);
-      color: white;
-      height: 52px;
-      padding: 0 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      border-bottom: 1px solid var(--primary-hover);
+      flex-shrink: 0; background: var(--primary); color: white;
+      height: 52px; padding: 0 20px;
+      display: flex; align-items: center; gap: 12px;
+      border-bottom: 1px solid rgba(0,0,0,0.15);
       box-shadow: var(--shadow-sm);
     }
-    .app-header-left { display: flex; align-items: center; gap: 12px; }
     .back-link {
-      display: flex; align-items: center; gap: 5px;
-      color: rgba(255,255,255,0.82); text-decoration: none;
-      font-size: 13px; font-weight: 500;
+      display: flex; align-items: center; gap: 5px; color: rgba(255,255,255,0.82);
+      text-decoration: none; font-size: 13px; font-weight: 500;
       padding: 4px 10px; border-radius: 20px;
-      border: 1px solid rgba(255,255,255,0.25);
-      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.25); background: rgba(255,255,255,0.10);
       transition: background 120ms;
     }
     .back-link:hover { background: rgba(255,255,255,0.22); color: white; }
     .back-link svg { width: 13px; height: 13px; }
-    .header-divider { width: 1px; height: 20px; background: rgba(255,255,255,0.25); }
-    .app-title { font-size: 16px; font-weight: 600; letter-spacing: 0.01em; }
+    .header-div { width: 1px; height: 20px; background: rgba(255,255,255,0.25); }
+    .app-title { font-size: 16px; font-weight: 600; }
     .app-title span { opacity: 0.7; font-weight: 400; font-size: 13px; margin-left: 8px; }
     .header-badge {
       font-size: 11px; font-weight: 500;
-      background: rgba(255,255,255,0.16);
-      border: 1px solid rgba(255,255,255,0.26);
-      color: white; padding: 2px 8px; border-radius: 10px; margin-left: 10px;
+      background: rgba(255,255,255,0.16); border: 1px solid rgba(255,255,255,0.26);
+      color: white; padding: 2px 8px; border-radius: 10px; margin-left: 4px;
     }
 
-    /* ── Layout ── */
-    .chat-layout {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      max-width: 820px;
-      width: 100%;
-      margin: 0 auto;
-      padding: 0;
+    /* ── Layout 3 columnes ── */
+    .workspace {
+      flex: 1; display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
       overflow: hidden;
     }
 
-    /* ── Missatges ── */
+    /* ── Columnes esquerra (repositori) ── */
+    .repo-col {
+      display: flex; flex-direction: column;
+      border-right: 1px solid var(--border-color);
+      overflow: hidden;
+    }
+    .repo-col:first-child { border-right: 1px solid var(--border-color); }
+
+    .col-header {
+      flex-shrink: 0; padding: 14px 16px 12px;
+      border-bottom: 1px solid var(--border-color);
+      background: var(--bg-primary);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .col-header-title {
+      font-size: 13px; font-weight: 700; color: var(--text-main);
+      display: flex; align-items: center; gap: 7px;
+    }
+    .col-header-title svg { width: 15px; height: 15px; color: var(--primary); }
+    .col-header-actions { display: flex; gap: 6px; }
+    .icon-btn {
+      width: 28px; height: 28px; border-radius: var(--radius-sm);
+      border: 1px solid var(--border-color); background: var(--bg-secondary);
+      cursor: pointer; display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted); transition: background 120ms, color 120ms;
+    }
+    .icon-btn:hover { background: var(--bg-tertiary); color: var(--text-main); }
+    .icon-btn svg { width: 13px; height: 13px; }
+
+    .col-body {
+      flex: 1; overflow-y: auto; padding: 12px;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .col-body::-webkit-scrollbar { width: 4px; }
+    .col-body::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+
+    /* Cards de resultat */
+    .result-card {
+      background: var(--bg-primary);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 150ms, box-shadow 150ms;
+    }
+    .result-card:hover { border-color: var(--primary-light); box-shadow: var(--shadow-sm); }
+    .result-card.selected { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary-light); }
+    .result-card-head {
+      padding: 10px 12px 8px;
+      display: flex; align-items: flex-start; justify-content: space-between; gap: 8px;
+    }
+    .result-q {
+      font-size: 12px; font-weight: 600; color: var(--text-main);
+      line-height: 1.4; flex: 1;
+    }
+    .result-card-del {
+      flex-shrink: 0; width: 20px; height: 20px;
+      border: none; background: none; cursor: pointer;
+      color: var(--text-muted); border-radius: 3px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 120ms, color 120ms;
+    }
+    .result-card-del:hover { background: #fee2e2; color: #dc2626; }
+    .result-card-del svg { width: 11px; height: 11px; }
+    .result-preview {
+      padding: 0 12px 10px;
+      font-size: 11px; color: var(--text-muted); line-height: 1.5;
+      display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+    }
+    .result-meta {
+      padding: 6px 12px;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-color);
+      font-size: 10px; color: var(--text-muted);
+      display: flex; align-items: center; gap: 6px;
+    }
+
+    /* Detail panel (col 2) */
+    .detail-empty {
+      flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 24px; text-align: center; gap: 10px;
+    }
+    .detail-empty svg { width: 36px; height: 36px; color: var(--border-color); }
+    .detail-empty p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+    .detail-content {
+      flex: 1; overflow-y: auto; padding: 16px;
+      display: none; flex-direction: column; gap: 12px;
+    }
+    .detail-content::-webkit-scrollbar { width: 4px; }
+    .detail-content::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+    .detail-q-block {
+      background: var(--primary); color: white;
+      border-radius: var(--radius-md); padding: 12px 14px;
+      font-size: 13px; font-weight: 600; line-height: 1.5;
+    }
+    .detail-a-block {
+      background: var(--bg-primary); border: 1px solid var(--border-color);
+      border-radius: var(--radius-md); padding: 12px 14px;
+      font-size: 13px; line-height: 1.7; white-space: pre-wrap;
+    }
+    .detail-a-block strong { font-weight: 700; color: var(--primary); }
+    .detail-ts { font-size: 10px; color: var(--text-muted); text-align: right; margin-top: 4px; }
+
+    /* Estat buit repositori */
+    .repo-empty {
+      flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center;
+      padding: 24px; text-align: center; gap: 8px; color: var(--text-muted);
+    }
+    .repo-empty svg { width: 32px; height: 32px; color: var(--border-color); margin-bottom: 4px; }
+    .repo-empty p { font-size: 12px; line-height: 1.5; }
+
+    /* ── Columna dreta (chat) ── */
+    .chat-col {
+      display: flex; flex-direction: column;
+      background: var(--bg-secondary);
+      overflow: hidden;
+    }
     .chat-messages {
-      flex: 1;
-      overflow-y: auto;
-      padding: 24px 20px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
+      flex: 1; overflow-y: auto;
+      padding: 16px 14px 8px;
+      display: flex; flex-direction: column; gap: 12px;
       scroll-behavior: smooth;
     }
-    .chat-messages::-webkit-scrollbar { width: 5px; }
-    .chat-messages::-webkit-scrollbar-track { background: transparent; }
-    .chat-messages::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 3px; }
+    .chat-messages::-webkit-scrollbar { width: 4px; }
+    .chat-messages::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
 
-    .msg {
-      display: flex;
-      flex-direction: column;
-      max-width: 88%;
-    }
+    .msg { display: flex; flex-direction: column; max-width: 92%; }
     .msg.user { align-self: flex-end; align-items: flex-end; }
     .msg.assistant { align-self: flex-start; align-items: flex-start; }
-
     .msg-bubble {
-      padding: 10px 14px;
-      border-radius: var(--radius-lg);
-      font-size: 14px;
-      line-height: 1.6;
-      white-space: pre-wrap;
+      padding: 9px 12px; border-radius: var(--radius-lg);
+      font-size: 13px; line-height: 1.6; white-space: pre-wrap;
     }
     .msg.user .msg-bubble {
-      background: var(--primary);
-      color: white;
+      background: var(--primary); color: white;
       border-bottom-right-radius: var(--radius-sm);
     }
     .msg.assistant .msg-bubble {
-      background: var(--bg-primary);
-      color: var(--text-main);
-      border: 1px solid var(--border-color);
-      border-bottom-left-radius: var(--radius-sm);
+      background: var(--bg-primary); color: var(--text-main);
+      border: 1px solid var(--border-color); border-bottom-left-radius: var(--radius-sm);
       box-shadow: var(--shadow-sm);
     }
     .msg.assistant .msg-bubble strong { font-weight: 700; color: var(--primary); }
-    .msg-time {
-      font-size: 10px; color: var(--text-muted);
-      margin-top: 4px; padding: 0 4px;
+    .msg-actions {
+      display: flex; gap: 4px; margin-top: 4px;
     }
+    .msg-save-btn {
+      font-family: var(--font-sans); font-size: 10px; font-weight: 500;
+      padding: 3px 8px; border-radius: 10px;
+      border: 1px solid var(--primary-light); background: var(--primary-bg);
+      color: var(--primary); cursor: pointer; transition: background 120ms;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .msg-save-btn:hover { background: var(--primary-light); }
+    .msg-save-btn svg { width: 10px; height: 10px; }
+    .msg-save-btn.saved { background: var(--primary-light); border-color: var(--primary); color: var(--primary); }
+    .msg-time { font-size: 10px; color: var(--text-muted); margin-top: 3px; padding: 0 3px; }
 
-    /* Missatge benvinguda */
     .welcome-card {
-      background: var(--primary-bg);
-      border: 1px solid var(--primary-light);
-      border-radius: var(--radius-lg);
-      padding: 20px;
-      text-align: center;
-      margin: 8px 0 4px;
+      background: var(--primary-bg); border: 1px solid var(--primary-light);
+      border-radius: var(--radius-lg); padding: 16px; text-align: center; margin: 4px 0;
     }
     .welcome-card .wc-icon {
-      width: 40px; height: 40px;
-      background: var(--primary);
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 12px;
-      color: white;
+      width: 36px; height: 36px; background: var(--primary); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center; margin: 0 auto 10px; color: white;
     }
-    .welcome-card h2 { font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 6px; }
-    .welcome-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
+    .welcome-card h2 { font-size: 14px; font-weight: 700; color: var(--primary); margin-bottom: 5px; }
+    .welcome-card p { font-size: 12px; color: var(--text-muted); line-height: 1.5; }
 
-    /* Suggeriments ràpids */
-    .suggestions {
-      display: flex; flex-wrap: wrap; gap: 8px;
-      padding: 0 20px 12px;
-      flex-shrink: 0;
-    }
-    .suggestion-btn {
-      font-family: var(--font-sans);
-      font-size: 12px; font-weight: 500;
-      padding: 6px 12px;
-      border-radius: 20px;
-      border: 1px solid var(--primary-light);
-      background: var(--primary-bg);
-      color: var(--primary);
-      cursor: pointer;
-      transition: background 120ms, border-color 120ms;
-    }
-    .suggestion-btn:hover { background: var(--primary-light); border-color: var(--primary); }
-
-    /* ── Tipejant ── */
     .typing-indicator {
-      display: flex; align-items: center; gap: 5px;
-      padding: 10px 14px;
-      background: var(--bg-primary);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      border-bottom-left-radius: var(--radius-sm);
-      box-shadow: var(--shadow-sm);
+      display: none; align-items: center; gap: 4px;
+      padding: 9px 12px; background: var(--bg-primary);
+      border: 1px solid var(--border-color); border-radius: var(--radius-lg);
+      border-bottom-left-radius: var(--radius-sm); box-shadow: var(--shadow-sm);
       align-self: flex-start;
-      display: none;
     }
     .typing-dot {
-      width: 7px; height: 7px;
-      background: var(--text-muted);
-      border-radius: 50%;
+      width: 6px; height: 6px; background: var(--text-muted); border-radius: 50%;
       animation: bounce 1.2s infinite;
     }
     .typing-dot:nth-child(2) { animation-delay: 0.2s; }
     .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-    @keyframes bounce {
-      0%, 60%, 100% { transform: translateY(0); }
-      30% { transform: translateY(-5px); }
-    }
+    @keyframes bounce { 0%,60%,100%{transform:translateY(0)} 30%{transform:translateY(-5px)} }
 
-    /* ── Input ── */
+    .suggestions {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      padding: 4px 14px 8px; flex-shrink: 0;
+    }
+    .sug-btn {
+      font-family: var(--font-sans); font-size: 11px; font-weight: 500;
+      padding: 5px 10px; border-radius: 20px;
+      border: 1px solid var(--primary-light); background: var(--primary-bg);
+      color: var(--primary); cursor: pointer; transition: background 120ms;
+    }
+    .sug-btn:hover { background: var(--primary-light); }
+
     .chat-input-bar {
-      flex-shrink: 0;
-      padding: 12px 20px 16px;
-      background: var(--bg-secondary);
-      border-top: 1px solid var(--border-color);
+      flex-shrink: 0; padding: 10px 14px 14px;
+      background: var(--bg-secondary); border-top: 1px solid var(--border-color);
     }
     .input-row {
-      display: flex; gap: 8px; align-items: flex-end;
-      background: var(--bg-primary);
-      border: 1.5px solid var(--border-color);
-      border-radius: var(--radius-lg);
-      padding: 8px 8px 8px 14px;
-      box-shadow: var(--shadow-sm);
-      transition: border-color 150ms;
+      display: flex; gap: 7px; align-items: flex-end;
+      background: var(--bg-primary); border: 1.5px solid var(--border-color);
+      border-radius: var(--radius-lg); padding: 7px 7px 7px 12px;
+      box-shadow: var(--shadow-sm); transition: border-color 150ms;
     }
     .input-row:focus-within { border-color: var(--primary); }
     #chat-input {
-      flex: 1;
-      font-family: var(--font-sans);
-      font-size: 14px;
-      border: none;
-      outline: none;
-      background: transparent;
-      resize: none;
-      min-height: 22px;
-      max-height: 120px;
-      line-height: 1.5;
-      color: var(--text-main);
+      flex: 1; font-family: var(--font-sans); font-size: 13px;
+      border: none; outline: none; background: transparent;
+      resize: none; min-height: 20px; max-height: 100px; line-height: 1.5; color: var(--text-main);
     }
     #chat-input::placeholder { color: var(--text-muted); }
     #send-btn {
-      flex-shrink: 0;
-      width: 36px; height: 36px;
-      border-radius: var(--radius-md);
-      border: none;
-      background: var(--primary);
-      color: white;
-      cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      transition: background 120ms;
+      flex-shrink: 0; width: 32px; height: 32px; border-radius: var(--radius-md);
+      border: none; background: var(--primary); color: white; cursor: pointer;
+      display: flex; align-items: center; justify-content: center; transition: background 120ms;
     }
     #send-btn:hover { background: var(--primary-hover); }
     #send-btn:disabled { background: var(--border-color); cursor: not-allowed; }
-    #send-btn svg { width: 16px; height: 16px; }
-    .input-hint {
-      font-size: 11px; color: var(--text-muted);
-      text-align: center; margin-top: 6px;
-    }
+    #send-btn svg { width: 14px; height: 14px; }
+    .input-hint { font-size: 10px; color: var(--text-muted); text-align: center; margin-top: 5px; }
   </style>
 </head>
 <body>
 
   <header class="app-header">
-    <div class="app-header-left">
-      <a href="index.html" class="back-link">
-        <i data-lucide="chevron-left"></i>
-        Tornar
-      </a>
-      <div class="header-divider"></div>
-      <span class="app-title">Consulta IA <span>Via Pública · Sabadell</span></span>
-      <span class="header-badge">Gemini</span>
-    </div>
+    <a href="index.html" class="back-link">
+      <i data-lucide="chevron-left"></i> Tornar
+    </a>
+    <div class="header-div"></div>
+    <span class="app-title">Consulta IA <span>Via Pública · Sabadell</span></span>
+    <span class="header-badge">Gemini</span>
   </header>
 
-  <div class="chat-layout">
-    <div class="chat-messages" id="chat-messages">
-      <div class="welcome-card">
-        <div class="wc-icon"><i data-lucide="bot" style="width:20px;height:20px;"></i></div>
-        <h2>Copilot Via Pública</h2>
-        <p>Consulta normatives, ordenances i criteris tècnics d'obres i ocupació de la via pública de Sabadell.</p>
+  <div class="workspace">
+
+    <!-- COL 1: Llista resultats guardats -->
+    <div class="repo-col">
+      <div class="col-header">
+        <div class="col-header-title">
+          <i data-lucide="bookmark"></i>
+          Resultats guardats
+        </div>
+        <div class="col-header-actions">
+          <button class="icon-btn" onclick="clearAll()" title="Esborrar tot">
+            <i data-lucide="trash-2"></i>
+          </button>
+        </div>
+      </div>
+      <div class="col-body" id="result-list">
+        <div class="repo-empty" id="repo-empty">
+          <i data-lucide="inbox"></i>
+          <p>Encara no hi ha resultats guardats.<br>Guarda les respostes del chat amb el botó <strong>Guardar</strong>.</p>
+        </div>
       </div>
     </div>
 
-    <div class="typing-indicator" id="typing-indicator">
-      <div class="typing-dot"></div>
-      <div class="typing-dot"></div>
-      <div class="typing-dot"></div>
-    </div>
-
-    <div class="suggestions" id="suggestions">
-      <button class="suggestion-btn" onclick="sendSuggestion(this)">Taxes terrassa vetlladors 2026</button>
-      <button class="suggestion-btn" onclick="sendSuggestion(this)">Elements auxiliars d'obra: documentació</button>
-      <button class="suggestion-btn" onclick="sendSuggestion(this)">Tall de carrer: requisits i comunicació</button>
-      <button class="suggestion-btn" onclick="sendSuggestion(this)">Categories fiscals carrers Sabadell</button>
-    </div>
-
-    <div class="chat-input-bar">
-      <div class="input-row">
-        <textarea id="chat-input" rows="1" placeholder="Escriu la teva consulta..."></textarea>
-        <button id="send-btn" onclick="sendMessage()" title="Enviar">
-          <i data-lucide="send"></i>
-        </button>
+    <!-- COL 2: Detall del resultat seleccionat -->
+    <div class="repo-col">
+      <div class="col-header">
+        <div class="col-header-title">
+          <i data-lucide="file-text"></i>
+          Detall
+        </div>
       </div>
-      <div class="input-hint">Enter per enviar · Shift+Enter per nova línia</div>
+      <div class="detail-empty" id="detail-empty">
+        <i data-lucide="mouse-pointer-click"></i>
+        <p>Selecciona un resultat de la llista per veure'l aquí.</p>
+      </div>
+      <div class="detail-content" id="detail-content"></div>
     </div>
+
+    <!-- COL 3: Chat Gemini -->
+    <div class="chat-col">
+      <div class="col-header">
+        <div class="col-header-title">
+          <i data-lucide="bot"></i>
+          Copilot Via Pública
+        </div>
+      </div>
+      <div class="chat-messages" id="chat-messages">
+        <div class="welcome-card">
+          <div class="wc-icon"><i data-lucide="sparkles" style="width:18px;height:18px;"></i></div>
+          <h2>Copilot Via Pública</h2>
+          <p>Consulta normatives, taxes i criteris tècnics. Guarda les respostes al repositori.</p>
+        </div>
+      </div>
+      <div class="typing-indicator" id="typing-indicator">
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+        <div class="typing-dot"></div>
+      </div>
+      <div class="suggestions" id="suggestions">
+        <button class="sug-btn" onclick="sendSug(this)">Taxes terrassa 2026</button>
+        <button class="sug-btn" onclick="sendSug(this)">Elements auxiliars: docs</button>
+        <button class="sug-btn" onclick="sendSug(this)">Tall de carrer: requisits</button>
+        <button class="sug-btn" onclick="sendSug(this)">Categories fiscals</button>
+      </div>
+      <div class="chat-input-bar">
+        <div class="input-row">
+          <textarea id="chat-input" rows="1" placeholder="Escriu la teva consulta..."></textarea>
+          <button id="send-btn" onclick="sendMessage()" title="Enviar">
+            <i data-lucide="send"></i>
+          </button>
+        </div>
+        <div class="input-hint">Enter per enviar · Shift+Enter per nova línia</div>
+      </div>
+    </div>
+
   </div>
 
   <script>
@@ -303,49 +384,155 @@
     const API_URL = '/api/gemini';
     let messages = [];
     let isLoading = false;
+    let results = JSON.parse(localStorage.getItem('consulta_results') || '[]');
+    let selectedId = null;
 
     const chatMessages = document.getElementById('chat-messages');
-    const typingIndicator = document.getElementById('typing-indicator');
+    const typingEl    = document.getElementById('typing-indicator');
     const suggestions = document.getElementById('suggestions');
-    const input = document.getElementById('chat-input');
-    const sendBtn = document.getElementById('send-btn');
+    const input       = document.getElementById('chat-input');
+    const sendBtn     = document.getElementById('send-btn');
 
-    // Auto-resize textarea
+    // ── Textarea auto-resize ──
     input.addEventListener('input', function() {
       this.style.height = 'auto';
-      this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+      this.style.height = Math.min(this.scrollHeight, 100) + 'px';
     });
-
     input.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-      }
+      if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
     });
 
-    function now() {
-      return new Date().toLocaleTimeString('ca-ES', { hour: '2-digit', minute: '2-digit' });
+    function ts() {
+      return new Date().toLocaleString('ca-ES', { day:'2-digit', month:'2-digit', hour:'2-digit', minute:'2-digit' });
     }
 
-    function addMessage(role, text) {
+    // ── Repositori ──
+    function saveResults() {
+      localStorage.setItem('consulta_results', JSON.stringify(results));
+    }
+
+    function renderList() {
+      const list = document.getElementById('result-list');
+      const empty = document.getElementById('repo-empty');
+      if (results.length === 0) {
+        list.innerHTML = '';
+        list.appendChild(empty);
+        empty.style.display = 'flex';
+        return;
+      }
+      empty.style.display = 'none';
+      list.innerHTML = '';
+      results.slice().reverse().forEach(function(r) {
+        const card = document.createElement('div');
+        card.className = 'result-card' + (r.id === selectedId ? ' selected' : '');
+        card.dataset.id = r.id;
+        card.innerHTML =
+          '<div class="result-card-head">' +
+            '<div class="result-q">' + escHtml(r.q) + '</div>' +
+            '<button class="result-card-del" onclick="deleteResult(event,\'' + r.id + '\')" title="Eliminar">' +
+              '<i data-lucide="x"></i>' +
+            '</button>' +
+          '</div>' +
+          '<div class="result-preview">' + escHtml(r.a.replace(/\*\*/g,'')) + '</div>' +
+          '<div class="result-meta"><i data-lucide="clock" style="width:10px;height:10px;"></i>' + r.ts + '</div>';
+        card.addEventListener('click', function() { selectResult(r.id); });
+        list.appendChild(card);
+      });
+      lucide.createIcons();
+    }
+
+    function selectResult(id) {
+      selectedId = id;
+      const r = results.find(function(x){ return x.id === id; });
+      if (!r) return;
+      renderList();
+      const empty   = document.getElementById('detail-empty');
+      const content = document.getElementById('detail-content');
+      empty.style.display   = 'none';
+      content.style.display = 'flex';
+      content.innerHTML =
+        '<div class="detail-q-block">' + escHtml(r.q) + '</div>' +
+        '<div class="detail-a-block">' + formatText(r.a) + '</div>' +
+        '<div class="detail-ts">' + r.ts + '</div>';
+    }
+
+    function deleteResult(e, id) {
+      e.stopPropagation();
+      results = results.filter(function(r){ return r.id !== id; });
+      saveResults();
+      if (selectedId === id) {
+        selectedId = null;
+        document.getElementById('detail-empty').style.display   = 'flex';
+        document.getElementById('detail-content').style.display = 'none';
+      }
+      renderList();
+    }
+
+    function clearAll() {
+      if (!results.length) return;
+      if (!confirm('Esborrar tots els resultats guardats?')) return;
+      results = []; selectedId = null;
+      saveResults();
+      document.getElementById('detail-empty').style.display   = 'flex';
+      document.getElementById('detail-content').style.display = 'none';
+      renderList();
+    }
+
+    function saveResult(q, a) {
+      const id = Date.now().toString();
+      results.push({ id: id, q: q, a: a, ts: ts() });
+      saveResults();
+      renderList();
+      return id;
+    }
+
+    // ── Chat ──
+    function escHtml(s) {
+      return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    }
+    function formatText(s) {
+      return escHtml(s).replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+    }
+
+    function addMessage(role, text, q) {
       const div = document.createElement('div');
       div.className = 'msg ' + role;
-
-      // Convertir **negreta** a <strong>
-      const formatted = text.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-
-      div.innerHTML = `<div class="msg-bubble">${formatted}</div><div class="msg-time">${now()}</div>`;
+      const bubble = '<div class="msg-bubble">' + formatText(text) + '</div>';
+      let actions = '';
+      if (role === 'assistant') {
+        const bid = 'save-' + Date.now();
+        actions = '<div class="msg-actions">' +
+          '<button class="msg-save-btn" id="' + bid + '" onclick="saveFromBtn(\'' + bid + '\',this)">' +
+            '<i data-lucide="bookmark"></i> Guardar' +
+          '</button></div>';
+        div.dataset.q = q || '';
+        div.dataset.a = text;
+      }
+      const timeEl = '<div class="msg-time">' + new Date().toLocaleTimeString('ca-ES',{hour:'2-digit',minute:'2-digit'}) + '</div>';
+      div.innerHTML = bubble + actions + timeEl;
       chatMessages.appendChild(div);
       chatMessages.scrollTop = chatMessages.scrollHeight;
+      lucide.createIcons();
       return div;
     }
 
+    function saveFromBtn(bid, btn) {
+      const msgEl = btn.closest('.msg');
+      const q = msgEl?.dataset.q || '';
+      const a = msgEl?.dataset.a || '';
+      saveResult(q, a);
+      btn.classList.add('saved');
+      btn.innerHTML = '<i data-lucide="check"></i> Guardat';
+      btn.onclick = null;
+      lucide.createIcons();
+    }
+
     function showTyping(show) {
-      typingIndicator.style.display = show ? 'flex' : 'none';
+      typingEl.style.display = show ? 'flex' : 'none';
       if (show) chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    function sendSuggestion(btn) {
+    function sendSug(btn) {
       input.value = btn.textContent;
       suggestions.style.display = 'none';
       sendMessage();
@@ -354,41 +541,28 @@
     async function sendMessage() {
       const text = input.value.trim();
       if (!text || isLoading) return;
-
       suggestions.style.display = 'none';
-      isLoading = true;
-      sendBtn.disabled = true;
-      input.value = '';
-      input.style.height = 'auto';
-
+      isLoading = true; sendBtn.disabled = true;
+      input.value = ''; input.style.height = 'auto';
       addMessage('user', text);
       messages.push({ role: 'user', content: text });
-
       showTyping(true);
-
       try {
-        const res = await fetch(API_URL, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ messages })
-        });
-
+        const res  = await fetch(API_URL, { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ messages }) });
         const data = await res.json();
         showTyping(false);
-
         const reply = data.reply || data.error || 'Error desconegut.';
-        addMessage('assistant', reply);
+        const msgEl = addMessage('assistant', reply, text);
         messages.push({ role: 'assistant', content: reply });
-
-      } catch (err) {
+      } catch(err) {
         showTyping(false);
-        addMessage('assistant', 'Error de connexió. Comprova que estàs connectat i torna-ho a intentar.');
+        addMessage('assistant', 'Error de connexió. Torna-ho a intentar.');
       }
-
-      isLoading = false;
-      sendBtn.disabled = false;
-      input.focus();
+      isLoading = false; sendBtn.disabled = false; input.focus();
     }
+
+    // Init
+    renderList();
   </script>
 </body>
 </html>

@@ -2538,11 +2538,11 @@ TOTAL DRETS DE LIQUIDACIÓ: ${totalText}
   //   Cap de setmana: Divendres(5) + Dissabte(6) + Diumenge(0) — Art. 7è.6
   function _covEsEstiu(d) {
     const m = d.getMonth();
-    return m >= 3 && m <= 9; // abril=3 … octubre=9
+    return m >= 4 && m <= 9; // maig=4 … octubre=9
   }
   function _covEsCapSetmana(d) {
     const dw = d.getDay();
-    return dw === 5 || dw === 6 || dw === 0;
+    return dw === 6 || dw === 0;
   }
   function _covM2Dia(d, linies) {
     let total = 0;

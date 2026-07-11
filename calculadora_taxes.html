@@ -2024,30 +2024,50 @@ function resoldreCategoriaPerNumero(entry, numero) {
 // Funció cercadora de carrers intel·ligent amb normalització
 function buscarCarrer(nomCarrer) {
   if (!nomCarrer) return null;
-  
-  const normalitzar = (str) => str.toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "") // elimina accents
-    .replace(/^(carrer de |carrer d'|avinguda de |avinguda del |avinguda |plaça de |plaça |rambla de |rambla |passatge de |passatge )/, "")
-    .trim();
+
+  // Llista de prefixos a eliminar (formes llargues i abreujades, igual que nucli_detall.json)
+  const PREFIXOS = [
+    "carrer de ","carrer d'","carrer del ","carrer ",
+    "avinguda de ","avinguda d'","avinguda del ","avinguda ",
+    "av. de ","av. d'","av. del ","av. ",
+    "passeig de ","passeig d'","pg. de ","pg. d'",
+    "passatge de ","passatge d'","ptge. de ",
+    "plaça de ","plaça d'","pl. de ",
+    "rambla de ","rambla d'","rbla. ",
+    "baixada de ","ronda de ",
+    "carretera de ","carretera d'","ctra. de ","ctra. d'",
+    "c. de ","c. d'","c. del ",
+  ];
+
+  const normalitzar = (str) => {
+    let s = str.toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+    for (const p of PREFIXOS) {
+      if (s.startsWith(p)) { s = s.slice(p.length); break; }
+    }
+    return s.trim();
+  };
 
   const queryNorm = normalitzar(nomCarrer);
   if (!queryNorm) return null;
 
-  // Cerca exacta
+  // Cerca exacta per clau normalitzada
   for (const clau in baseCarrers) {
-    const clauNorm = normalitzar(clau);
-    if (clauNorm === queryNorm) {
-      return baseCarrers[clau];
-    }
+    if (normalitzar(clau) === queryNorm) return baseCarrers[clau];
+  }
+
+  // Cerca exacta per nom canònic normalitzat
+  for (const clau in baseCarrers) {
+    if (normalitzar(baseCarrers[clau].nom || "") === queryNorm) return baseCarrers[clau];
   }
 
   // Cerca parcial
   for (const clau in baseCarrers) {
     const clauNorm = normalitzar(clau);
-    if (clauNorm.includes(queryNorm) || queryNorm.includes(clauNorm)) {
-      return baseCarrers[clau];
-    }
+    if (clauNorm.includes(queryNorm) || queryNorm.includes(clauNorm)) return baseCarrers[clau];
   }
 
   return null;

@@ -156,8 +156,9 @@
       const lazyMap = { normativa: 'normativa.html', consulta: 'consulta.html' };
       if (lazyMap[name]) {
         const ifr = document.getElementById('iframe-' + name);
-        if (!ifr.src || ifr.src === window.location.href) {
+        if (!ifr.dataset.loaded) {
           ifr.src = lazyMap[name];
+          ifr.dataset.loaded = '1';
         }
       }
       // Update hash without scroll

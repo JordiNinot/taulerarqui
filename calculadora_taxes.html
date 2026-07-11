@@ -520,6 +520,18 @@
       margin-left: auto; font-size: 11px; color: var(--primary);
       font-weight: 700; font-family: var(--font-mono);
     }
+    /* ---- CALENDARI OCUPACIÓ ELEMENTS AUXILIARS ---- */
+    .ea-cal-card { display: none; }
+    .ea-cal-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      padding: 12px 16px 16px;
+    }
+    @media (max-width: 1100px) { .ea-cal-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 750px)  { .ea-cal-grid { grid-template-columns: repeat(2, 1fr); } }
+    .ea-cal-day.ea-active { background: #bfdbfe; color: #1e3a5f; }
+    .ea-cal-day.ea-active-hi { background: #3b82f6; color: white; }
 </style>
 </head>
 <body>
@@ -735,6 +747,20 @@
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Calendari d'ocupació Elements Auxiliars -->
+    <div class="card ea-cal-card" id="ea-cal-card">
+      <div class="card-header">
+        <h3>Dies d'Ocupació — Elements Auxiliars</h3>
+        <p id="ea-cal-subtitle">Període i superfície valorada per dia</p>
+      </div>
+      <div class="cov-legend" style="border-bottom:1px solid var(--border-color);">
+        <span class="cov-legend-item"><span class="cov-legend-dot" style="background:var(--bg-secondary);border:1px solid var(--border-color);"></span>Fora del període</span>
+        <span class="cov-legend-item"><span class="cov-legend-dot" style="background:#bfdbfe;"></span>En ocupació</span>
+        <span class="cov-legend-stat" id="ea-cal-stat"></span>
+      </div>
+      <div class="ea-cal-grid" id="ea-cal-grid"></div>
     </div>
 
     <!-- Calendari de cobertura anual de terrassa -->
@@ -2162,6 +2188,7 @@ function eaActualitzar() {
     fbEl.style.display = "none";
     if (catEl) catEl.style.display = "none";
   }
+  renderEaCalendar();
 }
 function eaAfegirMesura(amplada, llargada) {
   _eaCounter++;
@@ -2183,6 +2210,79 @@ function eaAfegirMesura(amplada, llargada) {
   var cont = document.getElementById("ea-mesures-container");
   if (cont) cont.appendChild(row);
   eaActualitzar();
+}
+
+
+function renderEaCalendar() {
+  const card = document.getElementById('ea-cal-card');
+  if (!card) return;
+  const inici = document.getElementById('ea-data-inici').value;
+  const fi    = document.getElementById('ea-data-fi').value;
+  const totalM2 = eaCalcTotalM2();
+
+  if (!inici || !fi || totalM2 <= 0) {
+    card.style.display = 'none';
+    return;
+  }
+  const d1 = new Date(inici), d2 = new Date(fi);
+  if (d2 < d1) { card.style.display = 'none'; return; }
+  card.style.display = '';
+
+  const MESOS = ['Gener','Febrer','Març','Abril','Maig','Juny',
+                 'Juliol','Agost','Setembre','Octubre','Novembre','Desembre'];
+  const DIES_SA = ['Dl','Dm','Dc','Dj','Dv','Ds','Dg'];
+  const avui = new Date(); avui.setHours(0,0,0,0);
+
+  // Normalitzar dates a migdia per evitar problemes de DST
+  const dInici = new Date(d1.getFullYear(), d1.getMonth(), d1.getDate());
+  const dFi    = new Date(d2.getFullYear(), d2.getMonth(), d2.getDate());
+
+  const dies = Math.round((dFi - dInici) / 86400000) + 1;
+  const stat = document.getElementById('ea-cal-stat');
+  if (stat) stat.textContent = totalM2 + ' m² · ' + dies + ' dies';
+
+  const sub = document.getElementById('ea-cal-subtitle');
+  if (sub) sub.textContent = inici + ' → ' + fi + '  (' + totalM2 + ' m²/dia)';
+
+  // Mesos a mostrar
+  let html = '';
+  let cur = new Date(dInici.getFullYear(), dInici.getMonth(), 1);
+  const end = new Date(dFi.getFullYear(), dFi.getMonth(), 1);
+
+  while (cur <= end) {
+    const any = cur.getFullYear();
+    const mes = cur.getMonth();
+    const diesMes = new Date(any, mes + 1, 0).getDate();
+    const primerDia = (new Date(any, mes, 1).getDay() + 6) % 7; // dilluns=0
+
+    html += '<div class="cov-month">';
+    html += '<div class="cov-month-title">' + MESOS[mes] + ' ' + any + '</div>';
+    html += '<div class="cov-month-grid">';
+    DIES_SA.forEach(function(d){ html += '<div class="cov-wd">' + d + '</div>'; });
+    for (var i = 0; i < primerDia; i++) html += '<div class="cov-day empty"></div>';
+
+    for (var dia = 1; dia <= diesMes; dia++) {
+      const dDia = new Date(any, mes, dia);
+      const isAvui = dDia.getTime() === avui.getTime();
+      const inRang = dDia >= dInici && dDia <= dFi;
+      let cls = 'cov-day';
+      let label = '';
+      if (inRang) {
+        cls += ' ea-active';
+        label = '<span class="cov-day-m2">' + totalM2 + 'm²</span>';
+      } else {
+        cls += ' inactive';
+      }
+      if (isAvui) cls += ' ea-today';
+      html += '<div class="' + cls + '" title="' + dia + '/' + (mes+1) + '/' + any
+           + (inRang ? ' — ' + totalM2 + ' m²' : '') + '">'
+           + '<span class="cov-day-num">' + dia + '</span>' + label + '</div>';
+    }
+    html += '</div></div>';
+    cur = new Date(any, mes + 1, 1);
+  }
+
+  document.getElementById('ea-cal-grid').innerHTML = html;
 }
 
 // 6. CALCULADORA DE TAXES
@@ -2959,6 +3059,10 @@ TOTAL DRETS DE LIQUIDACIÓ: ${totalText}
     _origAplicar(type);
     _covAttachListeners();
     renderCoverageCalendar();
+    // Calendari EA: visible sols per elements_auxiliars
+    var eaCard = document.getElementById('ea-cal-card');
+    if (eaCard) eaCard.style.display = (type === 'elements_auxiliars') ? '' : 'none';
+    if (type === 'elements_auxiliars') renderEaCalendar();
   };
   window._aplicarTipus = aplicarTipus;
 

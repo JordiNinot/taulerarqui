@@ -554,6 +554,8 @@
                 <option value="grua">Grua mòbil o reserva d'espai (per metre lineal)</option>
                 <option value="rasa">Cales, rases i calicantes en paviment (per m²)</option>
                 <option value="terrassa">Terrassa / Vetlladors (per m²)</option>
+                <option value="elements_auxiliars">Elements auxiliars d'obra (Sec. 1 OF4.5)</option>
+                <option value="tall_carrer">Tall o interrupció de carrer (Sec. 6 OF4.5)</option>
               </select>
             </div>
 
@@ -619,6 +621,48 @@
                 style="margin-top:6px;" onclick="window._terrassaAfegir&&window._terrassaAfegir()">
                 <i data-lucide="plus"></i> Afegir modalitat
               </button>
+            </div>
+
+            <!-- Elements auxiliars d'obra (Sec. 1 OF4.5) -->
+            <div class="form-group" id="group-elements-auxiliars" style="display:none;">
+              <label for="ea-superficie">Superfície de l'element</label>
+              <select id="ea-superficie" class="form-control">
+                <option value="fins_4">Fins 4 m² — 13,31 €</option>
+                <option value="fins_6">Fins 6 m² — 24,83 €</option>
+                <option value="fins_8">Fins 8 m² — 30,92 €</option>
+                <option value="fins_10">Fins 10 m² — 41,04 €</option>
+                <option value="fins_15">Fins 15 m² — 43,34 €</option>
+                <option value="mes_15">Més de 15 m² — tarifa/m²/dia (categoria)</option>
+              </select>
+              <div id="group-ea-mes15" style="display:none; margin-top:8px;">
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="ea-m2">Superfície (m²)</label>
+                    <input type="number" id="ea-m2" class="form-control" value="20" min="16">
+                  </div>
+                  <div class="form-group">
+                    <label for="ea-dies">Durada (dies)</label>
+                    <input type="number" id="ea-dies" class="form-control" value="30" min="1">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tall de carrer (Sec. 6 OF4.5) -->
+            <div class="form-group" id="group-tall-carrer" style="display:none;">
+              <label for="tc-tipus">Tipus d'interrupció</label>
+              <select id="tc-tipus" class="form-control"
+                onchange="document.getElementById('group-tc-sessions').style.display=(this.value==='parcial'||this.value==='total')?'':'none'">
+                <option value="parcial">Interrupció parcial — 28,99 € / 2h</option>
+                <option value="total">Interrupció total — 46,13 € / 2h</option>
+                <option value="set_1">1 ocupació/setmana (anual) — 560,92 €</option>
+                <option value="set_2">2 ocupacions/setmana (anual) — 1.122,14 €</option>
+                <option value="set_3">3 ocupacions/setmana (anual) — 1.683,18 €</option>
+              </select>
+              <div id="group-tc-sessions" style="margin-top:8px;">
+                <label for="tc-sessions">Nombre de sessions de 2h</label>
+                <input type="number" id="tc-sessions" class="form-control" value="1" min="1">
+              </div>
             </div>
 
             <button type="button" class="btn btn-primary btn-full-width" id="btn-calculate" style="margin-top:4px;">
@@ -2080,7 +2124,20 @@ function initCalculator() {
   window._actualitzarCategoria = actualitzarFeedbackCategoria;
 
   // Canviar camps del formulari segons tipus d'ocupació
+  const groupEA  = document.getElementById("group-elements-auxiliars");
+  const groupTC  = document.getElementById("group-tall-carrer");
+  const eaSupSel = document.getElementById("ea-superficie");
+  const groupEA15= document.getElementById("group-ea-mes15");
+  if (eaSupSel) eaSupSel.addEventListener("change", function() {
+    groupEA15.style.display = this.value === "mes_15" ? "" : "none";
+  });
+
   function aplicarTipus(type) {
+    // Reset tots els grups especials
+    groupEA.style.display  = "none";
+    groupTC.style.display  = "none";
+    groupTerrassaModalitat.style.display = "none";
+
     if (type === "terrassa") {
       group1.style.display = "none";
       group2.style.display = "none";
@@ -2088,10 +2145,17 @@ function initCalculator() {
       if (terrassaLinesContainer.children.length === 0) {
         crearLiniaTerrassa("anual", 20);
       }
+    } else if (type === "elements_auxiliars") {
+      group1.style.display = "none";
+      group2.style.display = "none";
+      groupEA.style.display = "";
+    } else if (type === "tall_carrer") {
+      group1.style.display = "none";
+      group2.style.display = "none";
+      groupTC.style.display = "";
     } else {
       group1.style.display = "";
       group2.style.display = "";
-      groupTerrassaModalitat.style.display = "none";
       if (type === "tanca") {
         label1.textContent = "Superfície (m²)";
         label2.textContent = "Durada (Dies)";
@@ -2449,14 +2513,71 @@ function initCalculator() {
       }
     }
 
+    else if (type === "elements_auxiliars") {
+      const eaSup  = document.getElementById("ea-superficie").value;
+      const OF45_EA_RATES = {
+        "fins_4":  { label: "Fins 4 m²",    tarifa: 13.31 },
+        "fins_6":  { label: "Fins 6 m²",    tarifa: 24.83 },
+        "fins_8":  { label: "Fins 8 m²",    tarifa: 30.92 },
+        "fins_10": { label: "Fins 10 m²",   tarifa: 41.04 },
+        "fins_15": { label: "Fins 15 m²",   tarifa: 43.34 },
+        "mes_15":  { label: "Més de 15 m²", tarifa: null   }
+      };
+      // Tarifes per categoria (Sec. 1 OF4.5) per a elements >15m²
+      const OF45_CAT_RATES = { "1A":0.48, "1B":0.42, "2":0.37, "3":0.31, "4":0.31, "5":0.31 };
+      descripcioConcepte = "Element auxiliar d'obra (OF 4.5, Sec. 1)";
+      if (eaSup === "mes_15") {
+        const eaM2   = parseFloat(document.getElementById("ea-m2").value)   || 0;
+        const eaDies = parseFloat(document.getElementById("ea-dies").value)  || 0;
+        const catR   = OF45_CAT_RATES[catCode] || OF45_CAT_RATES["5"];
+        total = eaM2 * eaDies * catR;
+        descripcioParams = `${eaM2} m² × ${eaDies} dies (>${15} m²)`;
+        invTarifaBase.textContent = `${catR.toFixed(2)} € / m² / dia (${catText})`;
+        formulaText = `${eaM2} m² * ${eaDies} dies * ${catR.toFixed(2)} € (${catText}, Sec. 1 OF4.5) = ${total.toLocaleString('ca-ES',{minimumFractionDigits:2,maximumFractionDigits:2})} €`;
+      } else {
+        const entry  = OF45_EA_RATES[eaSup];
+        total = entry.tarifa;
+        descripcioParams = entry.label;
+        invTarifaBase.textContent = `${entry.tarifa.toFixed(2)} € (import fix, Sec. 1 OF4.5)`;
+        formulaText = `Import fix per a element de ${entry.label}: ${entry.tarifa.toFixed(2)} € (OF 4.5, Sec. 1)`;
+      }
+    }
+
+    else if (type === "tall_carrer") {
+      const tcTipus    = document.getElementById("tc-tipus").value;
+      const tcSessions = parseInt(document.getElementById("tc-sessions").value) || 1;
+      const OF45_TC = {
+        "parcial": { label: "Interrupció parcial (2h)",          tarifa: 28.99, perSessio: true  },
+        "total":   { label: "Interrupció total (2h)",            tarifa: 46.13, perSessio: true  },
+        "set_1":   { label: "1 ocupació setmanal (anual)",       tarifa: 560.92, perSessio: false },
+        "set_2":   { label: "2 ocupacions setmanals (anual)",    tarifa: 1122.14, perSessio: false },
+        "set_3":   { label: "3 ocupacions setmanals (anual)",    tarifa: 1683.18, perSessio: false }
+      };
+      const entry = OF45_TC[tcTipus];
+      descripcioConcepte = "Tall o interrupció de carrer (OF 4.5, Sec. 6)";
+      if (entry.perSessio) {
+        total = entry.tarifa * tcSessions;
+        descripcioParams = `${tcSessions} sessió${tcSessions!==1?"ns":""} × ${entry.label}`;
+        invTarifaBase.textContent = `${entry.tarifa.toFixed(2)} € / sessió 2h`;
+        formulaText = `${tcSessions} × ${entry.tarifa.toFixed(2)} € (${entry.label}) = ${total.toLocaleString('ca-ES',{minimumFractionDigits:2,maximumFractionDigits:2})} €`;
+      } else {
+        total = entry.tarifa;
+        descripcioParams = entry.label;
+        invTarifaBase.textContent = `${entry.tarifa.toFixed(2)} € (anual)`;
+        formulaText = `Import anual — ${entry.label}: ${entry.tarifa.toFixed(2)} € (OF 4.5, Sec. 6)`;
+      }
+    }
+
     totalTaxCalculated = total;
 
     // Actualització fitxa
     invConcepte.textContent = descripcioConcepte;
     invStreet.textContent = streetName;
-    invCategoria.textContent = (type === "terrassa")
+    invCategoria.textContent = (type === "terrassa" || type === "elements_auxiliars")
       ? `${catText} (tarifa real per categoria, Ordenança 4.5)`
-      : `${catText} (Coeficient: ${coeff.toFixed(2)})`;
+      : (type === "tall_carrer")
+        ? "Tarifa fixa (Sec. 6 OF4.5)"
+        : `${catText} (Coeficient: ${coeff.toFixed(2)})`;
     invParametres.textContent = descripcioParams;
     invFormula.innerText = formulaText;
     invTotal.textContent = `${total.toLocaleString('ca-ES', { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
@@ -2758,7 +2879,17 @@ TOTAL DRETS DE LIQUIDACIÓ: ${totalText}
   }
 
   // Carregar dades
-  fetch('data/nucli_detall.json')
+  // Carrega l'Ordenança Fiscal 4.5 completa com a component de dades
+window._OF45 = null;
+fetch('data/of45.json')
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    window._OF45 = data;
+    console.info('OF45 carregat:', Object.keys(data).length, 'seccions');
+  })
+  .catch(function(e){ console.error('of45.json no carregat:', e); });
+
+fetch('data/nucli_detall.json')
     .then(function(r){ return r.json(); })
     .then(function(data){ _inicialitzarCalc(data.carrers); })
     .catch(function(e){ console.error('nucli_detall.json:', e); });

@@ -1,0 +1,373 @@
+{
+  "Secció 1": {
+    "nom": "Tarifes generals i elements auxiliars d'obra",
+    "tarifes": [
+      {
+        "carrer": "1ª A",
+        "import": 0.48
+      },
+      {
+        "carrer": "1ª B",
+        "import": 0.42
+      },
+      {
+        "carrer": "2ª",
+        "import": 0.37
+      },
+      {
+        "carrer": "3ª",
+        "import": 0.31
+      },
+      {
+        "carrer": "4ª",
+        "import": 0.31
+      },
+      {
+        "carrer": "5ª",
+        "import": 0.31
+      },
+      {
+        "superfície": "Fins 4 m²",
+        "import": 13.31
+      },
+      {
+        "superfície": "Fins 6 m²",
+        "import": 24.83
+      },
+      {
+        "superfície": "Fins 8 m²",
+        "import": 30.92
+      },
+      {
+        "superfície": "Fins 10 m²",
+        "import": 41.04
+      },
+      {
+        "superfície": "Fins 15 m²",
+        "import": 43.34
+      },
+      {
+        "superfície": "Més de 15 m²",
+        "import": 49.46
+      }
+    ]
+  },
+  "Secció 2": {
+    "nom": "Terrasses",
+    "tarifes": [
+      {
+        "categoria": "1ª A",
+        "temporada": "Estiu",
+        "import": 67.55
+      },
+      {
+        "categoria": "1ª A",
+        "temporada": "Hivern",
+        "import": 55.02
+      },
+      {
+        "categoria": "1ª A",
+        "temporada": "Anual",
+        "import": 105.01
+      },
+      {
+        "categoria": "1ª A",
+        "temporada": "Caps setmana estiu",
+        "import": 34.51
+      },
+      {
+        "categoria": "1ª A",
+        "temporada": "Caps setmana hivern",
+        "import": 26.52
+      },
+      {
+        "categoria": "1ª A",
+        "temporada": "Dia eventual",
+        "import": 0.54
+      },
+      {
+        "categoria": "1ª B",
+        "temporada": "Estiu",
+        "import": 61.56
+      },
+      {
+        "categoria": "1ª B",
+        "temporada": "Hivern",
+        "import": 50.3
+      },
+      {
+        "categoria": "1ª B",
+        "temporada": "Anual",
+        "import": 95.77
+      },
+      {
+        "categoria": "1ª B",
+        "temporada": "Caps setmana estiu",
+        "import": 31.54
+      },
+      {
+        "categoria": "1ª B",
+        "temporada": "Caps setmana hivern",
+        "import": 26.52
+      },
+      {
+        "categoria": "1ª B",
+        "temporada": "Dia eventual",
+        "import": 0.48
+      },
+      {
+        "categoria": "2ª",
+        "temporada": "Estiu",
+        "import": 47.63
+      },
+      {
+        "categoria": "2ª",
+        "temporada": "Hivern",
+        "import": 39.46
+      },
+      {
+        "categoria": "2ª",
+        "temporada": "Anual",
+        "import": 74.15
+      },
+      {
+        "categoria": "2ª",
+        "temporada": "Caps setmana estiu",
+        "import": 24.52
+      },
+      {
+        "categoria": "2ª",
+        "temporada": "Dia eventual",
+        "import": 0.37
+      },
+      {
+        "categoria": "3ª a 5ª",
+        "temporada": "Estiu",
+        "import": 35.72
+      },
+      {
+        "categoria": "3ª a 5ª",
+        "temporada": "Hivern",
+        "import": 30.15
+      },
+      {
+        "categoria": "3ª a 5ª",
+        "temporada": "Anual",
+        "import": 55.58
+      },
+      {
+        "categoria": "3ª a 5ª",
+        "temporada": "Caps setmana estiu",
+        "import": 18.34
+      },
+      {
+        "categoria": "3ª a 5ª",
+        "temporada": "Dia eventual",
+        "import": 0.31
+      }
+    ]
+  },
+  "Secció 3": {
+    "nom": "Quioscos i xurreries",
+    "tarifes": [
+      {
+        "categoria": "1ª A",
+        "tipus": "Per any",
+        "import": 1357
+      },
+      {
+        "categoria": "1ª A",
+        "tipus": "Per mes",
+        "import": 123.42
+      },
+      {
+        "categoria": "1ª B",
+        "tipus": "Per any",
+        "import": 1243.93
+      },
+      {
+        "categoria": "1ª B",
+        "tipus": "Per mes",
+        "import": 113.13
+      },
+      {
+        "categoria": "2ª",
+        "tipus": "Per any",
+        "import": 801.83
+      },
+      {
+        "categoria": "2ª",
+        "tipus": "Per mes",
+        "import": 66.76
+      }
+    ]
+  },
+  "Secció 4": {
+    "nom": "Teatres, circs i espectacles",
+    "tarifes": [
+      {
+        "concepte": "Per m²/dia",
+        "import": 1.15
+      }
+    ]
+  },
+  "Secció 5": {
+    "nom": "Contenidors i sacs",
+    "tarifes": [
+      {
+        "capacitat": "Fins 3 m³",
+        "tipus": "Per setmana",
+        "import": 21.85
+      },
+      {
+        "capacitat": "Fins 3 m³",
+        "tipus": "Per any",
+        "import": 96.73
+      },
+      {
+        "capacitat": "3,1-5 m³",
+        "tipus": "Per setmana",
+        "import": 31.23
+      },
+      {
+        "capacitat": "3,1-5 m³",
+        "tipus": "Per any",
+        "import": 315.89
+      },
+      {
+        "capacitat": "Sacs de runes",
+        "tipus": "Per unitat/any",
+        "import": 7.33
+      }
+    ]
+  },
+  "Secció 6": {
+    "nom": "Talls de carrer",
+    "tarifes": [
+      {
+        "tipus": "Interrupció parcial",
+        "periode": "Primeres 2h",
+        "import": 28.99
+      },
+      {
+        "tipus": "Interrupció total",
+        "periode": "Primeres 2h",
+        "import": 46.13
+      },
+      {
+        "tipus": "Una ocupació setmanal (anual)",
+        "periode": "Anual",
+        "import": 560.92
+      },
+      {
+        "tipus": "Dues ocupacions setmanals (anual)",
+        "periode": "Anual",
+        "import": 1122.14
+      },
+      {
+        "tipus": "Tres ocupacions setmanals (anual)",
+        "periode": "Anual",
+        "import": 1683.18
+      }
+    ]
+  },
+  "Secció 7": {
+    "nom": "Terrenys municipals",
+    "tarifes": [
+      {
+        "concepte": "Tarifa general",
+        "unitat": "Per m² i dia",
+        "import": 0.1263
+      }
+    ]
+  },
+  "Secció 8": {
+    "nom": "Fires tradicionals",
+    "tarifes": [
+      {
+        "superfície": "Fins 4 m²",
+        "import": 13.31
+      },
+      {
+        "superfície": "Fins 6 m²",
+        "import": 24.83
+      },
+      {
+        "superfície": "Fins 15 m²",
+        "import": 43.34
+      },
+      {
+        "superfície": "Més de 15 m²",
+        "import": 3.63
+      },
+      {
+        "periode": "Dates nadalenques",
+        "import": 2.97
+      }
+    ]
+  },
+  "Secció 9": {
+    "nom": "Rodatges i fotografies",
+    "tarifes": [
+      {
+        "tipus": "Rodatges pel·lícules/vídeos",
+        "import": 643.92
+      },
+      {
+        "tipus": "Presa de fotografies",
+        "import": 356.76
+      }
+    ]
+  },
+  "Secció 10": {
+    "nom": "Parades i atraccions firals",
+    "tarifes": [
+      {
+        "tipus": "Tómboles, rifes",
+        "import": 5.87
+      },
+      {
+        "tipus": "Llits elàstics",
+        "import": 4.12
+      },
+      {
+        "tipus": "Atraccions fins 200 m²",
+        "import": 3.33
+      },
+      {
+        "tipus": "Xurreries",
+        "import": 5.08
+      },
+      {
+        "tipus": "Bars",
+        "import": 4.29
+      },
+      {
+        "tipus": "Barraques venda",
+        "import": 2.97
+      }
+    ]
+  },
+  "Secció 11": {
+    "nom": "Tanques publicitàries",
+    "tarifes": [
+      {
+        "tipus": "Cara única",
+        "import": 70.94
+      },
+      {
+        "tipus": "Doble cara",
+        "import": 109.68
+      }
+    ]
+  },
+  "Secció 12": {
+    "nom": "Parcel·les agràries",
+    "tarifes": [
+      {
+        "concepte": "Per hectàrea",
+        "import": 115.49
+      }
+    ]
+  }
+}

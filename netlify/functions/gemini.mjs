@@ -970,7 +970,7 @@ ${blobsCtx}
         contents,
         generationConfig: {
           temperature: searchMode ? 0.2 : 0.4,
-          maxOutputTokens: searchMode ? 700 : 900,
+          maxOutputTokens: searchMode ? 1500 : 2500,
           topP: 0.9
         },
         safetySettings: [

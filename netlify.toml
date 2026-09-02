@@ -19,3 +19,8 @@
   from   = "/api/whatsapp"
   to     = "/.netlify/functions/whatsapp"
   status = 200
+
+[[redirects]]
+  from = "/"
+  to = "/visor.html"
+  status = 200

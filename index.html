@@ -1990,5 +1990,41 @@ header .sub {
     <div class="capa-modal-body" id="capa-modal-body"></div>
   </div>
 </div>
+
+<!-- Modal Tramitació Terrasses -->
+<div id="modal-tramitacio-terrasses" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.45);z-index:9999;align-items:center;justify-content:center;padding:20px;" onclick="if(event.target===this)tancarModalTramitacioTerrasses()">
+  <div style="background:#faf8f3;width:100%;max-width:680px;border-radius:12px;border:1px solid #d6d0bf;box-shadow:0 12px 32px rgba(0,0,0,0.2);display:flex;flex-direction:column;max-height:85vh;overflow:hidden;">
+    <div style="background:#2f7548;color:white;padding:16px 20px;display:flex;align-items:center;justify-content:space-between;">
+      <div>
+        <h3 style="font-size:16px;font-weight:700;margin:0;">Gestió i sol·licituds de terrasses</h3>
+        <p style="font-size:12px;opacity:0.85;margin:2px 0 0 0;">Tramitació via pública — Ajuntament de Sabadell</p>
+      </div>
+      <button onclick="tancarModalTramitacioTerrasses()" style="background:rgba(255,255,255,0.15);border:none;color:white;width:30px;height:30px;border-radius:50%;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;">✕</button>
+    </div>
+    <div style="padding:24px;overflow-y:auto;display:flex;flex-direction:column;gap:16px;">
+      <div style="background:#eef6ef;border:1px solid #a8d5b5;border-radius:8px;padding:14px;font-size:13px;color:#1e482d;">
+        Pots gestionar la sol·licitud o modificació de la llicència d'ocupació de via pública per a terrasses i vetlladors.
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <a href="visor.html" style="text-decoration:none;background:#faf8f3;border:1px solid #d6d0bf;border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:4px;transition:all 0.12s;" onmouseover="this.style.borderColor='#2f7548'" onmouseout="this.style.borderColor='#d6d0bf'">
+          <span style="font-weight:600;font-size:14px;color:#2f7548;">📑 Nova Sol·licitud</span>
+          <span style="font-size:12px;color:#5f5b50;">Iniciar sol·licitud de llicència anual o de temporada</span>
+        </a>
+        <a href="visor.html" style="text-decoration:none;background:#faf8f3;border:1px solid #d6d0bf;border-radius:8px;padding:14px;display:flex;flex-direction:column;gap:4px;transition:all 0.12s;" onmouseover="this.style.borderColor='#2f7548'" onmouseout="this.style.borderColor='#d6d0bf'">
+          <span style="font-weight:600;font-size:14px;color:#2f7548;">✏️ Modificació de Terrassa</span>
+          <span style="font-size:12px;color:#5f5b50;">Ampliació, canvi de taules o ajust de període</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  function obrirModalTramitacioTerrasses() {
+    document.getElementById('modal-tramitacio-terrasses').style.display = 'flex';
+  }
+  function tancarModalTramitacioTerrasses() {
+    document.getElementById('modal-tramitacio-terrasses').style.display = 'none';
+  }
+</script>
 </body>
 </html>
